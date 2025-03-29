@@ -2,18 +2,19 @@
 
 import pygame
 import sys
-import os
+from pathlib import Path
+import src.config as config
 
 def load_png(filename):
     """Load image and return image object."""
     try:
-        image = pygame.image.load(resource_path(filename))
+        image = pygame.image.load(resource_path(config.IMAGE_DIR / filename))
         if image.get_alpha() is None:
             image = image.convert()
         else:
             image = image.convert_alpha()
     except FileNotFoundError:
-        print(f"Cannot load image: {filename}")
+        print(f"Cannot load image: {config.IMAGE_DIR / filename}")
         raise SystemExit
     return image, image.get_rect()
 
@@ -29,21 +30,21 @@ def load_animation(filename, x_size, y_size, num_frames):
         animation_list.append(temp_img)
     return animation_list
 
-def resource_path(relative_path):
+def resource_path(relativePath: str):
     """Get the absolute path to the resource.
     
         Works both for development and PyInstaller.
     """
     try:
-        base_path = ""
+        basePath = ""
         if getattr(sys, 'frozen', False):
             # Running in a bundled executable
-            base_path = sys._MEIPASS
+            basePath = sys._MEIPASS
         else:
             # Running in a normal Python environment
-            base_path = os.path.abspath(".")
+            basePath = Path(__file__).resolve().parent.parent.parent
         
-        return os.path.join(base_path, relative_path)
+        return basePath / relativePath
     except Exception as e:
         print("Error resolving resource path:", e)
         return None

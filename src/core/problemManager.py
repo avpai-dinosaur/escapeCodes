@@ -4,7 +4,7 @@ import requests
 import json
 import threading
 import time
-import constants as c
+import src.constants as c
 
 class LeetcodeManager:
     """Class to handle opening leetcode and detect when problems are solved."""

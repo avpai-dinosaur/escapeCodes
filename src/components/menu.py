@@ -3,7 +3,7 @@ import src.core.utils as utils
 import sys
 import requests
 import json
-import constants as c
+import src.constants as c
 from src.components.button import Button, TextInput
 
 class Menu:
@@ -15,7 +15,7 @@ class Menu:
             manager: The state manager driving the game.
         """
         self.manager = manager
-        self.backgroundImage, _ = utils.load_png("data/images/menu_background.png")
+        self.backgroundImage, _ = utils.load_png("menu_background.png")
         self.controls = []
 
     def handle_event(self, event):
@@ -47,9 +47,9 @@ class MainMenu(Menu):
         self.titleTextImage = self.titleFont.render("EscapeCodes", True, "#bcbcbc")
         self.titleRect = self.titleTextImage.get_rect(center=(640, 150))
 
-        self.playImage, _ = utils.load_png("data/images/Play.png")
-        self.optionImage, _ = utils.load_png("data/images/Play.png")
-        self.quitImage, _ = utils.load_png("data/images/Play.png")
+        self.playImage, _ = utils.load_png("Play.png")
+        self.optionImage, _ = utils.load_png("Play.png")
+        self.quitImage, _ = utils.load_png("Play.png")
         self.controls += [
             Button(self.playImage, pos=(640, 300), textInput="PLAY", onClick=self.onLogin),
             Button(self.optionImage, pos=(640, 420), textInput="OPTIONS", onClick=self.onOption),
@@ -77,7 +77,7 @@ class OptionsMenu(Menu):
 
     def __init__(self, manager):
         super().__init__(manager)
-        self.backImage, _ = utils.load_png("data/images/Play.png")
+        self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
             Button(self.backImage, pos=(640, 600), textInput="BACK", onClick=self.onBack)
         ]
@@ -93,7 +93,7 @@ class LoginMenu(Menu):
         self.headingFont = pygame.font.SysFont("cambria", 40)
         self.headingTextImage = self.headingFont.render("Enter Your LeetCode Username", True, 'lightsalmon4')
         self.headingTextRect = self.headingTextImage.get_rect(center=(640, 300))
-        self.backImage, _ = utils.load_png("data/images/Play.png")
+        self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
             TextInput(pos=(540, 420), width=200, height=50, onSubmit=self.onEnter),
             Button(self.backImage, pos=(640, 600), textInput="BACK", onClick=self.onBack)
@@ -122,8 +122,8 @@ class YouDiedMenu(Menu):
 
     def __init__(self, manager):
         super().__init__(manager)
-        self.retryImage, _ = utils.load_png("data/images/Play.png")
-        self.quitImage, _ = utils.load_png("data/images/Play.png")
+        self.retryImage, _ = utils.load_png("Play.png")
+        self.quitImage, _ = utils.load_png("Play.png")
         self.controls += {
             Button(self.retryImage, pos=(640, 300), textInput="RETRY", onClick=self.onRetry),
             Button(self.quitImage, pos=(640, 420), textInput="QUIT", onClick=self.onQuit)

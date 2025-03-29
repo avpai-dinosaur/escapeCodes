@@ -3,7 +3,8 @@ import src.core.utils as utils
 import json
 import queue
 import src.entities.objects as o
-import constants as c
+import src.constants as c
+import src.config as config
 
 class Edge():
     def __init__(self, id, weight):
@@ -94,7 +95,7 @@ class Map():
 
     def load_json(self, filename):
         """Load JSON data for the map."""
-        f = open(utils.resource_path(filename))
+        f = open(utils.resource_path(config.MAP_DIR / filename))
         self.rawJson = json.load(f)
         layers = self.rawJson["layers"]
         for layer in layers:

@@ -4,7 +4,7 @@ from src.core.problemManager import LeetcodeManager
 from src.entities.player import Player
 from src.entities.roomba import Roomba
 from src.core.map import Map
-import constants as c
+import src.constants as c
 
 class Level():
     """Represents a level in the game."""
@@ -14,8 +14,8 @@ class Level():
         self.load_entities()
 
     def load_entities(self):
-        self.player = Player("data/images/Oldhero.png", self.map.playerSpawn, {})
-        self.roomba = Roomba("data/images/roomba.png", self.map.roombaPath)
+        self.player = Player("Oldhero.png", self.map.playerSpawn, {})
+        self.roomba = Roomba("roomba.png", self.map.roombaPath)
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
         self.doors = self.map.doors_factory()
@@ -77,8 +77,8 @@ class Game():
         self.camera = Camera()
         self.leetcodeManager = LeetcodeManager()
         self.levels = [
-            Level(Map("data/images/level1.png", "data/map/level1.tmj")),
-            Level(Map("data/images/level2.png", "data/map/level2.tmj"))
+            Level(Map("level1.png", "level1.tmj")),
+            Level(Map("level2.png", "level2.tmj"))
         ]
         self.level = 0
         self.levels[self.level].load_camera(self.camera)

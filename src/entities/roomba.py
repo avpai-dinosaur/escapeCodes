@@ -1,7 +1,7 @@
 import pygame
 import src.core.utils as utils
-import constants as c
-import objects as o
+import src.constants as c
+import src.entities.objects as o
 from src.core.spritesheet import SpriteSheet
 from enum import Enum
 
