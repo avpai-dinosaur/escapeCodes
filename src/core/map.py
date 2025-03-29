@@ -93,9 +93,9 @@ class Map():
         self.parse_doors()
         self.parse_objects()
 
-    def load_json(self, filename):
+    def load_json(self, filename : str):
         """Load JSON data for the map."""
-        f = open(utils.resource_path(config.MAP_DIR / filename))
+        f = open(config.resource_path(config.MAP_DIR / filename))
         self.rawJson = json.load(f)
         layers = self.rawJson["layers"]
         for layer in layers:
