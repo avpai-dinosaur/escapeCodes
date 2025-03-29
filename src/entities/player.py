@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.stats = stats
 
     
-    def update(self, walls, doors):
+    def update(self, walls: list[pygame.Rect], doors: pygame.sprite.Group):
         """Updates the player's position."""
         new_pos = pygame.Vector2(self.pos)
         moved = False
