@@ -1,10 +1,9 @@
 import pygame
-import time
-from camera import Camera
-from problemManager import LeetcodeManager
-from player import Player
-from roomba import Roomba
-from map import Map
+from src.core.camera import Camera
+from src.core.problemManager import LeetcodeManager
+from src.entities.player import Player
+from src.entities.roomba import Roomba
+from src.core.map import Map
 import constants as c
 
 class Level():

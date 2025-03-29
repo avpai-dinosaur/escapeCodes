@@ -4,7 +4,7 @@ import pygame
 # Pygame needs to be initialized before other modules can be imported
 pygame.init()
 
-from manager import GameManager
+from src.core.manager import GameManager
 import constants as c
 
 def main(screen):

@@ -1,5 +1,5 @@
 import pygame
-import utils
+import src.core.utils as utils
 
 class SpriteSheet():
     """Represents a sprite sheet."""

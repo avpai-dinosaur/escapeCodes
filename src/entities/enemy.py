@@ -1,10 +1,8 @@
 import pygame
-import utils
+import src.core.utils as utils
 import constants as c
 import objects as o
-import random
-import math
-from spritesheet import SpriteSheet
+from src.core.spritesheet import SpriteSheet
 
 class Enemy(pygame.sprite.Sprite):
     """Represents an enemy."""

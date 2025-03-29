@@ -1,6 +1,6 @@
 import pygame
-from world import Game
-from menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
+from src.core.world import Game
+from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
 
 class GameManager:
     def __init__(self):

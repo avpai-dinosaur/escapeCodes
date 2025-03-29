@@ -1,10 +1,10 @@
 import pygame
-import utils
+import src.core.utils as utils
 import sys
 import requests
 import json
 import constants as c
-from button import Button, TextInput
+from src.components.button import Button, TextInput
 
 class Menu:
     """Base class for all menus in the game."""

@@ -1,10 +1,10 @@
 """Classes for different objects within the game."""
 
 import pygame
-import utils
+import src.core.utils as utils
 import random
 import time
-import constants as c
+import src.constants as c
 from enum import Enum
 
 class StaminaBar():

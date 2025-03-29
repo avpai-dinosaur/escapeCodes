@@ -1,8 +1,8 @@
 import pygame
-import utils
+import src.core.utils as utils
 import json
 import queue
-import objects as o
+import src.entities.objects as o
 import constants as c
 
 class Edge():

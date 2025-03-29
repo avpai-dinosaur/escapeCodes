@@ -1,7 +1,7 @@
 import pygame
-from spritesheet import SpriteSheet
-import constants as c
-import objects as o
+from src.core.spritesheet import SpriteSheet
+import src.constants as c
+import src.entities.objects as o
         
 
 class Player(pygame.sprite.Sprite):
@@ -10,8 +10,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, filename, pos, stats):
         """Constructor.
 
-            filename: location of png image of the player
+            filename: location of png image of the player spritesheet
             pos: tuple representing players inital position
+            stats: the player's stats
         """
         super().__init__()
         self.health = o.PlayerHealthBar(pos[0], pos[1], 60, 10, 100)
