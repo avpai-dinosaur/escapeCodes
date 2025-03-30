@@ -1,4 +1,4 @@
-# Build and Run
+# Run through interpreter
 
 First activate your python virtual environment
 
@@ -21,8 +21,27 @@ pip install -r requirements.txt
 Run with
 
 ```
-cd game
-python3 main.py
+python3 src/main.py
+```
+
+# Build executable
+
+We use pyinstaller to create the bundle
+
+```
+pyinstaller --add-data "assets:assets" src/main.py
+```
+
+Then run with
+
+```
+dist/main/main
+```
+
+# Run unit tests
+
+```
+python3 -m unittest tests
 ```
 
 # Todo in rough order of importance
