@@ -27,3 +27,11 @@ def load_animation(filename, x_size, y_size, num_frames):
         temp_img = filename.subsurface(frame * x_size, 0, x_size, y_size)
         animation_list.append(temp_img)
     return animation_list
+
+def load_font(filename, size=20):
+    """Load a font from the assets directory."""
+    try:
+        font = pygame.Font(config.FONT_DIR / filename, size)
+    except FileNotFoundError:
+        print(f"Cannot load font: {config.FONT_DIR / filename}")
+    return font 

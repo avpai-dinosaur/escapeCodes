@@ -1,8 +1,9 @@
 import pygame
-import src.core.utils as utils
 import sys
 import requests
 import json
+import src.core.utils as utils
+import src.config as config
 import src.constants as c
 from src.components.button import Button, TextInput
 
@@ -43,7 +44,7 @@ class MainMenu(Menu):
         """
         super().__init__(manager)
 
-        self.titleFont = pygame.font.SysFont("cambria", 75)
+        self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 120)
         self.titleTextImage = self.titleFont.render("EscapeCodes", True, "#bcbcbc")
         self.titleRect = self.titleTextImage.get_rect(center=(640, 150))
 
