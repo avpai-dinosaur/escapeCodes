@@ -1,6 +1,6 @@
 # EscapeCodes
 
-![EscapeCodes Logo](assets/images/logo.png)
+<img src="assets/images/logo.png" alt="EscapeCodes logo" width="300"/>
 
 EscapeCodes is a story-based video game which helps aspiring software engineers study for technical interviews.
 
