@@ -1,8 +1,10 @@
 # EscapeCodes
 
-<img src="assets/images/logo.png" alt="EscapeCodes logo" width="300"/>
+<div align="center"> 
+ <img src="assets/images/logo.png" alt="EscapeCodes logo" width="500"/>
+</div>
 
-EscapeCodes is a story-based video game which helps aspiring software engineers study for technical interviews.
+A story-based video game which helps aspiring software engineers study for technical interviews.
 
 ## Featuring
 - Integration with Leetcode, the leading interview preparation platform ✅
