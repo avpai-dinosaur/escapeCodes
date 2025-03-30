@@ -7,10 +7,9 @@ def resource_path(relativePath: str):
         Works both for development and PyInstaller.
     """
     try:
-        basePath = ""
         if getattr(sys, 'frozen', False):
             # Running in a bundled executable
-            basePath = sys._MEIPASS
+            basePath = Path(sys._MEIPASS).resolve()
         else:
             # Running in a normal Python environment
             basePath = Path(__file__).resolve().parent.parent
