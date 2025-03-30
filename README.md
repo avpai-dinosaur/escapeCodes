@@ -1,5 +1,7 @@
 # EscapeCodes
 
+<img src="https://drive.google.com/file/d/1QMUkCInU8FXVBpuhnRRDSPJNk6br0vEd/view?usp=sharing" alt="EscapeCodes Logo" widh="500">
+
 EscapeCodes is a story-based video game which helps aspiring software engineers study for technical interviews.
 
 The year is 2099 and the world is running out of water due to the resource consumption of massive AI data centers. As water becomes more scarce, tech companies are seeing their profits shrink and fear they will soon lose power. In a bid to save their companies, the world's tech billionaires have poured massive investment into space research and succesfully launched an expedition to Mars, attracted by the abundance of ice which they can harvest and sell back on Earth. 
