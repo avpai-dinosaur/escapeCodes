@@ -17,6 +17,7 @@ class Menu:
         """
         self.manager = manager
         self.backgroundImage, _ = utils.load_png("menu_background.png")
+        self.backgroundImage = pygame.transform.scale(self.backgroundImage, (c.SCREEN_HEIGHT, c.SCREEN_HEIGHT))
         self.controls = []
 
     def handle_event(self, event):
@@ -44,17 +45,17 @@ class MainMenu(Menu):
         """
         super().__init__(manager)
 
-        self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 120)
+        self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 60)
         self.titleTextImage = self.titleFont.render("EscapeCodes", True, "#bcbcbc")
-        self.titleRect = self.titleTextImage.get_rect(center=(640, 150))
+        self.titleRect = self.titleTextImage.get_rect(center=(1000, 150))
 
         self.playImage, _ = utils.load_png("Play.png")
         self.optionImage, _ = utils.load_png("Play.png")
         self.quitImage, _ = utils.load_png("Play.png")
         self.controls += [
-            Button(self.playImage, pos=(640, 300), textInput="PLAY", onClick=self.onLogin),
-            Button(self.optionImage, pos=(640, 420), textInput="OPTIONS", onClick=self.onOption),
-            Button(self.quitImage, pos=(640, 540), textInput="QUIT", onClick=self.onQuit)
+            Button(self.playImage, pos=(1000, 300), textInput="PLAY", onClick=self.onLogin),
+            Button(self.optionImage, pos=(1000, 420), textInput="OPTIONS", onClick=self.onOption),
+            Button(self.quitImage, pos=(1000, 540), textInput="QUIT", onClick=self.onQuit)
         ]
     
     def onOption(self):
