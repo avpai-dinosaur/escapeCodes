@@ -1,6 +1,6 @@
 # EscapeCodes
 
-![EscapeCodes Logo](assets/logo.png)
+![EscapeCodes Logo](assets/images/logo.png)
 
 EscapeCodes is a story-based video game which helps aspiring software engineers study for technical interviews.
 
