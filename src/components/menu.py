@@ -95,6 +95,9 @@ class LoginMenu(Menu):
         self.headingFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
         self.headingTextImage = self.headingFont.render("Enter Your LeetCode Username", True, 'white')
         self.headingTextRect = self.headingTextImage.get_rect(center=(1000, 250))
+        self.errorTextImage = self.headingFont.render("Error: not a valid username", True, 'red')
+        self.errorTextRect = self.errorTextImage.get_rect(center=(1000, 450))
+        self.showError = False
         self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
             TextInput(pos=(1000, 370), width=200, height=45, onSubmit=self.onEnter),
@@ -114,10 +117,14 @@ class LoginMenu(Menu):
         if playerStats["status"] == "success":
             self.manager.set_state("world")
             pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": playerStats}))
+        else:
+            self.showError = True
     
     def draw(self, surface):
         super().draw(surface)
         surface.blit(self.headingTextImage, self.headingTextRect)
+        if self.showError:
+            surface.blit(self.errorTextImage, self.errorTextRect)
 
 class YouDiedMenu(Menu):
     """Menu that shows when player dies during level."""
