@@ -35,3 +35,10 @@ def load_font(filename, size=20):
     except FileNotFoundError:
         print(f"Cannot load font: {config.FONT_DIR / filename}")
     return font 
+
+def lighten_color(color: pygame.Color, amount=30):
+    """Lightens a given Pygame color by increasing its RGB values."""
+    r = min(color.r + amount, 255)
+    g = min(color.g + amount, 255)
+    b = min(color.b + amount, 255)
+    return pygame.Color(r, g, b)

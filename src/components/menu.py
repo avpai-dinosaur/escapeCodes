@@ -46,16 +46,16 @@ class MainMenu(Menu):
         super().__init__(manager)
 
         self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 60)
-        self.titleTextImage = self.titleFont.render("EscapeCodes", True, "#bcbcbc")
+        self.titleTextImage = self.titleFont.render("EscapeCodes", True, "white")
         self.titleRect = self.titleTextImage.get_rect(center=(1000, 150))
 
         self.playImage, _ = utils.load_png("Play.png")
         self.optionImage, _ = utils.load_png("Play.png")
         self.quitImage, _ = utils.load_png("Play.png")
         self.controls += [
-            Button(self.playImage, pos=(1000, 300), textInput="PLAY", onClick=self.onLogin),
-            Button(self.optionImage, pos=(1000, 420), textInput="OPTIONS", onClick=self.onOption),
-            Button(self.quitImage, pos=(1000, 540), textInput="QUIT", onClick=self.onQuit)
+            Button(self.playImage, pos=(1000, 300), textInput="Play", onClick=self.onLogin),
+            Button(self.optionImage, pos=(1000, 420), textInput="Options", onClick=self.onOption),
+            Button(self.quitImage, pos=(1000, 540), textInput="Quit", onClick=self.onQuit)
         ]
     
     def onOption(self):
@@ -81,7 +81,7 @@ class OptionsMenu(Menu):
         super().__init__(manager)
         self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
-            Button(self.backImage, pos=(640, 600), textInput="BACK", onClick=self.onBack)
+            Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
         ]
     
     def onBack(self):
@@ -92,13 +92,13 @@ class LoginMenu(Menu):
 
     def __init__(self, manager):
         super().__init__(manager)
-        self.headingFont = pygame.font.SysFont("cambria", 40)
-        self.headingTextImage = self.headingFont.render("Enter Your LeetCode Username", True, 'lightsalmon4')
-        self.headingTextRect = self.headingTextImage.get_rect(center=(640, 300))
+        self.headingFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
+        self.headingTextImage = self.headingFont.render("Enter Your LeetCode Username", True, 'white')
+        self.headingTextRect = self.headingTextImage.get_rect(center=(1000, 250))
         self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
-            TextInput(pos=(540, 420), width=200, height=50, onSubmit=self.onEnter),
-            Button(self.backImage, pos=(640, 600), textInput="BACK", onClick=self.onBack)
+            TextInput(pos=(1000, 370), width=200, height=45, onSubmit=self.onEnter),
+            Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
         ]
 
     def onBack(self):

@@ -1,13 +1,14 @@
 import pygame
+import src.core.utils as utils
 
 class Button:
 	"""Represents a button on a game menu."""
 
 	def __init__(
 		self, image, pos, textInput, 
-		font=pygame.font.SysFont("cambria", 40),
-		baseColor="#d7fcd4",
-		hoveringColor="White",
+		font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 40),
+		baseColor="white",
+		hoveringColor="red",
 		onClick=lambda : None 
 	):
 		"""Constructor.
@@ -80,10 +81,10 @@ class Button:
 class TextInput:
 	def __init__(
 		self, pos, width, height,
-		activeColor=pygame.Color('azure3'),
-		inactiveColor=pygame.Color('darkgoldenrod4'),
-		font=pygame.font.SysFont("cambria", 50),
-		inputTextColor='lightsalmon4',
+		activeColor=pygame.Color('red'),
+		inactiveColor=pygame.Color('white'),
+		font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
+		inputTextColor='white',
 		onSubmit=lambda : None
 	):
 		"""Constructor.
@@ -101,8 +102,11 @@ class TextInput:
 		self.inputTextColor = inputTextColor
 		self.activeColor = activeColor
 		self.inactiveColor = inactiveColor
+		self.hoverColor = utils.lighten_color(activeColor, 100)
 		self.color = self.inactiveColor
-		self.rect = pygame.Rect(pos[0], pos[1], width, height)
+		self.minWidth = width
+		self.rect = pygame.Rect(0, 0, width, height)
+		self.rect.center = pos
 		self.active = False
 		self.textBuffer= ''
 		self.onSubmit = onSubmit
@@ -119,13 +123,17 @@ class TextInput:
 
 	def handle_event(self, event):
 		"""Handle text input from the user."""
-		if not self.check_mouseover(pygame.mouse.get_pos()):
-			return
-
-		if not self.active and event.type == pygame.MOUSEBUTTONDOWN:
-			self.active = True
-			self.color = self.activeColor
-		elif event.type == pygame.KEYDOWN:
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			mousePos = pygame.mouse.get_pos()
+			if self.active and not self.check_mouseover(mousePos):
+				self.active = False
+			elif not self.active and self.check_mouseover(mousePos):
+				self.active = True
+			self.color = self.activeColor if self.active else self.inactiveColor
+		elif (
+			event.type == pygame.KEYDOWN
+			and self.active
+		):
 			if event.key == pygame.K_RETURN:
 				oldTextBuffer = self.textBuffer
 				self.textBuffer = ''
@@ -136,13 +144,18 @@ class TextInput:
 				self.textBuffer += event.unicode
 	
 	def update(self, mousePosition):
-		pass
+		if not self.active:
+			if self.check_mouseover(mousePosition):
+				self.color = self.hoverColor
+			else:
+				self.color = self.inactiveColor
 	
 	def draw(self, surface):
 		"""Draw the text input control."""
 		inputTextImage = self.font.render(self.textBuffer, True, self.inputTextColor)
 		inputTextRect = inputTextImage.get_rect()
-		inputTextRect.topright = self.rect.topright
+		self.rect.width = max(self.minWidth, inputTextRect.width)
+		inputTextRect.bottomleft = self.rect.bottomleft
 
 		pygame.draw.rect(surface, self.color, self.rect, width=2)
 		surface.blit(inputTextImage, inputTextRect)
