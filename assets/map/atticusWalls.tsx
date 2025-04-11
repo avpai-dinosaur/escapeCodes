@@ -1,133 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="atticusWalls" tilewidth="464" tileheight="336" tilecount="43" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="atticusWalls" tilewidth="464" tileheight="336" tilecount="45" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
-  <image width="64" height="64" source="../images/mapTiles/bttm L crnr.png"/>
+  <image source="../images/mapTiles/bttm L crnr.png" width="64" height="64"/>
  </tile>
  <tile id="1">
-  <image width="64" height="64" source="../images/mapTiles/bttm middle.png"/>
+  <image source="../images/mapTiles/bttm middle.png" width="64" height="64"/>
  </tile>
  <tile id="2">
-  <image width="64" height="64" source="../images/mapTiles/bttm R crnr.png"/>
+  <image source="../images/mapTiles/bttm R crnr.png" width="64" height="64"/>
  </tile>
  <tile id="3">
-  <image width="64" height="128" source="../images/mapTiles/l crnr wall piece.png"/>
+  <image source="../images/mapTiles/l crnr wall piece.png" width="64" height="128"/>
  </tile>
  <tile id="4">
-  <image width="64" height="64" source="../images/mapTiles/L vertical.png"/>
+  <image source="../images/mapTiles/L vertical.png" width="64" height="64"/>
  </tile>
  <tile id="5">
-  <image width="64" height="64" source="../images/mapTiles/mid uppr.png"/>
+  <image source="../images/mapTiles/mid uppr.png" width="64" height="64"/>
  </tile>
  <tile id="6">
-  <image width="64" height="64" source="../images/mapTiles/middle, default piece.png"/>
+  <image source="../images/mapTiles/middle, default piece.png" width="64" height="64"/>
  </tile>
  <tile id="7">
-  <image width="64" height="128" source="../images/mapTiles/plain wall section.png"/>
+  <image source="../images/mapTiles/plain wall section.png" width="64" height="128"/>
  </tile>
  <tile id="8">
-  <image width="64" height="128" source="../images/mapTiles/r crnr wall piece.png"/>
+  <image source="../images/mapTiles/r crnr wall piece.png" width="64" height="128"/>
  </tile>
  <tile id="9">
-  <image width="64" height="64" source="../images/mapTiles/R vertical.png"/>
+  <image source="../images/mapTiles/R vertical.png" width="64" height="64"/>
  </tile>
  <tile id="10">
-  <image width="64" height="64" source="../images/mapTiles/uppr L crnr.png"/>
+  <image source="../images/mapTiles/uppr L crnr.png" width="64" height="64"/>
  </tile>
  <tile id="11">
-  <image width="64" height="64" source="../images/mapTiles/uppr R crnr.png"/>
+  <image source="../images/mapTiles/uppr R crnr.png" width="64" height="64"/>
  </tile>
  <tile id="12">
-  <image width="64" height="64" source="../images/mapTiles/vent in flr.png"/>
+  <image source="../images/mapTiles/vent in flr.png" width="64" height="64"/>
  </tile>
  <tile id="13">
-  <image width="128" height="256" source="../images/objectTiles/empty computer desk.png"/>
+  <image source="../images/objectTiles/empty computer desk.png" width="128" height="256"/>
  </tile>
  <tile id="14">
-  <image width="64" height="84" source="../images/objectTiles/lg office chair.png"/>
+  <image source="../images/objectTiles/lg office chair.png" width="64" height="84"/>
  </tile>
  <tile id="15">
-  <image width="32" height="32" source="../images/objectTiles/lg solo cup.png"/>
+  <image source="../images/objectTiles/lg solo cup.png" width="32" height="32"/>
  </tile>
  <tile id="16" type="Computer">
-  <image width="64" height="64" source="../images/objectTiles/Lh computer facing L.png"/>
+  <image source="../images/objectTiles/Lh computer facing L.png" width="64" height="64"/>
  </tile>
  <tile id="17" type="Computer">
-  <image width="64" height="64" source="../images/objectTiles/Lh computer facing R.png"/>
+  <image source="../images/objectTiles/Lh computer facing R.png" width="64" height="64"/>
  </tile>
  <tile id="18" type="ExitDoor">
-  <image width="64" height="64" source="../images/objectTiles/no exit sign.png"/>
+  <image source="../images/objectTiles/no exit sign.png" width="64" height="64"/>
  </tile>
  <tile id="19">
-  <image width="320" height="127" source="../images/objectTiles/plain yt tbl.png"/>
+  <image source="../images/objectTiles/plain yt tbl.png" width="320" height="127"/>
  </tile>
  <tile id="20" type="Computer">
-  <image width="64" height="64" source="../images/objectTiles/Rh computer facing L.png"/>
+  <image source="../images/objectTiles/Rh computer facing L.png" width="64" height="64"/>
  </tile>
  <tile id="21" type="Computer">
-  <image width="64" height="64" source="../images/objectTiles/Rh computer facing R.png"/>
+  <image source="../images/objectTiles/Rh computer facing R.png" width="64" height="64"/>
  </tile>
  <tile id="22">
-  <image width="64" height="80" source="../images/objectTiles/sm office chair.png"/>
+  <image source="../images/objectTiles/sm office chair.png" width="64" height="80"/>
  </tile>
  <tile id="23">
-  <image width="32" height="32" source="../images/objectTiles/sm solo cup.png"/>
+  <image source="../images/objectTiles/sm solo cup.png" width="32" height="32"/>
  </tile>
  <tile id="24">
-  <image width="64" height="64" source="../images/objectTiles/wwyd poster.png"/>
+  <image source="../images/objectTiles/wwyd poster.png" width="64" height="64"/>
  </tile>
  <tile id="25">
-  <image width="320" height="128" source="../images/objectTiles/yt tbl with solo cups on it.png"/>
+  <image source="../images/objectTiles/yt tbl with solo cups on it.png" width="320" height="128"/>
  </tile>
  <tile id="26">
-  <image width="64" height="64" source="../images/mapTiles/neon out, bttm L crnr.png"/>
+  <image source="../images/mapTiles/neon out, bttm L crnr.png" width="64" height="64"/>
  </tile>
  <tile id="27">
-  <image width="64" height="64" source="../images/mapTiles/neon out, L vertical.png"/>
+  <image source="../images/mapTiles/neon out, L vertical.png" width="64" height="64"/>
  </tile>
  <tile id="28">
-  <image width="64" height="64" source="../images/mapTiles/neon out, main piece.png"/>
+  <image source="../images/mapTiles/neon out, main piece.png" width="64" height="64"/>
  </tile>
  <tile id="29">
-  <image width="64" height="64" source="../images/mapTiles/neon out, R crnr.png"/>
+  <image source="../images/mapTiles/neon out, R crnr.png" width="64" height="64"/>
  </tile>
  <tile id="30">
-  <image width="64" height="64" source="../images/mapTiles/neon out, R vertical.png"/>
+  <image source="../images/mapTiles/neon out, R vertical.png" width="64" height="64"/>
  </tile>
  <tile id="31">
-  <image width="64" height="64" source="../images/mapTiles/neon, L uppr crnr.png"/>
+  <image source="../images/mapTiles/neon, L uppr crnr.png" width="64" height="64"/>
  </tile>
  <tile id="32">
-  <image width="64" height="64" source="../images/mapTiles/neon, R uppr crnrl.png"/>
+  <image source="../images/mapTiles/neon, R uppr crnrl.png" width="64" height="64"/>
  </tile>
  <tile id="33">
-  <image width="16" height="16" source="../images/dance flr trim/bttm l crnr dance trim.png"/>
+  <image source="../images/dance flr trim/bttm l crnr dance trim.png" width="16" height="16"/>
  </tile>
  <tile id="34">
-  <image width="16" height="16" source="../images/dance flr trim/bttm r crnr dance trim.png"/>
+  <image source="../images/dance flr trim/bttm r crnr dance trim.png" width="16" height="16"/>
  </tile>
  <tile id="35">
-  <image width="64" height="16" source="../images/dance flr trim/mid horizontal bttm dance trim.png"/>
+  <image source="../images/dance flr trim/mid horizontal bttm dance trim.png" width="64" height="16"/>
  </tile>
  <tile id="36">
-  <image width="64" height="16" source="../images/dance flr trim/mid horizontal top dance trim.png"/>
+  <image source="../images/dance flr trim/mid horizontal top dance trim.png" width="64" height="16"/>
  </tile>
  <tile id="37">
-  <image width="16" height="64" source="../images/dance flr trim/mid vertical l dance trim.png"/>
+  <image source="../images/dance flr trim/mid vertical l dance trim.png" width="16" height="64"/>
  </tile>
  <tile id="38">
-  <image width="16" height="64" source="../images/dance flr trim/mid vertical r dance trim.png"/>
+  <image source="../images/dance flr trim/mid vertical r dance trim.png" width="16" height="64"/>
  </tile>
  <tile id="39">
-  <image width="16" height="16" source="../images/dance flr trim/uppr l crnr dance trim.png"/>
+  <image source="../images/dance flr trim/uppr l crnr dance trim.png" width="16" height="16"/>
  </tile>
  <tile id="40">
-  <image width="16" height="16" source="../images/dance flr trim/uppr r crnr dance trim.png"/>
+  <image source="../images/dance flr trim/uppr r crnr dance trim.png" width="16" height="16"/>
  </tile>
  <tile id="41" type="DanceFloor">
-  <image width="464" height="336" source="../images/dance flr trim/dance flr trim (one piece).png"/>
+  <image source="../images/dance flr trim/dance flr trim (one piece).png" width="464" height="336"/>
  </tile>
  <tile id="43" type="Npc">
-  <image width="80" height="64" source="../images/roomba.png"/>
+  <image source="../images/roomba.png" width="64" height="64"/>
+ </tile>
+ <tile id="44">
+  <image source="../images/emptyVat.png" width="64" height="128"/>
+ </tile>
+ <tile id="45">
+  <image source="../images/fullVat.png" width="64" height="128"/>
  </tile>
 </tileset>
