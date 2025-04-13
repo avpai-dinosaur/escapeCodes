@@ -1,5 +1,4 @@
 import pygame
-import webbrowser
 import requests
 import json
 import threading
