@@ -1,5 +1,5 @@
 import pygame
-from src.core.world import Game
+from src.core.game import Game
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
 
 class GameManager:

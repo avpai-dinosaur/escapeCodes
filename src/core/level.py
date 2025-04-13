@@ -1,6 +1,5 @@
 import pygame
 from src.core.camera import Camera
-from src.core.problemManager import LeetcodeManager
 from src.entities.player import Player
 from src.entities.roomba import Roomba
 from src.core.map import Map
@@ -9,8 +8,8 @@ import src.constants as c
 class Level():
     """Represents a level in the game."""
 
-    def __init__(self, map: Map):
-        self.map = map
+    def __init__(self, imageFile: str, dataFile: str):
+        self.map = Map(imageFile, dataFile)
         self.load_entities()
 
     def load_entities(self):
@@ -72,47 +71,7 @@ class Level():
             # TODO: This is just for testing purposes
             if event.key == pygame.K_v:
                 self.player_died()
-
-class Game():
-    """Manages high-level gameplay logic like switching between levels and camera functions."""
-   
-    def __init__(self, manager, playerStats):
-        self.manager = manager
-        self.camera = Camera()
-        self.leetcodeManager = LeetcodeManager()
-        self.levels = [
-            Level(Map("level0.png", "level0.tmj")),
-            Level(Map("level1.png", "level1.tmj")),
-            Level(Map("level2.png", "level2.tmj"))
-        ]
-        self.level = 0
-        self.levels[self.level].load_camera(self.camera)
-
-    def update(self):
-        self.levels[self.level].update()
-        self.camera.update()
-        self.leetcodeManager.update()
     
-    def next_level(self):
-        self.camera.reset()
-        if self.level == len(self.levels) - 1:
-            self.level = 0
-            self.manager.set_state("menu")
-        else:
-            self.level += 1
-        self.levels[self.level].load_camera(self.camera)
-
-    def handle_event(self, event):
-        self.levels[self.level].handle_event(event)
-        self.camera.handle_event(event)
-        self.leetcodeManager.handle_event(event)
-        if event.type == c.LEVEL_ENDED:
-            self.camera.reset()
-            self.next_level()
-        elif event.type == c.PLAYER_DIED:
-            self.camera.reset()
-            self.levels[self.level].reset(self.camera)
-            self.manager.set_state("died")
-
-    def draw(self, surface):
-        self.camera.draw(surface)
+    def draw_ui(self, surface):
+        """Draw any ui specific to the level."""
+        pass
