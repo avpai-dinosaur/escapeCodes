@@ -81,7 +81,6 @@ python3 -m unittest tests
 
 ## Todo in rough order of importance
 
-- Connect to leetcode account and detect that a question was solved
 - add unit tests
 - Boss fight
 - Camera motions at start of level

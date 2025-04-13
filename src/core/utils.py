@@ -1,6 +1,9 @@
 """Utility functions for loading assets and animations."""
 
 import pygame
+import platform
+import os
+import webbrowser
 import src.config as config
 
 def load_png(filename):
@@ -42,3 +45,23 @@ def lighten_color(color: pygame.Color, amount=30):
     g = min(color.g + amount, 255)
     b = min(color.b + amount, 255)
     return pygame.Color(r, g, b)
+
+def open_url(url: str):
+    """Open a url in the browser."""
+    system = platform.system()
+    if 'microsoft' in platform.uname().release.lower():  # WSL
+        try:
+            os.system(f"cmd.exe /c start {url}")
+        except Exception as e:
+            print(f"[WSL] Failed to open URL: {e}")
+    elif system == "Windows":
+        try:
+            os.startfile(url)
+        except Exception as e:
+            print(f"[Windows] Failed to open URL: {e}")
+    else:
+        try:
+            # Will use xdg-open or open depending on the system
+            webbrowser.open(url)
+        except Exception as e:
+            print(f"[Linux/macOS] Failed to open URL: {e}")

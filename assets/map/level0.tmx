@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="11">
+ <editorsettings>
+  <export target="level0.tmj" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="atticusWalls.tsx"/>
+ <layer id="1" name="Base" width="20" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,32,29,29,29,29,29,29,29,
+0,0,0,0,0,0,0,0,0,0,0,0,31,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,31,4,8,8,8,8,8,8,
+0,0,0,0,0,0,0,0,0,0,0,0,31,11,6,6,6,6,6,6,
+0,0,0,0,0,0,0,0,0,0,0,0,31,3221225482,7,7,7,7,7,7,
+0,0,0,0,0,0,0,0,0,0,0,0,31,3221225482,7,7,7,7,7,7,
+0,0,0,0,0,0,0,0,0,0,0,0,1073741856,1073741854,7,7,1073741851,1073741853,1073741853,1073741853,
+29,29,29,29,29,29,29,29,29,29,29,29,29,30,7,7,27,29,29,29,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,
+4,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,8,8,8,8,
+11,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853
+</data>
+ </layer>
+ <layer id="3" name="Embellish" width="20" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741860,1073741860,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="5" name="walls" visible="0">
+  <object id="3" x="0" y="384" width="896" height="192"/>
+  <object id="4" x="0" y="768" width="1280" height="64"/>
+  <object id="6" x="1152" y="128" width="128" height="256"/>
+  <object id="7" x="768" y="0" width="64" height="384"/>
+  <object id="8" x="832" y="0" width="448" height="128"/>
+  <object id="9" x="1024" y="384" width="256" height="192"/>
+ </objectgroup>
+ <objectgroup id="2" name="doors" visible="0">
+  <object id="1" type="LaserDoor" x="1152" y="576" width="128" height="192">
+   <properties>
+    <property name="brokenComputer" type="object" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="playerSpawn" visible="0">
+  <object id="10" x="64" y="640">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="objects">
+  <object id="2" type="Computer" gid="17" x="1152" y="256" width="64" height="64">
+   <properties>
+    <property name="hasProblem" type="bool" value="true"/>
+    <property name="note">From: Melon Husk
+To: All
+Subject: Bumping up efficiency.
+
+Hey Technicians!
+If you're looking at this note I'm guessing you noticed the giant laser door blocking the ship's main entrance. Perhaps you also noticed that we are behind on the launch schedule? Again! Honestly, I'm wondering if half of you guys can even code at this point.
+
+Anyways, I've cooked up a little challenge to get us back on track. From now on, to get into the ship, you've got to solve a little coding problem called (412. Fizz Buzz).
+
+Best Regards,
+Melon
+
+P.S. Completing this challenge is &quot;explicitly voluntary&quot;. That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter.</property>
+    <property name="problemName" value="Fizz Buzz"/>
+    <property name="problemUrl" value="https://leetcode.com/problems/fizz-buzz/description/"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

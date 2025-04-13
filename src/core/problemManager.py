@@ -5,6 +5,7 @@ import json
 import threading
 import time
 import src.constants as c
+import src.core.utils as utils
 
 class LeetcodeManager:
     """Class to handle opening leetcode and detect when problems are solved."""
@@ -23,7 +24,7 @@ class LeetcodeManager:
     def handle_event(self, event: pygame.Event) -> None:
         """Handle events off the event queue."""
         if event.type == c.OPEN_PROBLEM:
-            webbrowser.open(event.url)
+            utils.open_url(event.url)
             # TODO: Kind of a hacky way to do this
             problemSlug = event.url.split('/')[4]
             self.inProgressProblems.add(problemSlug)

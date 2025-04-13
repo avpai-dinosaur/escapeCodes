@@ -7,6 +7,7 @@ from src.entities.player import Player
 from src.entities.objects import LaserDoor
 
 class TestMovement(unittest.TestCase):
+    """Test the WASD movement of the player."""
 
     def setUp(self):
         pygame.init()

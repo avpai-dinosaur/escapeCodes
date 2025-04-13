@@ -15,14 +15,17 @@ class Level():
 
     def load_entities(self):
         self.player = Player("Oldhero.png", self.map.playerSpawn, {})
-        self.roomba = Roomba("roomba.png", self.map.roombaPath)
+        self.roomba = None
+        if self.map.roombaPath:
+            self.roomba = Roomba("roomba.png", self.map.roombaPath)
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
         self.doors = self.map.doors_factory()
 
     def load_camera(self, camera: Camera):
         camera.add(self.player)
-        camera.add(self.roomba)
+        if self.roomba is not None:
+            camera.add(self.roomba)
         camera.add(self.objects)
         camera.add(self.doors)
         # camera.background_objects.add(self.map.background_objects)
@@ -43,7 +46,8 @@ class Level():
 
     def update(self):
         self.player.update(self.walls, self.doors)
-        self.roomba.update(self.player)
+        if self.roomba is not None:
+            self.roomba.update(self.player)
         self.doors.update(self.player)
         self.objects.update(self.player)
         # self.map.background_objects.update(self.player)
@@ -77,6 +81,7 @@ class Game():
         self.camera = Camera()
         self.leetcodeManager = LeetcodeManager()
         self.levels = [
+            Level(Map("level0.png", "level0.tmj")),
             Level(Map("level1.png", "level1.tmj")),
             Level(Map("level2.png", "level2.tmj"))
         ]

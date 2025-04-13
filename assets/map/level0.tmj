@@ -1,0 +1,240 @@
+{ "compressionlevel":-1,
+ "height":13,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 29, 29, 29, 29, 29, 29, 29,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 4, 8, 8, 8, 8, 8, 8,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 11, 6, 6, 6, 6, 6, 6,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 3221225482, 7, 7, 7, 7, 7, 7,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 3221225482, 7, 7, 7, 7, 7, 7,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1073741856, 1073741854, 7, 7, 1073741851, 1073741853, 1073741853, 1073741853,
+            29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 30, 7, 7, 27, 29, 29, 29,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0,
+            4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8,
+            11, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+            1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853],
+         "height":13,
+         "id":1,
+         "name":"Base",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1073741860, 1073741860,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":13,
+         "id":3,
+         "name":"Embellish",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"walls",
+         "objects":[
+                {
+                 "height":192,
+                 "id":3,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":896,
+                 "x":0,
+                 "y":384
+                }, 
+                {
+                 "height":64,
+                 "id":4,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1280,
+                 "x":0,
+                 "y":768
+                }, 
+                {
+                 "height":256,
+                 "id":6,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":128,
+                 "x":1152,
+                 "y":128
+                }, 
+                {
+                 "height":384,
+                 "id":7,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":768,
+                 "y":0
+                }, 
+                {
+                 "height":128,
+                 "id":8,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":448,
+                 "x":832,
+                 "y":0
+                }, 
+                {
+                 "height":192,
+                 "id":9,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":256,
+                 "x":1024,
+                 "y":384
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":2,
+         "name":"doors",
+         "objects":[
+                {
+                 "height":192,
+                 "id":1,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"brokenComputer",
+                         "type":"object",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"LaserDoor",
+                 "visible":true,
+                 "width":128,
+                 "x":1152,
+                 "y":576
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"playerSpawn",
+         "objects":[
+                {
+                 "height":0,
+                 "id":10,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":640
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"objects",
+         "objects":[
+                {
+                 "gid":17,
+                 "height":64,
+                 "id":2,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"hasProblem",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"note",
+                         "type":"string",
+                         "value":"From: Melon Husk\nTo: All\nSubject: Bumping up efficiency.\n\nHey Technicians!\nIf you're looking at this note I'm guessing you noticed the giant laser door blocking the ship's main entrance. Perhaps you also noticed that we are behind on the launch schedule? Again! Honestly, I'm wondering if half of you guys can even code at this point.\n\nAnyways, I've cooked up a little challenge to get us back on track. From now on, to get into the ship, you've got to solve a little coding problem called (412. Fizz Buzz).\n\nBest Regards,\nMelon\n\nP.S. Completing this challenge is \"explicitly voluntary\". That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter."
+                        }, 
+                        {
+                         "name":"problemName",
+                         "type":"string",
+                         "value":"Fizz Buzz"
+                        }, 
+                        {
+                         "name":"problemUrl",
+                         "type":"string",
+                         "value":"https:\/\/leetcode.com\/problems\/fizz-buzz\/description\/"
+                        }],
+                 "rotation":0,
+                 "type":"Computer",
+                 "visible":true,
+                 "width":64,
+                 "x":1152,
+                 "y":256
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":7,
+ "nextobjectid":11,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":64,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"atticusWalls.tsx"
+        }],
+ "tilewidth":64,
+ "type":"map",
+ "version":"1.10",
+ "width":20
+}

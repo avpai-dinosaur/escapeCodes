@@ -47,30 +47,44 @@
                 "y": 719.6969696969699
             }
         },
+        "level0.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5,
+                2
+            ],
+            "scale": 0.89953125,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 581.4139308667709,
+                "y": 335.1745700885878
+            }
+        },
         "level1.tmx": {
             "expandedObjectLayers": [
+                19,
                 10
             ],
             "scale": 0.5,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 890,
-                "y": 764
+                "x": 704,
+                "y": 735
             }
         },
         "level2.tmx": {
             "expandedObjectLayers": [
-                3,
                 4,
-                8,
+                6,
+                3,
                 5,
-                6
+                8
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1137.3333333333335,
-                "y": 772
+                "x": 683.3333333333333,
+                "y": 640
             }
         },
         "map.tmx": {

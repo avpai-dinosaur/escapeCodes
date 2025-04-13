@@ -87,7 +87,7 @@ class Map():
         self.generatedComputers = {}
         self.objects = {}
         self.playerSpawn = None
-        self.roombaPath = []
+        self.roombaPath = None
 
         self.load_json(dataFile)
         self.parse_doors()
