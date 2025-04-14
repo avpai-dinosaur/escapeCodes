@@ -45,7 +45,7 @@ class WasdUi:
             surface.blit(self.image, self.rect)
 
 class NoteUi:
-    def __init__(self, text: str):
+    def __init__(self):
         """Constructor.
         
             text: Text to display on note.
@@ -58,11 +58,22 @@ class NoteUi:
 
         self.innerTextMargin = 10
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
-        self.noteTextImage = self.font.render(text, True, 'white', wraplength=self.backgroundRect.width - 2 * self.innerTextMargin)
+        self.set_text("")
+
+        self.isVisible = False
+
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
+    
+    def set_text(self, text: str):
+        self.text = text
+        self.noteTextImage = self.font.render(self.text, True, 'white', wraplength=self.backgroundRect.width - 2 * self.innerTextMargin)
         self.noteTextRect = self.noteTextImage.get_rect()
         self.noteTextRect.topleft = (self.padding + self.innerTextMargin, self.padding + self.innerTextMargin)
-    
+        self.isVisible = True
+
     def draw(self, surface: pygame.Surface):
-        pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
-        surface.blit(self.noteTextImage, self.noteTextRect)
+        if self.isVisible:
+            pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
+            surface.blit(self.noteTextImage, self.noteTextRect)
 

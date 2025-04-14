@@ -1,11 +1,11 @@
 """Classes for different objects within the game."""
 
 import pygame
-import src.core.utils as utils
-import random
 import time
+import random
+from src.core.ecodeEvents import EventManager, EcodeEvent
+import src.core.utils as utils
 import src.constants as c
-from enum import Enum
 
 class StaminaBar():
     """Represents a stamina bar."""
@@ -368,8 +368,8 @@ class Computer(pygame.sprite.Sprite):
         self.present_button = False
     
     def computer_action(self):
-        self.note.toggle = True
         self.present_button = False
+        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input)
 
     def handle_event(self, event):
         self.note.handle_event(event)

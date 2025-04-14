@@ -12,6 +12,7 @@ class EcodeEvent(Enum):
     CHECK_PROBLEMS = 8
     CHECKED_PROBLEMS = 9
     USER_LOGIN = 10
+    OPEN_NOTE = 11
 
 class EventManager:
     listeners = defaultdict(list)
