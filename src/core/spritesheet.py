@@ -46,7 +46,7 @@ class SpriteSheet():
                     self.parse_frame(val["row"], i)
                 )
     
-    def get_image(self, action, frame):
+    def get_image(self, action, frame) -> pygame.Surface:
         """Returns the image for the given action and frame.
         
             action: str

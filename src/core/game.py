@@ -25,6 +25,7 @@ class Game():
         self.levels[self.level].update()
         self.camera.update()
         self.leetcodeManager.update()
+        self.uiManager.update()
     
     def next_level(self):
         self.camera.reset()

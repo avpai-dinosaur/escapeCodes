@@ -14,12 +14,14 @@ class EcodeEvent(Enum):
     USER_LOGIN = 10
 
 class EventManager:
-    def __init__(self):
-        self.listeners = defaultdict(list)
+    listeners = defaultdict(list)
 
-    def subscribe(self, event: EcodeEvent, callback: function):
-        self.listeners[event].append(callback)
+    def subscribe(event: EcodeEvent, callback):
+        EventManager.listeners[event].append(callback)
     
-    def emit(self, event: EcodeEvent, **kwargs):
-        for func in self.listeners[event]:
+    def emit(event: EcodeEvent, **kwargs):
+        for func in EventManager.listeners[event]:
             func(**kwargs)
+    
+    def unsubscribe(event: EcodeEvent, callback):
+        EventManager.listeners[event].remove(callback)

@@ -1,5 +1,6 @@
 import pygame
 from src.core.spritesheet import SpriteSheet
+from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 import src.entities.objects as o
         
@@ -75,8 +76,7 @@ class Player(pygame.sprite.Sprite):
             self.action = "punch"
         
         if moved:
-            pygame.event.post(pygame.event.Event(c.PLAYER_MOVED, {"target": self.rect}))
-
+            EventManager.emit(EcodeEvent.PLAYER_MOVED, target=self.rect)
 
         if pygame.key.get_just_pressed()[pygame.K_SPACE] and not self.dash and self.stamina.stamina > 0:
             self.last_dash = pygame.time.get_ticks()

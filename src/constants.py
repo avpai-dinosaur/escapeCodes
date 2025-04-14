@@ -15,7 +15,6 @@ ENEMY_CHASE_SPEED = 0.7
 WALKABLE_TILES = [12, 31, 32, 33]
 
 # Custom events
-PLAYER_MOVED = pygame.USEREVENT + 1
 LEVEL_ENDED = pygame.USEREVENT + 2
 ENTERED_DANCE_FLOOR = pygame.USEREVENT + 3
 LEFT_DANCE_FLOOR = pygame.USEREVENT + 4
@@ -82,6 +81,20 @@ ENEMY_SHEET_METADATA = {
             "row": 4,
             "num_frames": 4,
             "cooldown": 300
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
+WASD_SHEET_METADATA = {
+    "frame_width": 96,
+    "frame_height": 54,
+    "scale": 2,
+    "actions" : {
+        "press": {
+            "row": 0,
+            "num_frames": 8,
+            "cooldown": 500
         }
     },
     "colorkey": (0, 0, 0)

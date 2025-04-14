@@ -1,4 +1,5 @@
 import pygame
+from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 
 
@@ -32,6 +33,9 @@ class Camera(pygame.sprite.Group):
         self.light_radius = 300
         self.dim = False
 
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.set_target)
+
         self.foreground_objects = pygame.sprite.Group()
         self.background_objects = pygame.sprite.Group()
     
@@ -44,24 +48,23 @@ class Camera(pygame.sprite.Group):
         self.foreground_objects.empty()
         self.background_objects.empty()
 
-    def center_camera(self, target):
-        """Centers the camera on the target rect.
-        
-            target: pygame.Rect
-        """
-        self.offset.x = target.centerx - self.half_w
-        self.offset.y = target.centery - self.half_h
+    def center_camera(self):
+        """Centers the camera onto stored target."""
+        self.offset.x = self.target.centerx - self.half_w
+        self.offset.y = self.target.centery - self.half_h
+
+    def set_target(self, target: pygame.Rect):
+        """Set the camera's target."""
+        self.target = target
 
     def update(self):
         """Update the camera."""
         if self.target:
-            self.center_camera(self.target)
+            self.center_camera()
 
     def handle_event(self, event):
         """Handle an event off the event queue."""
-        if event.type == c.PLAYER_MOVED:
-            self.target = event.target
-        elif event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
                 self.zoom = 2.5
             elif event.key == pygame.K_e:
