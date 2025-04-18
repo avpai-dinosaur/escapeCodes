@@ -100,6 +100,20 @@ WASD_SHEET_METADATA = {
     "colorkey": (0, 0, 0)
 }
 
+KEY_SHEET_METADATA = {
+    "frame_width": 32,
+    "frame_height": 32,
+    "scale": 2,
+    "actions": {
+        "press": {
+            "row": 0,
+            "num_frames": 2,
+            "cooldown": 500
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
 TEST_PLAYER_DICT = {
     "status": "success",
     "message": "retrieved",

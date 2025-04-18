@@ -66,8 +66,8 @@ class Level():
         [d.handle_event(event) for d in self.doors]
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                self.end_level()
+            # if event.key == pygame.K_ESCAPE:
+            #     self.end_level()
             # TODO: This is just for testing purposes
             if event.key == pygame.K_v:
                 self.player_died()

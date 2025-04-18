@@ -395,9 +395,13 @@ class Computer(pygame.sprite.Sprite):
 class ProblemComputer(Computer):
     """Class to represent a computer that hosts a LeetCode problem."""
 
-    def __init__(self, rect, text_input, url):
-        super().__init__(rect, text_input)
-        self.note.url = url
+    def __init__(self, rect, textInput, url):
+        super().__init__(rect, textInput)
+        self.url = url
+    
+    def computer_action(self):
+        self.present_button = False
+        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input, url=self.url)
 
     def handle_event(self, event: pygame.Event):
         super().handle_event(event)

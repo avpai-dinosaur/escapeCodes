@@ -3,6 +3,7 @@ import requests
 import json
 import threading
 import time
+from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 import src.core.utils as utils
 
@@ -20,20 +21,23 @@ class LeetcodeManager:
 
         self.inProgressProblems = set()
 
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_PROBLEM, self.on_open_problem)
+
     def handle_event(self, event: pygame.Event) -> None:
         """Handle events off the event queue."""
-        if event.type == c.OPEN_PROBLEM:
-            utils.open_url(event.url)
-            # TODO: Kind of a hacky way to do this
-            problemSlug = event.url.split('/')[4]
-            self.inProgressProblems.add(problemSlug)
-        elif event.type == c.CHECK_PROBLEMS:
+        if event.type == c.CHECK_PROBLEMS:
             apiRequestThread = threading.Thread(target=self.check_submissions, args=(self.startTimestamp,))
             apiRequestThread.start()
         elif event.type == c.USER_LOGIN:
             self.username = event.username
             self.stats = event.stats
             self.totalSolved = self.stats["totalSolved"]
+
+    def on_open_problem(self, url):
+        utils.open_url(url)
+        problemSlug = url.split('/')[4]
+        self.inProgressProblems.add(problemSlug)
 
     def check_submissions(self, lowerTimestamp: int) -> None:
         """Check the user's last 50 accepted submissions."""

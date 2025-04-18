@@ -40,6 +40,7 @@ class Game():
         self.levels[self.level].handle_event(event)
         self.camera.handle_event(event)
         self.leetcodeManager.handle_event(event)
+        self.uiManager.handle_event(event)
         if event.type == c.LEVEL_ENDED:
             self.camera.reset()
             self.next_level()
