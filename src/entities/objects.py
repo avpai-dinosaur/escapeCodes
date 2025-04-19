@@ -258,7 +258,7 @@ class LaserDoor(Door):
                 )
         elif event.type == c.CHECKED_PROBLEMS and self.triedDoor:
             self.triedDoor = False
-            num_problems = len(self.problems)
+            num_problems = sum(1 for problem in self.problems if not problem.isSolved)
             if num_problems > 0:
                 computer_plural = "computer" if num_problems == 1 else "computers"
                 self.speech_bubble.update_text(
@@ -398,16 +398,22 @@ class ProblemComputer(Computer):
     def __init__(self, rect, textInput, url):
         super().__init__(rect, textInput)
         self.url = url
+        self.problemSlug = None
+        self.isSolved = False
+        # TODO: Remove this
+        if self.url != "https://www.google.com/":
+            self.problemSlug = utils.get_problem_slug(url)
+
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.PROBLEM_SOLVED, self.on_problem_solved)
     
+    def on_problem_solved(self, problemSlug : str):
+        if problemSlug == self.problemSlug:
+            self.isSolved = True
+
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input, url=self.url)
-
-    def handle_event(self, event: pygame.Event):
-        super().handle_event(event)
-        if event.type == c.PROBLEM_SOLVED:
-            self.kill()
-
+        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input, url=self.url, isSolved=self.isSolved)
 
 class TechNote(pygame.sprite.Sprite):
     """Class to represent a technical note."""

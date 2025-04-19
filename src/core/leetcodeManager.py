@@ -36,7 +36,7 @@ class LeetcodeManager:
 
     def on_open_problem(self, url):
         utils.open_url(url)
-        problemSlug = url.split('/')[4]
+        problemSlug = utils.get_problem_slug(url)
         self.inProgressProblems.add(problemSlug)
 
     def check_submissions(self, lowerTimestamp: int) -> None:
@@ -101,9 +101,11 @@ class LeetcodeManager:
             lowerTimestamp: time the submission should have occured after to be considered valid
         """
         for submission in submissionList:
-            if submission["titleSlug"] == problemSlug \
-                and int(submission["timestamp"]) >= lowerTimestamp:
-                pygame.event.post(pygame.Event(c.PROBLEM_SOLVED))
+            if (
+                submission["titleSlug"] == problemSlug \
+                and int(submission["timestamp"]) >= lowerTimestamp
+            ):
+                EventManager.emit(EcodeEvent.PROBLEM_SOLVED, problemSlug=problemSlug)
                 return True
         return False
             

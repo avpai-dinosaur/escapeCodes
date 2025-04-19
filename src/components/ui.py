@@ -92,9 +92,11 @@ class NoteUi:
 
         self.innerTextMargin = 10
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
+        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
         self.set_text("")
 
         self.isVisible = False
+        self.isSolved = False
 
         # KeyUi Controls
         self.escapeKeyUi = KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", (0, 0))
@@ -139,16 +141,24 @@ class NoteUi:
             self.sKeyUi.rect.bottom
         )
 
+        self.solvedTextImage = self.solvedFont.render("Solved", True, 'green')
+        self.solvedTextRect = self.solvedTextImage.get_rect()
+        self.solvedTextRect.bottomright = (
+            self.backgroundRect.right - 10,
+            self.backgroundRect.bottom
+        )
+
         # Event subscribers
         EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
     
-    def set_text(self, text: str, url: str=None):
+    def set_text(self, text: str, url: str=None, isSolved: bool=False):
         self.text = text
         self.url = url
         self.noteTextImage = self.font.render(self.text, True, 'white', wraplength=self.backgroundRect.width - 2 * self.innerTextMargin)
         self.noteTextRect = self.noteTextImage.get_rect()
         self.noteTextRect.topleft = (self.padding + self.innerTextMargin, self.padding + self.innerTextMargin)
         self.isVisible = True
+        self.isSolved = isSolved
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
@@ -157,6 +167,11 @@ class NoteUi:
                     self.isVisible = False
                 elif event.key == pygame.K_x:
                     EventManager.emit(EcodeEvent.OPEN_PROBLEM, url=self.url)
+                elif event.key == pygame.K_s:
+                    EventManager.emit(
+                        EcodeEvent.PROBLEM_SOLVED,
+                        problemSlug=utils.get_problem_slug(self.url)
+                    )
 
     def update(self):
         self.escapeKeyUi.update()
@@ -171,7 +186,10 @@ class NoteUi:
             self.escapeKeyUi.draw(surface)
             self.xKeyUi.draw(surface)
             surface.blit(self.xKeyHelpTextImage, self.xKeyHelpTextRect)
-            self.hKeyUi.draw(surface)
-            surface.blit(self.hKeyHelpTextImage, self.hKeyHelpTextRect)
-            self.sKeyUi.draw(surface)
-            surface.blit(self.sKeyHelpTextImage, self.sKeyHelpTextRect)
+            if not self.isSolved:
+                self.hKeyUi.draw(surface)
+                surface.blit(self.hKeyHelpTextImage, self.hKeyHelpTextRect)
+                self.sKeyUi.draw(surface)
+                surface.blit(self.sKeyHelpTextImage, self.sKeyHelpTextRect)
+            else:
+                surface.blit(self.solvedTextImage, self.solvedTextRect)

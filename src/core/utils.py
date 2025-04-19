@@ -65,3 +65,7 @@ def open_url(url: str):
             webbrowser.open(url)
         except Exception as e:
             print(f"[Linux/macOS] Failed to open URL: {e}")
+
+def get_problem_slug(leetcodeProblemUrl: str):
+    """Given a Leetcode url to a problem get the problem slug."""
+    return leetcodeProblemUrl.split('/')[4]
