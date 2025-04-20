@@ -166,6 +166,7 @@ class NoteUi:
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
+            self.textUi.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
@@ -233,7 +234,7 @@ class ScrollableTextUi:
 
     def __init__(
         self, pos: pygame.Vector2, width: int, height: int,
-        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)    
+        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)    
     ):
         """Constructor.
         
@@ -244,7 +245,7 @@ class ScrollableTextUi:
         """
         self.rect = pygame.Rect(pos.x, pos.y, width, height)
         self.font = font
-        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA).convert_alpha()
         self.set_text("")
     
     def set_text(self, textInput: str):
@@ -256,7 +257,19 @@ class ScrollableTextUi:
         self.textRect = self.textImage.get_rect()
         self.textRect.topleft = (0, 0)
     
+    def handle_event(self, event: pygame.Event):
+        if event.type == pygame.MOUSEWHEEL and utils.is_mouse_in_rect(self.rect):
+            scroll = (
+                (event.y < 0 and self.textRect.bottom > self.rect.height)
+                or (event.y > 0 and self.textRect.top < 0)
+            )
+            if scroll:
+                # Scale scroll distance by the height of one character
+                self.textRect.top += event.y * self.font.size("c")[1]
+
     def draw(self, surface: pygame.Surface):
+        self.internalSurface.fill((0, 0, 0, 0))
         self.internalSurface.blit(self.textImage, self.textRect)
+        pygame.draw.rect(self.internalSurface, "red", self.textRect, 2)
         surface.blit(self.internalSurface, self.rect)
         pygame.draw.rect(surface, "white", self.rect, 2, 5)

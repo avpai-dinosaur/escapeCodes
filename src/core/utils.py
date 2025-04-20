@@ -69,3 +69,13 @@ def open_url(url: str):
 def get_problem_slug(leetcodeProblemUrl: str):
     """Given a Leetcode url to a problem get the problem slug."""
     return leetcodeProblemUrl.split('/')[4]
+
+def is_mouse_in_rect(rect: pygame.Rect):
+    """Check if the mouse is in a rect."""
+    mousePos = pygame.mouse.get_pos()
+    return (
+        mousePos[0] >= rect.left
+        and mousePos[0] <= rect.right
+        and mousePos[1] >= rect.top
+        and mousePos[1] <= rect.bottom
+    )
