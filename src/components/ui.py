@@ -51,21 +51,46 @@ class KeyUi:
         self,
         key: int,
         filename: str,
-        pos: pygame.Vector2
+        pos: pygame.Vector2=pygame.Vector2(0, 0),
+        caption="",
+        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
     ):
         """Constructor.
         
             key: The key (e.g. pygame.K_m).
             filename: The key spritesheet.
             pos: Position of the ui element.
+            caption: Text to display next to ui element.
+            font: Font to render caption in.
         """
         self.key = key
-        self.spritesheet = SpriteSheet(filename, c.KEY_SHEET_METADATA)
+        
+        # Press key animation
         self.currentFrame = 0
-        self.image = self.spritesheet.get_image("press", self.currentFrame)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = pos
         self.lastUpdate = pygame.time.get_ticks()
+        self.spritesheet = SpriteSheet(filename, c.KEY_SHEET_METADATA)
+        self.image = self.spritesheet.get_image("press", self.currentFrame)
+        self.imageRect = self.image.get_rect()
+        self.imageRect.topleft = (0, 0)
+
+        # Caption
+        self.font = font
+        self.caption = caption
+        self.captionMargin = 5
+        self.captionImage = self.font.render(self.caption, True, 'white')
+        self.captionRect = self.captionImage.get_rect()
+        self.captionRect.bottomleft = (
+            self.imageRect.right + self.captionMargin,
+            self.imageRect.bottom
+        )
+
+        # Internal surface
+        self.rect = pygame.Rect(
+            pos.x, pos.y,
+            self.imageRect.width + self.captionRect.width + self.captionMargin,
+            max(self.imageRect.height, self.captionRect.height)
+        )
+        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA).convert_alpha()
 
     def update(self):
         if pygame.time.get_ticks() - self.lastUpdate >= self.spritesheet.cooldown("press"):
@@ -76,71 +101,53 @@ class KeyUi:
             self.lastUpdate = pygame.time.get_ticks()
 
     def draw(self, surface: pygame.Surface):
-        surface.blit(self.image, self.rect)
+        self.internalSurface.fill((0, 0, 0, 0))
+        self.internalSurface.blit(self.image, self.imageRect)
+        self.internalSurface.blit(self.captionImage, self.captionRect)
+        surface.blit(self.internalSurface, self.rect)
+
 
 class NoteUi:
+    """Class representing ui for reading a note."""
+
     def __init__(self):
         """Constructor.
         
             text: Text to display on note.
         """
-        self.padding = 40
+        self.noteMargin = 40
         self.backgroundRect = pygame.Rect()
-        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.padding
-        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.padding
-        self.backgroundRect.topleft = (self.padding, self.padding)
+        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.noteMargin
+        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.noteMargin
+        self.backgroundRect.topleft = (self.noteMargin, self.noteMargin)
 
-        self.innerTextMargin = 10
-        self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
-        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
+        self.keyControls = KeyControlBarUi()
+        self.keyControls.add_control(KeyUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
+        self.keyControls.add_control(KeyUi(pygame.K_h, "Keys/H-Key.png", caption="Get Hint"))
+        self.keyControls.add_control(KeyUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
+        self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
+        self.keyControls.build()
+        self.keyControls.rect.bottomleft = (
+            self.backgroundRect.left + 10,
+            self.backgroundRect.bottom - 10
+        )
+
+        self.textUiMargin = 10
+        self.textUi = ScrollableTextUi(
+            pygame.Vector2(
+                self.backgroundRect.left + self.textUiMargin,
+                self.backgroundRect.top + self.textUiMargin
+            ),
+            self.backgroundRect.width - 2 * self.textUiMargin,
+            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
+        )
         self.set_text("")
 
         self.isVisible = False
         self.isSolved = False
 
-        # KeyUi Controls
-        self.escapeKeyUi = KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", (0, 0))
-        self.escapeKeyUi.rect.topright = (
-            self.backgroundRect.topright[0] - 10,
-            self.backgroundRect.topright[1]
-        )
-
-        self.xKeyUi = KeyUi(pygame.K_x, "Keys/X-Key.png", (0, 0))
-        self.xKeyUi.rect.bottomleft = (
-            self.backgroundRect.left + 10,
-            self.backgroundRect.bottom - 10
-        )
-        self.xKeyHelpTextImage = self.font.render("Open Problem", True, 'white')
-        self.xKeyHelpTextRect = self.xKeyHelpTextImage.get_rect()
-        self.xKeyHelpTextRect.bottomleft = (
-            self.xKeyUi.rect.right + 5,
-            self.xKeyUi.rect.bottom
-        )
-
-        self.hKeyUi = KeyUi(pygame.K_h, "Keys/H-Key.png", (0, 0))
-        self.hKeyUi.rect.bottomleft = (
-            self.xKeyHelpTextRect.right + 10,
-            self.backgroundRect.bottom - 10
-        )
-        self.hKeyHelpTextImage = self.font.render("Get Hint", True, 'white')
-        self.hKeyHelpTextRect = self.hKeyHelpTextImage.get_rect()
-        self.hKeyHelpTextRect.bottomleft = (
-            self.hKeyUi.rect.right + 5,
-            self.hKeyUi.rect.bottom
-        )
-
-        self.sKeyUi = KeyUi(pygame.K_s, "Keys/S-Key.png", (0, 0))
-        self.sKeyUi.rect.bottomleft = (
-            self.hKeyHelpTextRect.right + 10,
-            self.backgroundRect.bottom - 10
-        )
-        self.sKeyHelpTextImage = self.font.render("Skip", True, 'white')
-        self.sKeyHelpTextRect = self.sKeyHelpTextImage.get_rect()
-        self.sKeyHelpTextRect.bottomleft = (
-            self.sKeyUi.rect.right + 5,
-            self.sKeyUi.rect.bottom
-        )
-
+        # Solved Text
+        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
         self.solvedTextImage = self.solvedFont.render("Solved", True, 'green')
         self.solvedTextRect = self.solvedTextImage.get_rect()
         self.solvedTextRect.bottomright = (
@@ -152,13 +159,10 @@ class NoteUi:
         EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
     
     def set_text(self, text: str, url: str=None, isSolved: bool=False):
-        self.text = text
+        self.textUi.set_text(text)
         self.url = url
-        self.noteTextImage = self.font.render(self.text, True, 'white', wraplength=self.backgroundRect.width - 2 * self.innerTextMargin)
-        self.noteTextRect = self.noteTextImage.get_rect()
-        self.noteTextRect.topleft = (self.padding + self.innerTextMargin, self.padding + self.innerTextMargin)
-        self.isVisible = True
         self.isSolved = isSolved
+        self.isVisible = True
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
@@ -166,6 +170,9 @@ class NoteUi:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
                 elif event.key == pygame.K_x:
+                    # TODO: probably don't want the LeetCodeManager to add the
+                    # problem as an in progress problem if it was already
+                    # solved
                     EventManager.emit(EcodeEvent.OPEN_PROBLEM, url=self.url)
                 elif event.key == pygame.K_s:
                     EventManager.emit(
@@ -174,22 +181,82 @@ class NoteUi:
                     )
 
     def update(self):
-        self.escapeKeyUi.update()
-        self.xKeyUi.update()
-        self.hKeyUi.update()
-        self.sKeyUi.update()
+        self.keyControls.update()
 
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
-            surface.blit(self.noteTextImage, self.noteTextRect)
-            self.escapeKeyUi.draw(surface)
-            self.xKeyUi.draw(surface)
-            surface.blit(self.xKeyHelpTextImage, self.xKeyHelpTextRect)
-            if not self.isSolved:
-                self.hKeyUi.draw(surface)
-                surface.blit(self.hKeyHelpTextImage, self.hKeyHelpTextRect)
-                self.sKeyUi.draw(surface)
-                surface.blit(self.sKeyHelpTextImage, self.sKeyHelpTextRect)
-            else:
+            self.keyControls.draw(surface)
+            self.textUi.draw(surface)
+            if self.isSolved:
                 surface.blit(self.solvedTextImage, self.solvedTextRect)
+
+
+class KeyControlBarUi:
+    """Class representing a control bar of KeyUis."""
+
+    def __init__(self):
+        """Constructor."""
+        self.rect = pygame.Rect()
+        self.controlMargin = 10
+        self.controls: list[KeyUi] = []
+    
+    def add_control(self, keyUi: KeyUi):
+        """Add a control to the control bar."""
+        self.controls.append(keyUi)
+    
+    def build(self):
+        """Build the bar with added controls.
+        
+            Must be called before draw().
+        """
+        self.width = self.controlMargin
+        for ctrl in self.controls:
+            ctrl.rect.left = self.width
+            ctrl.rect.top = 0
+            self.width += ctrl.rect.width + 10
+        self.height = max(c.rect.height for c in self.controls)
+        self.rect.size = (self.width, self.height)
+        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA).convert_alpha()
+    
+    def update(self):
+        [c.update() for c in self.controls]
+
+    def draw(self, surface: pygame.Surface):
+        self.internalSurface.fill((0, 0, 0, 0))
+        [c.draw(self.internalSurface) for c in self.controls]
+        surface.blit(self.internalSurface, self.rect)
+
+
+class ScrollableTextUi:
+    """Class representing scrollable text ui element."""
+
+    def __init__(
+        self, pos: pygame.Vector2, width: int, height: int,
+        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)    
+    ):
+        """Constructor.
+        
+            pos: Coordinates of left top corner of the element.
+            width: Width of the element.
+            height: Height of the element.
+            font: Font to render text with.
+        """
+        self.rect = pygame.Rect(pos.x, pos.y, width, height)
+        self.font = font
+        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+        self.set_text("")
+    
+    def set_text(self, textInput: str):
+        self.text = textInput
+        self.textImage = self.font.render(
+            self.text, True, 'white',
+            wraplength=self.rect.width
+        )
+        self.textRect = self.textImage.get_rect()
+        self.textRect.topleft = (0, 0)
+    
+    def draw(self, surface: pygame.Surface):
+        self.internalSurface.blit(self.textImage, self.textRect)
+        surface.blit(self.internalSurface, self.rect)
+        pygame.draw.rect(surface, "white", self.rect, 2, 5)
