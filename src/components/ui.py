@@ -182,6 +182,7 @@ class NoteUi:
                     )
 
     def update(self):
+        self.textUi.update()
         self.keyControls.update()
 
     def draw(self, surface: pygame.Surface):
@@ -234,7 +235,7 @@ class ScrollableTextUi:
 
     def __init__(
         self, pos: pygame.Vector2, width: int, height: int,
-        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)    
+        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)    
     ):
         """Constructor.
         
@@ -245,6 +246,7 @@ class ScrollableTextUi:
         """
         self.rect = pygame.Rect(pos.x, pos.y, width, height)
         self.font = font
+        self.scrollBarTrackWidth = 10
         self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA).convert_alpha()
         self.set_text("")
     
@@ -252,11 +254,24 @@ class ScrollableTextUi:
         self.text = textInput
         self.textImage = self.font.render(
             self.text, True, 'white',
-            wraplength=self.rect.width
+            wraplength=self.rect.width - self.scrollBarTrackWidth
         )
         self.textRect = self.textImage.get_rect()
         self.textRect.topleft = (0, 0)
+
+        # Create the scroll bar
+        self.scrollBar = None
+        self.showScrollBar = False
+        if self.textRect.height > self.rect.height:
+            self.scrollBar = pygame.Rect()
+            self.scrollBar.width = self.scrollBarTrackWidth
+            self.scrollBar.height = self.internalSurface.height ** 2 // self.textRect.height
+            self.scrollBar.top = 0
+            self.scrollBar.right = self.internalSurface.width
     
+    def update(self):
+        self.showScrollBar = utils.is_mouse_in_rect(self.rect)
+
     def handle_event(self, event: pygame.Event):
         if event.type == pygame.MOUSEWHEEL and utils.is_mouse_in_rect(self.rect):
             scroll = (
@@ -265,11 +280,13 @@ class ScrollableTextUi:
             )
             if scroll:
                 # Scale scroll distance by the height of one character
-                self.textRect.top += event.y * self.font.size("c")[1]
+                distanceY = event.y * self.font.size("c")[1]
+                self.textRect.top += distanceY
+                self.scrollBar.top = -(self.textRect.top * self.internalSurface.height) // self.textRect.height
 
     def draw(self, surface: pygame.Surface):
         self.internalSurface.fill((0, 0, 0, 0))
         self.internalSurface.blit(self.textImage, self.textRect)
-        pygame.draw.rect(self.internalSurface, "red", self.textRect, 2)
+        if self.scrollBar is not None and self.showScrollBar:
+            pygame.draw.rect(self.internalSurface, "grey", self.scrollBar)
         surface.blit(self.internalSurface, self.rect)
-        pygame.draw.rect(surface, "white", self.rect, 2, 5)
