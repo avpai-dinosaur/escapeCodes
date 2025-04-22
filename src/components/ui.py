@@ -123,7 +123,6 @@ class NoteUi:
 
         self.keyControls = KeyControlBarUi()
         self.keyControls.add_control(KeyUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
-        self.keyControls.add_control(KeyUi(pygame.K_h, "Keys/H-Key.png", caption="Get Hint"))
         self.keyControls.add_control(KeyUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
         self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
         self.keyControls.build()

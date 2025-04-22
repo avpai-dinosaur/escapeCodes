@@ -45,6 +45,11 @@ class MainMenu(Menu):
         """
         super().__init__(manager)
 
+        
+        pygame.mixer.music.load(config.MUSIC_DIR / "Fortress Europe - Dan Bodan.mp3")
+        pygame.mixer.music.set_volume(0.7)
+        pygame.mixer.music.play()
+
         self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 60)
         self.titleTextImage = self.titleFont.render("EscapeCodes", True, "white")
         self.titleRect = self.titleTextImage.get_rect(center=(1000, 150))

@@ -1,6 +1,7 @@
 import pygame
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
+import src.config as config
 import src.constants as c
 import src.entities.objects as o
         
@@ -38,6 +39,11 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.stats = stats
+
+        # Walking sounds
+        self.footstepLeftSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Left_Stone.ogg")
+        self.footstepRightSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Right_Stone.ogg")
+        self.lastFootStepFrame = self.current_frame
 
     
     def update(self, walls: list[pygame.Rect], doors: pygame.sprite.Group):
@@ -121,13 +127,18 @@ class Player(pygame.sprite.Sprite):
                 self.stamina.stamina += 1
 
         if(current_time - self.last_update >= self.spritesheet.cooldown(self.action)):
-            #if animation cooldown has passed between last update and current time, switch frame
             self.current_frame += 1
             self.last_update = current_time
-            #reset frame back to 0 so it doesn't index out of bounds
             if(self.current_frame >= self.spritesheet.num_frames(self.action)):
                 self.current_frame = 0
             self.image = self.spritesheet.get_image(self.action, self.current_frame)
+        
+        if self.action == "run" and self.current_frame != self.lastFootStepFrame:
+            if self.current_frame == 2:
+                self.footstepLeftSound.play()
+            elif self.current_frame == 5:
+                self.footstepRightSound.play()
+            self.lastFootStepFrame = self.current_frame
 
     def draw(self, surface, offset):
         self.health.draw(surface, offset)
