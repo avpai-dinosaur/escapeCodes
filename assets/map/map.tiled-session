@@ -49,43 +49,43 @@
         },
         "level0.tmx": {
             "expandedObjectLayers": [
-                4,
+                5,
+                2,
                 6,
-                5,
-                2
-            ],
-            "scale": 0.89953125,
-            "selectedLayer": 5,
-            "viewCenter": {
-                "x": 616.9880145909327,
-                "y": 287.9277401424353
-            }
-        },
-        "level1.tmx": {
-            "expandedObjectLayers": [
-                10,
-                19
-            ],
-            "scale": 0.5,
-            "selectedLayer": 4,
-            "viewCenter": {
-                "x": 1632,
-                "y": 429
-            }
-        },
-        "level2.tmx": {
-            "expandedObjectLayers": [
-                8,
-                4,
-                5,
-                3,
-                6
+                4
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 686.6666666666666,
-                "y": 640.6666666666666
+                "x": 733.3333333333333,
+                "y": 467.33333333333326
+            }
+        },
+        "level1.tmx": {
+            "expandedObjectLayers": [
+                19,
+                10
+            ],
+            "scale": 0.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1898,
+                "y": 693
+            }
+        },
+        "level2.tmx": {
+            "expandedObjectLayers": [
+                5,
+                3,
+                6,
+                4,
+                8
+            ],
+            "scale": 0.75,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 683.3333333333333,
+                "y": 640
             }
         },
         "map.tmx": {

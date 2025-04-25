@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="51" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="20" nextobjectid="84">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="51" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="84">
  <editorsettings>
   <export target="atticusMap.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="atticusWalls.tsx"/>
- <tileset firstgid="47" source="redSpace.tsx"/>
  <tileset firstgid="47" source="spaceship.tsx"/>
  <layer id="1" name="Base" width="51" height="20">
   <data encoding="csv">
