@@ -79,3 +79,21 @@ def is_mouse_in_rect(rect: pygame.Rect):
         and mousePos[1] >= rect.top
         and mousePos[1] <= rect.bottom
     )
+
+def linear_move(pos: pygame.Vector2, target: pygame.Vector2, speed: int) -> pygame.Vector2:
+    """Get next position in linear path towards target. 
+    
+        pos: The current position.
+        target: The target to move towards in a linear path.
+        speed: The number of units to move.
+    """
+    movement = target - pos
+    distance = movement.length()
+    if distance >= speed:
+        nextPos = pos + movement.normalize() * speed
+    else:
+        if distance > 0:
+            nextPos = pos + movement.normalize() * distance
+        else:
+            nextPos = pos
+    return nextPos

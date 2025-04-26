@@ -289,3 +289,62 @@ class ScrollableTextUi:
         if self.scrollBar is not None and self.showScrollBar:
             pygame.draw.rect(self.internalSurface, "grey", self.scrollBar)
         surface.blit(self.internalSurface, self.rect)
+
+
+class MovingBarUi:
+    """Class representing moving bar ui element."""
+
+    def __init__(self):
+        """Constructor."""
+        self.width = 200
+        self.height = 50
+        self.centerx = c.SCREEN_WIDTH / 2
+        self.yPos = c.SCREEN_HEIGHT - self.height - 50
+        self.cursorWidth = 10
+        self.cursorSpeed = 5
+        self.rect = pygame.rect.Rect(0, self.yPos, self.width, self.height)
+        self.rect.centerx = self.centerx
+        self.innerRect = pygame.rect.Rect(0, self.yPos, self.width / 4, self.height)
+        self.innerRect.centerx = self.rect.centerx
+        self.cursor = pygame.rect.Rect(0, self.yPos, self.cursorWidth, self.height)
+        self.cursor.left = self.rect.left
+        self.leftCursorTarget = pygame.Vector2(self.rect.left + self.cursorWidth / 2, self.rect.top)
+        self.rightCursorTarget = pygame.Vector2(self.rect.right - self.cursorWidth / 2, self.rect.top)
+        self.isCursorMovingRight = False
+        self.moveCursor = False
+        self.keyUi = KeyUi(pygame.K_l, "Keys/L-Key.png", pygame.Vector2(self.rect.right + 10, self.rect.top - 10))
+
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_BAR, self.on_open_bar)
+    
+    def on_open_bar(self):
+        self.moveCursor = True
+
+    def update(self):
+        if self.moveCursor:
+            if self.isCursorMovingRight:
+                nextPos = utils.linear_move(pygame.Vector2(self.cursor.centerx, self.cursor.top), self.rightCursorTarget, self.cursorSpeed)
+                if nextPos == self.rightCursorTarget:
+                    self.isCursorMovingRight = False
+            else:
+                nextPos = utils.linear_move(pygame.Vector2(self.cursor.centerx, self.cursor.top), self.leftCursorTarget, self.cursorSpeed)
+                if nextPos == self.leftCursorTarget:
+                    self.isCursorMovingRight = True
+            self.cursor.centerx = nextPos.x
+            self.cursor.top = nextPos.y
+            self.keyUi.update()
+    
+    def handle_event(self, event: pygame.Event):
+        if self.moveCursor:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_l:
+                self.moveCursor = False
+                if self.cursor.colliderect(self.innerRect):
+                    EventManager.emit(EcodeEvent.HIT_BAR)
+
+    def draw(self, surface: pygame.Surface):
+        if self.moveCursor:
+            pygame.draw.rect(surface, "grey", self.rect)
+            pygame.draw.rect(surface, "green", self.innerRect)
+            pygame.draw.rect(surface, "red", self.cursor)
+            self.keyUi.draw(surface)
+        

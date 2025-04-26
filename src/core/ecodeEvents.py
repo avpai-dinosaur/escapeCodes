@@ -14,6 +14,8 @@ class EcodeEvent(Enum):
     USER_LOGIN = 10
     OPEN_NOTE = 11
     CLOSE_NOTE = 12
+    OPEN_BAR = 13
+    HIT_BAR = 14
 
 class EventManager:
     listeners = defaultdict(list)
@@ -22,6 +24,11 @@ class EventManager:
         EventManager.listeners[event].append(callback)
     
     def emit(event: EcodeEvent, **kwargs):
+        """Emit an event.
+        
+            event: Event to emit.
+            **kwargs: Keyword arguments to pass to subscriber callbacks.
+        """
         for func in EventManager.listeners[event]:
             func(**kwargs)
     

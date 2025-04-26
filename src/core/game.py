@@ -2,7 +2,7 @@ from src.core.camera import Camera
 from src.core.leetcodeManager import LeetcodeManager
 from src.core.uiManager import UiManager
 from src.core.level import Level
-from src.levels.tutorial import Tutorial
+from src.levels.tutorial import Tutorial, Level1
 import src.constants as c
 
 class Game():
@@ -14,8 +14,8 @@ class Game():
         self.leetcodeManager = LeetcodeManager()
         self.uiManager = UiManager()
         self.levels: list[Level] = [
-            Tutorial(),
-            Level("level1.png", "level1.tmj"),
+            # Tutorial(),
+            Level1("level1.png", "level1.tmj"),
             Level("level2.png", "level2.tmj")
         ]
         self.level = 0
