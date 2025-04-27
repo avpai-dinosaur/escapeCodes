@@ -50,14 +50,14 @@
         "level0.tmx": {
             "expandedObjectLayers": [
                 5,
+                4,
                 2,
-                6,
-                4
+                6
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 733.3333333333333,
+                "x": 1161.3333333333333,
                 "y": 467.33333333333326
             }
         },
@@ -66,26 +66,26 @@
                 19,
                 10
             ],
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 697.3333333333333,
-                "y": 612.6666666666667
+                "x": 2388,
+                "y": 709
             }
         },
         "level2.tmx": {
             "expandedObjectLayers": [
                 5,
-                3,
-                6,
                 4,
-                8
+                8,
+                3,
+                6
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 683.3333333333333,
-                "y": 640
+                "x": -251.33333333333331,
+                "y": 315.33333333333326
             }
         },
         "map.tmx": {
