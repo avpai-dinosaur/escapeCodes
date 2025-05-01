@@ -12,7 +12,6 @@ class Tutorial(Level):
 class Level1(Level):
     def __init__(self, imageFile, dataFile):
         super().__init__(imageFile, dataFile)
-        self.triggeredMovingBarUi = False
 
     def load_entities(self):
         super().load_entities()
@@ -25,10 +24,17 @@ class Level1(Level):
     def update(self):
         super().update()
         if self.boss.rect.colliderect(self.player.rect):
-            self.player.health.lose(1)
-        if self.boss.rect.inflate(30, 30).colliderect(self.player.rect) and not self.triggeredMovingBarUi:
+            if self.boss.state == Boss.BossState.ATTACK:
+                self.player.health.lose(1)
+            elif self.boss.state == Boss.BossState.DISABLE and self.player.action == "punch":
+                if self.boss.health > 0:
+                    self.boss.health -= 1
+        if (
+            self.boss.rect.inflate(50, 50).colliderect(self.player.rect)
+            and self.boss.state == Boss.BossState.ATTACK
+        ):
             EventManager.emit(EcodeEvent.OPEN_BAR)
-        if self.boss.roomRect.colliderect(self.player.rect):
+        if self.boss.roomRect.colliderect(self.player.rect) and self.boss.state == Boss.BossState.WAITING:
             EventManager.emit(EcodeEvent.START_BOSS_FIGHT)
         self.boss.update()
     
@@ -40,11 +46,13 @@ class Boss(pygame.sprite.Sprite):
         WAITING = 0
         ATTACK = 1
         DISABLE = 2
+        DEAD = 3
 
     def __init__(self, pos: pygame.Vector2):
         super().__init__()
         self.pos = pos
         self.rect = pygame.Rect(pos.x, pos.y, 64 * 3, 64 * 3)
+        self.health = 100
         self.roomRect = pygame.Rect(
             39 * c.TILE_SIZE,
             2 * c.TILE_SIZE,
@@ -139,7 +147,15 @@ class Boss(pygame.sprite.Sprite):
         return reached
     
     def update(self):
-        self.updateBehaviors[self.state]()
+        if self.health == 0:
+            self.state = Boss.BossState.DEAD
+        if self.state != Boss.BossState.DEAD:
+            self.updateBehaviors[self.state]()
 
     def draw(self, surface, offset):
-        pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
+        if self.state != Boss.BossState.DEAD:
+            healthRect = pygame.Rect(0, 0, self.rect.width, self.rect.height * (self.health / 100))
+            healthRect.bottomleft = self.rect.bottomleft
+            pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
+            if self.state == Boss.BossState.DISABLE:
+                pygame.draw.rect(surface, "green", healthRect.move(offset[0], offset[1]), border_radius=10)

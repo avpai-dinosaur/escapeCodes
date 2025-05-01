@@ -1,8 +1,14 @@
+"""
+ui.py
+Individual ui components that live in screen space.
+"""
+
 import pygame
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EcodeEvent, EventManager
 from src.core import utils
 from src import constants as c
+
 
 class WasdUi:
     """Class representing 'WASD to move' ui instruction."""
@@ -43,6 +49,7 @@ class WasdUi:
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             surface.blit(self.image, self.rect)
+
 
 class KeyUi:
     """Class representing 'press key' prompt animation."""
