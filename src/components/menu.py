@@ -2,6 +2,7 @@ import pygame
 import sys
 import requests
 import json
+from pprint import pprint
 import src.core.utils as utils
 import src.config as config
 import src.constants as c
@@ -113,16 +114,51 @@ class LoginMenu(Menu):
         self.manager.set_state("menu")
     
     def onEnter(self, textInput):
-        url = "https://leetcode-stats-api.herokuapp.com/" + textInput
-        playerStats = json.loads(
-            requests.get(
-                url
-            ).text
+        url = "https://leetcode.com/graphql"
+        headers = {
+            "Content-Type": "application/json"
+        }
+        query = """
+        query skillStats($username: String!) {
+            matchedUser(username: $username) {
+                tagProblemCounts {
+                    advanced {
+                        tagName
+                        tagSlug
+                        problemsSolved
+                    }
+                    intermediate {
+                        tagName
+                        tagSlug
+                        problemsSolved
+                    }
+                    fundamental {
+                        tagName
+                        tagSlug
+                        problemsSolved
+                    }
+                }
+            }
+        }
+        """
+        variables = {
+            "username": textInput
+        }
+        response = requests.get(
+            url,
+            json={
+                "query": query,
+                "variables": variables,
+                "headers": headers
+            }
         )
-        if playerStats["status"] == "success":
+        print(f"Validating username {textInput}")
+        if response.status_code == 200:
+            pprint(response.json())
             self.manager.set_state("world")
-            pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": playerStats}))
+            pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": json.loads(response.text)}))
         else:
+            print(f"\tInvalid username: {textInput}")
             self.showError = True
     
     def draw(self, surface):

@@ -3,6 +3,7 @@ import requests
 import json
 import threading
 import time
+from pprint import pprint
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 import src.core.utils as utils
@@ -17,7 +18,6 @@ class LeetcodeManager:
         self.startTimestamp = time.time()
         self.username = None
         self.stats = None
-        self.totalSolved = 0
 
         self.inProgressProblems = set()
 
@@ -32,7 +32,6 @@ class LeetcodeManager:
         elif event.type == c.USER_LOGIN:
             self.username = event.username
             self.stats = event.stats
-            self.totalSolved = self.stats["totalSolved"]
 
     def on_open_problem(self, url):
         utils.open_url(url)
@@ -70,7 +69,7 @@ class LeetcodeManager:
         response = requests.get(url, json=payload, headers=headers)
         recentSubmissions = json.loads(response.text)["data"]
         print(f"Getting {self.username}'s recent submissions")
-        print(recentSubmissions)
+        pprint(recentSubmissions)
         
         LeetcodeManager.lock.acquire_lock()
         
