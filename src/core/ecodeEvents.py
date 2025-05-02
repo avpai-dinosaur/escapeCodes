@@ -17,6 +17,7 @@ class EcodeEvent(Enum):
     OPEN_BAR = 13
     HIT_BAR = 14
     START_BOSS_FIGHT = 15
+    GET_PROBLEM_DESCRIPTION = 16
 
 class EventManager:
     listeners = defaultdict(list)

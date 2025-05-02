@@ -27,6 +27,8 @@ CHECKED_PROBLEMS = pygame.USEREVENT + 9
 
 USER_LOGIN = pygame.USEREVENT + 10
 
+PROBLEM_DESCRIPTION = pygame.USEREVENT + 11
+
 # Animation constants
 PLAYER_SHEET_METADATA = {
     "frame_width": 16,

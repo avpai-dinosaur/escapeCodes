@@ -144,7 +144,7 @@ class LoginMenu(Menu):
         variables = {
             "username": textInput
         }
-        response = requests.get(
+        response = requests.post(
             url,
             json={
                 "query": query,

@@ -21,6 +21,10 @@ class Level1(Level):
         super().load_camera(camera)
         camera.add(self.boss)
     
+    def handle_event(self, event):
+        super().handle_event(event)
+        self.boss.handle_event(event)
+
     def update(self):
         super().update()
         if self.boss.rect.colliderect(self.player.rect):
@@ -83,7 +87,6 @@ class Boss(pygame.sprite.Sprite):
             if (self.state, event) in self.finiteStateMachine:
                 self.finiteStateMachine[(self.state, event)]()
         return event_handler
-
     
     def add_transition(self, state: BossState, event, func):
         """Add a transition to finite state machine of boss."""
@@ -94,14 +97,13 @@ class Boss(pygame.sprite.Sprite):
         else:
             self.finiteStateMachine[(state, event)] = func
 
-
-    
     def get_next_pos(self):
         x = randint(39, 49 - 3)
         y = randint(3, 18 - 3)
         self.nextPos = pygame.Vector2(x * c.TILE_SIZE, y * c.TILE_SIZE)
 
     def start_fight(self):
+        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, url="https://leetcode.com/problems/two-sum/description/")
         self.state = Boss.BossState.ATTACK
         self.color = "red"
 
@@ -146,6 +148,10 @@ class Boss(pygame.sprite.Sprite):
         self.rect.topleft = self.pos
         return reached
     
+    def handle_event(self, event: pygame.Event):
+        if event.type == c.PROBLEM_DESCRIPTION:
+            print(event.slug, event.description)
+
     def update(self):
         if self.health == 0:
             self.state = Boss.BossState.DEAD

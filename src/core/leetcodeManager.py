@@ -12,17 +12,18 @@ class LeetcodeManager:
     """Class to handle opening leetcode and detect when problems are solved."""
 
     lock = threading.Lock()
+    graphqlEndpoint = "https://leetcode.com/graphql"
 
     def __init__(self):
         """Constructor."""
         self.startTimestamp = time.time()
         self.username = None
         self.stats = None
-
         self.inProgressProblems = set()
 
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.OPEN_PROBLEM, self.on_open_problem)
+        EventManager.subscribe(EcodeEvent.GET_PROBLEM_DESCRIPTION, LeetcodeManager.on_get_problem_description)
 
     def handle_event(self, event: pygame.Event) -> None:
         """Handle events off the event queue."""
@@ -37,12 +38,19 @@ class LeetcodeManager:
         utils.open_url(url)
         problemSlug = utils.get_problem_slug(url)
         self.inProgressProblems.add(problemSlug)
+    
+    def on_get_problem_description(url):
+        problemSlug = utils.get_problem_slug(url)
+        t = threading.Thread(
+            target=LeetcodeManager.get_problem_description,
+            args=(problemSlug,)
+        )
+        t.start()
 
     def check_submissions(self, lowerTimestamp: int) -> None:
         """Check the user's last 50 accepted submissions."""
         LeetcodeManager.lock.acquire_lock()
         
-        url = "https://leetcode.com/graphql"
         payload = {
             "query" :
                 """
@@ -66,7 +74,11 @@ class LeetcodeManager:
         
         LeetcodeManager.lock.release_lock()
         
-        response = requests.get(url, json=payload, headers=headers)
+        response = requests.post(
+            LeetcodeManager.graphqlEndpoint,
+            json=payload,
+            headers=headers
+        )
         recentSubmissions = json.loads(response.text)["data"]
         print(f"Getting {self.username}'s recent submissions")
         pprint(recentSubmissions)
@@ -82,17 +94,63 @@ class LeetcodeManager:
                     lowerTimestamp
                 ): 
                     solvedProblems.append(problemSlug)
-        [self.inProgressProblems.remove(p) for p in solvedProblems]
+        for p in solvedProblems:
+            self.inProgressProblems.remove(p)
         pygame.event.post(pygame.Event(c.CHECKED_PROBLEMS))
         
         LeetcodeManager.lock.release_lock()
     
+    def get_problem_description(problemSlug: str) -> None:
+        """Given a problem slug, get the problem's description.
+        
+            problemSlug: url slug assigned to the problem by leetcode
+        """
+        payload = {
+            "query":
+                """
+                query questionContent($titleSlug: String!) {
+                    question(titleSlug: $titleSlug) {
+                        content
+                    }
+                }
+                """,
+            "variables": {
+                "titleSlug": problemSlug
+            }
+        }
+        headers = {
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.post(
+            LeetcodeManager.graphqlEndpoint,
+            json=payload,
+            headers=headers
+        )
+        print(f"Getting problem description for {problemSlug}")
+
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            if "data" in data:
+                problemDescription = data["data"]["question"]["content"]
+                pygame.event.post(
+                    pygame.Event(
+                        c.PROBLEM_DESCRIPTION,
+                        {"slug": problemSlug, "description": problemDescription}
+                    )
+                )
+            else:
+                print("\tError: No data returned")
+                return None
+        else:
+            print(f"\tError: {response.status_code}")
+
     def was_problem_solved(
         self,
         problemSlug: str,
         submissionList: list,
         lowerTimestamp: int
-    ):
+    ) -> bool:
         """Given a list of submissions, check if the given problem was solved.
         
             problemSlug: url slug assigned to the problem by leetcode
