@@ -200,6 +200,70 @@ class NoteUi:
                 surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
+class TestCaseBattleUi:
+    """Class representing ui for reading a note."""
+
+    def __init__(self):
+        """Constructor.
+        
+            text: Text to display on note.
+        """
+        self.noteMargin = 40
+        self.backgroundRect = pygame.Rect()
+        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.noteMargin
+        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.noteMargin
+        self.backgroundRect.topleft = (self.noteMargin, self.noteMargin)
+
+        self.keyControls = KeyControlBarUi()
+        self.keyControls.add_control(KeyUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
+        self.keyControls.add_control(KeyUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
+        self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
+        self.keyControls.build()
+        self.keyControls.rect.bottomleft = (
+            self.backgroundRect.left + 10,
+            self.backgroundRect.bottom - 10
+        )
+
+        self.textUiMargin = 10
+        self.textUi = ScrollableTextUi(
+            pygame.Vector2(
+                self.backgroundRect.left + self.textUiMargin,
+                self.backgroundRect.top + self.textUiMargin
+            ),
+            self.backgroundRect.width - 2 * self.textUiMargin,
+            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
+        )
+        self.set_text("")
+
+        self.isVisible = False
+    
+    def set_text(self, text: str):
+        self.textUi.set_text(text)
+        self.isVisible = True
+
+    def handle_event(self, event: pygame.Event):
+        if self.isVisible:
+            self.textUi.handle_event(event)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.isVisible = False
+        elif event.type == c.PROBLEM_DESCRIPTION:
+            self.set_text(event.description)
+    
+    def update(self):
+        self.textUi.update()
+        self.keyControls.update()
+
+    def draw(self, surface: pygame.Surface):
+        if self.isVisible:
+            pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
+            self.keyControls.draw(surface)
+            self.textUi.draw(surface)
+
+
+
+
+
 class KeyControlBarUi:
     """Class representing a control bar of KeyUis."""
 

@@ -103,11 +103,11 @@ class Boss(pygame.sprite.Sprite):
         self.nextPos = pygame.Vector2(x * c.TILE_SIZE, y * c.TILE_SIZE)
 
     def start_fight(self):
-        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, url="https://leetcode.com/problems/two-sum/description/")
         self.state = Boss.BossState.ATTACK
         self.color = "red"
 
     def disable(self):
+        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, url="https://leetcode.com/problems/two-sum/description/")
         self.state = Boss.BossState.DISABLE
         self.disableStart = pygame.time.get_ticks()
         self.color = "grey"
