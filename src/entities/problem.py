@@ -41,6 +41,31 @@ class Parameter:
         return value
 
 
+class ProblemFactory:
+    """Maps url slugs to the problem class."""
+    _registry = {}
+
+    @classmethod
+    def register(cls, slug: str, problemCls):
+        """Associate the given slug with the given problem class."""
+        if slug in cls._registry:
+            raise ValueError(f"Problem slug '{slug}' already registered.")
+        cls._registry[slug] = problemCls
+    
+    @classmethod
+    def create(cls, slug: str):
+        """Create an instance of the problem class the slug is associated with."""
+        if slug not in cls._registry:
+            raise ValueError(f"Problem slug '{slug}' not found.")
+        return cls._registry[slug]()
+    
+    def register_problem(slug):
+        def decorator(cls):
+            ProblemFactory.register(slug, cls)
+            return cls
+        return decorator
+
+
 class Problem(ABC):
     """Base class for all problems."""
     
@@ -52,7 +77,6 @@ class Problem(ABC):
         """
         self.slug = slug
         self.parameters = parameters
-
 
     @abstractmethod
     def buggy_solution(self, **parsedInputs):
@@ -84,6 +108,7 @@ class Problem(ABC):
         return self.correct_solution(**parsedInputs) != self.buggy_solution(**parsedInputs)
 
 
+@ProblemFactory.register_problem("two-sum")
 class TwoSum(Problem):
     """Class representing 1. TwoSum"""
 
@@ -133,6 +158,3 @@ class TwoSum(Problem):
         buggyRes = self.buggy_solution(**parsedInputs)
         correctRes = self.correct_solution(**parsedInputs)
         return buggyRes.sort() != correctRes.sort()
-
-twoSum = TwoSum()
-print(twoSum.check_input(**twoSum.parse_inputs(nums="[3, 4]", target="7")))
