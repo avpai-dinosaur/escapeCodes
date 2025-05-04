@@ -108,7 +108,7 @@ class TextInput:
 		self.rect = pygame.Rect(0, 0, width, height)
 		self.rect.center = pos
 		self.active = False
-		self.textBuffer= ''
+		self.textBuffer= ""
 		self.onSubmit = onSubmit
 	
 	def check_mouseover(self, mousePosition):
@@ -136,13 +136,12 @@ class TextInput:
 		):
 			if event.key == pygame.K_RETURN:
 				oldTextBuffer = self.textBuffer
-				self.textBuffer = ''
 				self.onSubmit(oldTextBuffer)
 			elif event.key == pygame.K_BACKSPACE:
 				self.textBuffer = self.textBuffer[:-1]
 			else:
 				self.textBuffer += event.unicode
-	
+
 	def update(self, mousePosition):
 		if not self.active:
 			if self.check_mouseover(mousePosition):

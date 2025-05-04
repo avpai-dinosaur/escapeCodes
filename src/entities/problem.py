@@ -70,7 +70,6 @@ class Parameter:
 
 
 class ProblemFactory:
-
     """Maps url slugs to the problem class."""
     _registry = {}
 
@@ -189,4 +188,4 @@ class TwoSum(Problem):
         """Check if an input exposes the buggy TwoSum solution."""
         buggyRes = self.buggy_solution(**parsedInputs)
         correctRes = self.correct_solution(**parsedInputs)
-        return buggyRes.sort() != correctRes.sort()
+        return sorted(buggyRes) != sorted(correctRes)

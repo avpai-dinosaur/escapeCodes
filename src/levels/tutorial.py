@@ -1,6 +1,7 @@
 import pygame
 from random import randint
 from enum import Enum
+from src.entities.problem import Problem, TwoSum
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.level import Level
 import src.constants as c
@@ -15,7 +16,7 @@ class Level1(Level):
 
     def load_entities(self):
         super().load_entities()
-        self.boss = Boss(pygame.Vector2(2560, 256))
+        self.boss = Boss(pygame.Vector2(2560, 256), "two-sum")
     
     def load_camera(self, camera):
         super().load_camera(camera)
@@ -52,8 +53,9 @@ class Boss(pygame.sprite.Sprite):
         DISABLE = 2
         DEAD = 3
 
-    def __init__(self, pos: pygame.Vector2):
+    def __init__(self, pos: pygame.Vector2, problemSlug: str):
         super().__init__()
+        self.problemSlug = problemSlug
         self.pos = pos
         self.rect = pygame.Rect(pos.x, pos.y, 64 * 3, 64 * 3)
         self.health = 100
@@ -71,7 +73,8 @@ class Boss(pygame.sprite.Sprite):
         # State Management
         self.finiteStateMachine = {
             (Boss.BossState.WAITING, EcodeEvent.START_BOSS_FIGHT): self.start_fight,
-            (Boss.BossState.ATTACK, EcodeEvent.HIT_BAR): self.disable
+            (Boss.BossState.ATTACK, EcodeEvent.HIT_BAR): self.open_hack,
+            (Boss.BossState.ATTACK, EcodeEvent.FOUND_BUG): self.disable
         } # Maps (state, incoming_event) -> transition function
         self.updateBehaviors = {
             Boss.BossState.WAITING: lambda : None,
@@ -106,8 +109,11 @@ class Boss(pygame.sprite.Sprite):
         self.state = Boss.BossState.ATTACK
         self.color = "red"
 
+
+    def open_hack(self):
+        EventManager.emit(EcodeEvent.OPEN_HACK, problemSlug=self.problemSlug)
+
     def disable(self):
-        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, url="https://leetcode.com/problems/two-sum/description/")
         self.state = Boss.BossState.DISABLE
         self.disableStart = pygame.time.get_ticks()
         self.color = "grey"

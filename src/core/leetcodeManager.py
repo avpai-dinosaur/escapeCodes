@@ -39,8 +39,7 @@ class LeetcodeManager:
         problemSlug = utils.get_problem_slug(url)
         self.inProgressProblems.add(problemSlug)
     
-    def on_get_problem_description(url):
-        problemSlug = utils.get_problem_slug(url)
+    def on_get_problem_description(problemSlug):
         t = threading.Thread(
             target=LeetcodeManager.get_problem_description,
             args=(problemSlug,)

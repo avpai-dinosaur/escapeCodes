@@ -5,7 +5,7 @@ class UiManager:
     def __init__(self):
         self.wasdUi = ui.WasdUi(pygame.Vector2(10, 10))
         self.noteUi = ui.NoteUi()
-        self.testCaseBattleUi = ui.TestCaseBattleUi()
+        self.testCaseBattleUi = ui.TestCaseHackUi()
         self.movingBarUi = ui.MovingBarUi()
     
     def handle_event(self, event):

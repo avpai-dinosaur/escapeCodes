@@ -20,7 +20,7 @@ class Camera(pygame.sprite.Group):
         # Zoom
         self.zoom = 1
         self.internal_surface_size = (c.SCREEN_WIDTH, c.SCREEN_HEIGHT)
-        self.internal_surface = pygame.Surface(self.internal_surface_size, pygame.SRCALPHA)
+        self.internal_surface = pygame.Surface(self.internal_surface_size, pygame.SRCALPHA).convert_alpha()
         self.internal_rect = self.internal_surface.get_rect(center=(self.half_w, self.half_h))
         self.internal_surface_size_vector = pygame.math.Vector2(self.internal_surface_size)
         self.internal_offset = pygame.math.Vector2()
@@ -92,7 +92,7 @@ class Camera(pygame.sprite.Group):
         surface.blit(scaled_surface, scaled_rect)
 
         # Dance floor
-        dim_surface = pygame.Surface((1280, 800), pygame.SRCALPHA)
+        dim_surface = pygame.Surface((1280, 800), pygame.SRCALPHA).convert_alpha()
         dim_surface.fill((0, 0, 0, 180))  # RGBA: Dark transparent overlay
         if self.dim:
             surface.blit(dim_surface, (0, 0))

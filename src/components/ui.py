@@ -5,6 +5,8 @@ Individual ui components that live in screen space.
 
 import pygame
 from bs4 import BeautifulSoup
+from src.entities.problem import Parameter, Problem, ProblemFactory
+from src.core.leetcodeManager import LeetcodeManager
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EcodeEvent, EventManager
 from src.core import utils
@@ -202,24 +204,89 @@ class NoteUi:
                 surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
-class TestCaseBattleUi:
-    """Class representing ui for reading a note."""
+
+class ParameterInputUi:
+    """Class representing ui component for inputing multiple parameters."""
+
+    def __init__(self, width, pos: pygame.Vector2):
+        """Constructor."""
+        self.pos = pos
+        self.width = width
+        self.height = 0
+        self.parameters: list[Parameter] = []
+        self.fieldMargin = 10
+        self.fieldCaptionFont = utils.load_font("SpaceMono/SpaceMono-Italic.ttf")
+    
+    def add_parameter(self, parameter: Parameter) -> None:
+        self.parameters.append(parameter)
+    
+    def build(self) -> None:
+        """Build the ui element with all added parameters.
+        
+            Must be called before draw
+        """
+        # Generate all caption images, caption rects, and text input boxes
+        self.fieldCaptionImages : list[pygame.Surface] = [
+            self.fieldCaptionFont.render(f"{param.name}=", True, "white")
+            for param in self.parameters
+        ]
+        self.fieldCaptionRects = [
+            caption.get_rect()
+            for caption in self.fieldCaptionImages
+        ]
+        self.fieldInputs = [
+            TextInput((0, 0), self.width, 45)
+            for _ in self.fieldCaptionRects
+        ]
+
+        # Position each parameter element
+        for field in zip(self.fieldCaptionRects, self.fieldInputs):
+            self.height += self.fieldMargin
+            field[0].top = self.pos.y + self.height
+            field[0].left = self.pos.x
+            self.height += field[0].height
+            field[1].rect.top = self.pos.y + self.height
+            field[1].rect.left = self.pos.x
+            self.height += field[1].rect.height
+
+    def get_inputs(self):
+        inputs = {}
+        for i in range(len(self.parameters)):
+            print(self.parameters[i].name)
+            print(self.fieldInputs[i].textBuffer)
+        for i in range(len(self.parameters)):
+            inputs[self.parameters[i].name] = self.parameters[i].parse(self.fieldInputs[i].textBuffer)
+        return inputs
+
+    def handle_event(self, event: pygame.Event):
+        for fieldInput in self.fieldInputs:
+            fieldInput.handle_event(event)
+
+    def update(self):
+        for fieldInput in self.fieldInputs:
+            fieldInput.update(pygame.mouse.get_pos())
+
+    def draw(self, surface: pygame.Surface):
+        for field in zip(self.fieldCaptionImages, self.fieldCaptionRects):
+           surface.blit(field[0], field[1])
+        for fieldInput in self.fieldInputs:
+            fieldInput.draw(surface)
+
+
+class TestCaseHackUi:
+    """Class representing ui for test case hack."""
 
     def __init__(self):
-        """Constructor.
-        
-            text: Text to display on note.
-        """
-        self.noteMargin = 40
+        """Constructor."""
+        self.problem : Problem = None
+        self.margin = 40
         self.backgroundRect = pygame.Rect()
-        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.noteMargin
-        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.noteMargin
-        self.backgroundRect.topleft = (self.noteMargin, self.noteMargin)
+        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.margin
+        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.margin
+        self.backgroundRect.topleft = (self.margin, self.margin)
 
         self.keyControls = KeyControlBarUi()
-        self.keyControls.add_control(KeyUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
-        self.keyControls.add_control(KeyUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
-        self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
+        self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close"))
         self.keyControls.build()
         self.keyControls.rect.bottomleft = (
             self.backgroundRect.left + 10,
@@ -235,37 +302,62 @@ class TestCaseBattleUi:
             self.backgroundRect.width / 2 - 2 * self.textUiMargin,
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
         )
-        self.set_text("")
-
-        self.textInput = TextInput((self.backgroundRect.left + (self.backgroundRect.width / 4) * 3, self.backgroundRect.top + self.backgroundRect.height / 2), 200, 45)
 
         self.isVisible = False
+
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_HACK, self.on_open)
     
-    def set_text(self, text: str):
+    def on_open(self, problemSlug: str):
+        self.problem = ProblemFactory.create(problemSlug)
+        self.build_parameter_input()
+        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
+
+    def build_parameter_input(self):
+        parameterInputMargin = 20
+        self.parameterInput = ParameterInputUi(
+            self.backgroundRect.width / 2 - 2 * parameterInputMargin,
+            pygame.Vector2(
+                self.backgroundRect.left + self.backgroundRect.width / 2 + parameterInputMargin,
+                self.backgroundRect.top + self.backgroundRect.height / 2 + parameterInputMargin - 100
+            )
+        )
+        for parameter in self.problem.parameters:
+            self.parameterInput.add_parameter(parameter)
+        self.parameterInput.build()
+
+    def set_problem_description(self, text: str):
         self.textUi.set_text(text)
         self.isVisible = True
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
-            self.textInput.handle_event(event)
+            self.parameterInput.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
+                if event.key == pygame.K_RETURN:
+                    inputs = self.parameterInput.get_inputs()
+                    if self.problem.check_input(**inputs):
+                        EventManager.emit(EcodeEvent.FOUND_BUG)
+                    else:
+                        self.isVisible = False
         elif event.type == c.PROBLEM_DESCRIPTION:
-            self.set_text(BeautifulSoup(event.html, "html.parser").get_text())
+            self.set_problem_description(BeautifulSoup(event.html, "html.parser").get_text())
     
     def update(self):
-        self.textUi.update()
-        self.keyControls.update()
-        self.textInput.update(pygame.mouse.get_pos())
+        if self.isVisible:
+            self.textUi.update()
+            self.keyControls.update()
+            self.parameterInput.update()
 
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
-            self.textInput.draw(surface)
+            self.parameterInput.draw(surface)
 
 
 

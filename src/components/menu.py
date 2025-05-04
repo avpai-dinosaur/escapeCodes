@@ -154,9 +154,14 @@ class LoginMenu(Menu):
         )
         print(f"Validating username {textInput}")
         if response.status_code == 200:
-            pprint(response.json())
-            self.manager.set_state("world")
-            pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": json.loads(response.text)}))
+            data = response.json()["data"]
+            pprint(data)
+            if data["matchedUser"] is None:
+                print(f"\tInvalid username: {textInput}")
+                self.showError = True
+            else:
+                self.manager.set_state("world")
+                pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": json.loads(response.text)}))
         else:
             print(f"\tInvalid username: {textInput}")
             self.showError = True
