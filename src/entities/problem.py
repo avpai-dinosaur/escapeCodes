@@ -5,6 +5,7 @@ Representations of LeetCode problems
 
 import ast
 from abc import ABC, abstractmethod
+from typing import get_origin, get_args
 
 class Parameter:
     """Class representing parameter in a problem's input."""
@@ -30,18 +31,46 @@ class Parameter:
 
     def validate(self, value):
         """Determine if given value is valid for this parameter."""
-        try:
-            value = self.expectedType(value)
-        except Exception:
-            raise ValueError(f"{self.name} must be of type {self.expectedType.__name__}")
+        if not Parameter.validate_type(value, self.expectedType):
+            raise ValueError(f"{self.name} must be of type {self.expectedType}")
         
         for constraint in self.constraints:
-            constraint(value)
+            if not constraint[1](value):
+                raise ValueError(f"Constraint failed: {constraint[0]}")
         
         return value
+    
+    def validate_type(value, expectedType) -> bool:
+        """Determine if value is an instance of the expected type.
+        
+            value: Instance to check
+            expectedType: Type we expect value to be
+        """
+        origin = get_origin(expectedType)
+        args = get_args(expectedType)
+
+        if origin is None:
+            return isinstance(value, expectedType)
+        elif origin is list:
+            return isinstance(value, list) and all(Parameter.validate_type(v, args[0]) for v in value)
+        elif origin is tuple:
+            return (
+                isinstance(value, tuple)
+                and len(args) == len(value)
+                and all(Parameter.validate_type(v, t) for v, t in zip(value, args))
+            )
+        elif origin is dict:
+            key_type, val_type = args
+            return (
+                isinstance(value, dict)
+                and all(Parameter.validate_type(k, key_type) and Parameter.validate_type(v, val_type) for k, v in value.items())
+            )
+        else:
+            return isinstance(value, origin)
 
 
 class ProblemFactory:
+
     """Maps url slugs to the problem class."""
     _registry = {}
 
@@ -119,7 +148,10 @@ class TwoSum(Problem):
                 Parameter(
                     "nums", list[int],
                     [
-                        lambda v : len(v) >= 2 and len(v) <= 10000
+                        (
+                            "nums length must be between 2 and 10^4",
+                            lambda v : len(v) >= 2 and len(v) <= 10000
+                        )
                     ]
                 ),
                 Parameter("target", int)

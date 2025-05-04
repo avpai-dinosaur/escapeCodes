@@ -1,1 +1,2 @@
-from .playerTest import TestMovement
+from .playerTest import *
+from .problemTest import *
