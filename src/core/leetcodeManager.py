@@ -88,7 +88,7 @@ class LeetcodeManager:
         solvedProblems = []
         if response.status_code == 200:
             for problemSlug in self.inProgressProblems:
-                if self.was_problem_solved(
+                if LeetcodeManager.was_problem_solved(
                     problemSlug,
                     recentSubmissions["recentAcSubmissionList"],
                     lowerTimestamp
@@ -136,7 +136,7 @@ class LeetcodeManager:
                 pygame.event.post(
                     pygame.Event(
                         c.PROBLEM_DESCRIPTION,
-                        {"slug": problemSlug, "description": problemDescription}
+                        {"slug": problemSlug, "html": problemDescription}
                     )
                 )
             else:
@@ -146,7 +146,6 @@ class LeetcodeManager:
             print(f"\tError: {response.status_code}")
 
     def was_problem_solved(
-        self,
         problemSlug: str,
         submissionList: list,
         lowerTimestamp: int

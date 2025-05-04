@@ -149,8 +149,9 @@ class Boss(pygame.sprite.Sprite):
         return reached
     
     def handle_event(self, event: pygame.Event):
-        if event.type == c.PROBLEM_DESCRIPTION:
-            print(event.slug, event.description)
+        # if event.type == c.PROBLEM_DESCRIPTION:
+        #     print(event.slug, event.html)
+        pass
 
     def update(self):
         if self.health == 0:

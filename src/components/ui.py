@@ -4,10 +4,12 @@ Individual ui components that live in screen space.
 """
 
 import pygame
+from bs4 import BeautifulSoup
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EcodeEvent, EventManager
 from src.core import utils
 from src import constants as c
+from src.components.button import TextInput
 
 
 class WasdUi:
@@ -230,10 +232,12 @@ class TestCaseBattleUi:
                 self.backgroundRect.left + self.textUiMargin,
                 self.backgroundRect.top + self.textUiMargin
             ),
-            self.backgroundRect.width - 2 * self.textUiMargin,
+            self.backgroundRect.width / 2 - 2 * self.textUiMargin,
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
         )
         self.set_text("")
+
+        self.textInput = TextInput((self.backgroundRect.left + (self.backgroundRect.width / 4) * 3, self.backgroundRect.top + self.backgroundRect.height / 2), 200, 45)
 
         self.isVisible = False
     
@@ -244,21 +248,24 @@ class TestCaseBattleUi:
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
+            self.textInput.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
         elif event.type == c.PROBLEM_DESCRIPTION:
-            self.set_text(event.description)
+            self.set_text(BeautifulSoup(event.html, "html.parser").get_text())
     
     def update(self):
         self.textUi.update()
         self.keyControls.update()
+        self.textInput.update(pygame.mouse.get_pos())
 
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
+            self.textInput.draw(surface)
 
 
 

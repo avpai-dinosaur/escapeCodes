@@ -85,7 +85,7 @@ class TextInput:
 		inactiveColor=pygame.Color('white'),
 		font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
 		inputTextColor='white',
-		onSubmit=lambda : None
+		onSubmit=lambda x : None
 	):
 		"""Constructor.
 		
