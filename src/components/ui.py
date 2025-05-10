@@ -173,6 +173,7 @@ class NoteUi:
         self.url = url
         self.isSolved = isSolved
         self.isVisible = True
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
@@ -180,6 +181,7 @@ class NoteUi:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
+                    EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                 elif event.key == pygame.K_x:
                     # TODO: probably don't want the LeetCodeManager to add the
                     # problem as an in progress problem if it was already
@@ -252,9 +254,6 @@ class ParameterInputUi:
     def get_inputs(self):
         inputs = {}
         for i in range(len(self.parameters)):
-            print(self.parameters[i].name)
-            print(self.fieldInputs[i].textBuffer)
-        for i in range(len(self.parameters)):
             inputs[self.parameters[i].name] = self.parameters[i].parse(self.fieldInputs[i].textBuffer)
         return inputs
 
@@ -312,6 +311,7 @@ class TestCaseHackUi:
         self.problem = ProblemFactory.create(problemSlug)
         self.build_parameter_input()
         EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
 
     def build_parameter_input(self):
         parameterInputMargin = 20
@@ -337,13 +337,14 @@ class TestCaseHackUi:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
+                    EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                 if event.key == pygame.K_RETURN:
                     inputs = self.parameterInput.get_inputs()
                     if self.problem.check_input(**inputs):
-                        print("Found bug")
-                        EventManager.emit(EcodeEvent.FOUND_BUG)
+                        EventManager.emit(EcodeEvent.KILL_BOSS)
+                        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                     else:
-                        self.isVisible = False
+                        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
         elif event.type == c.PROBLEM_DESCRIPTION:
             self.set_problem_description(BeautifulSoup(event.html, "html.parser").get_text())
     

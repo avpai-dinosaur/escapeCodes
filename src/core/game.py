@@ -1,5 +1,6 @@
 from src.core.camera import Camera
 from src.core.leetcodeManager import LeetcodeManager
+from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.uiManager import UiManager
 from src.core.level import Level
 from src.levels.tutorial import Tutorial, Level1
@@ -14,16 +15,28 @@ class Game():
         self.leetcodeManager = LeetcodeManager()
         self.uiManager = UiManager()
         self.levels: list[Level] = [
-            # Tutorial(),
+            Tutorial(),
             Level1("level1.png", "level1.tmj"),
             Level("level2.png", "level2.tmj")
         ]
         self.level = 0
         self.levels[self.level].load_camera(self.camera)
+        self.isPaused = False
+
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
+        EventManager.subscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
+
+    def pause(self):
+        self.isPaused = True
+    
+    def unpause(self):
+        self.isPaused = False
 
     def update(self):
-        self.levels[self.level].update()
-        self.camera.update()
+        if not self.isPaused:
+            self.levels[self.level].update()
+            self.camera.update()
         self.leetcodeManager.update()
         self.uiManager.update()
     
@@ -37,17 +50,22 @@ class Game():
         self.levels[self.level].load_camera(self.camera)
 
     def handle_event(self, event):
-        self.levels[self.level].handle_event(event)
-        self.camera.handle_event(event)
+        if not self.isPaused:
+            self.levels[self.level].handle_event(event)
+            self.camera.handle_event(event)
+        
+            if event.type == c.LEVEL_ENDED:
+                self.camera.reset()
+                self.next_level()
+            elif event.type == c.PLAYER_DIED:
+                self.camera.reset()
+                self.levels[self.level].reset(self.camera)
+                self.manager.set_state("died")
+        
         self.leetcodeManager.handle_event(event)
         self.uiManager.handle_event(event)
-        if event.type == c.LEVEL_ENDED:
-            self.camera.reset()
-            self.next_level()
-        elif event.type == c.PLAYER_DIED:
-            self.camera.reset()
-            self.levels[self.level].reset(self.camera)
-            self.manager.set_state("died")
+        
+        
 
     def draw(self, surface):
         self.camera.draw(surface)

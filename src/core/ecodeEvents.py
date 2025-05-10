@@ -18,17 +18,27 @@ class EcodeEvent(Enum):
     HIT_BAR = 14
     START_BOSS_FIGHT = 15
     GET_PROBLEM_DESCRIPTION = 16
-    FOUND_BUG = 18
+    KILL_BOSS = 18
 
     # Boss state change events
     BOSS_CHARGE = 19
     BOSS_ATTACK = 20
     BOSS_HACK = 21
 
+    PAUSE_GAME = 22
+    UNPAUSE_GAME = 23
+
 class EventManager:
+    """Class to represent an event subscription system."""
+
     listeners = defaultdict(list)
 
     def subscribe(event: EcodeEvent, callback):
+        """Subscribe to an event.
+        
+            event: Event to subscribe to
+            callback: Subscriber function
+        """
         EventManager.listeners[event].append(callback)
     
     def emit(event: EcodeEvent, **kwargs):
@@ -41,4 +51,9 @@ class EventManager:
             func(**kwargs)
     
     def unsubscribe(event: EcodeEvent, callback):
+        """Unsubscribe from an event.
+        
+            event: Event to unsubscribe from
+            callback: Function to unsubscribe
+        """
         EventManager.listeners[event].remove(callback)

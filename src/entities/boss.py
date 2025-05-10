@@ -18,6 +18,7 @@ class FiniteStateMachine():
         self.fsm = {}
         self.updates = {}
         self.enters = {}
+        self.subscribers = []
         self.state = None
     
     def check_state(self, state):
@@ -94,9 +95,16 @@ class FiniteStateMachine():
         self.check_state(initialState)
         self.state = initialState
         for state, ecodeEvent in self.fsm:
-            EventManager.subscribe(ecodeEvent, self.build_subscriber(state, ecodeEvent))
+            sub = self.build_subscriber(state, ecodeEvent)
+            self.subscribers.append((ecodeEvent, sub))
+            EventManager.subscribe(ecodeEvent, sub)
         return self
     
+    def destroy(self):
+        """Clean up all the subscribers created by the fsm."""
+        for ecodeEvent, sub in self.subscribers:
+            EventManager.unsubscribe(ecodeEvent, sub)
+
     def update(self, *args):
         self.updates[self.state](*args)
 
@@ -143,11 +151,11 @@ class Boss(pygame.sprite.Sprite):
         # State Machine
         (
             self.fsm
-                .add_state(Boss.BossState.WAITING, self.waiting_update, lambda : print("waiting state"))
+                .add_state(Boss.BossState.WAITING, self.waiting_update)
                 .add_state(Boss.BossState.CHARGE, self.charge_update, self.charge_enter)
                 .add_state(Boss.BossState.ATTACK, self.attack_update, self.attack_enter)
                 .add_state(Boss.BossState.DYING, self.dying_update, self.dying_enter)
-                .add_transition(Boss.BossState.CHARGE, Boss.BossState.DYING, EcodeEvent.FOUND_BUG)
+                .add_transition(Boss.BossState.CHARGE, Boss.BossState.DYING, EcodeEvent.KILL_BOSS)
                 .build(Boss.BossState.WAITING)
         )
 
@@ -155,28 +163,34 @@ class Boss(pygame.sprite.Sprite):
         EventManager.subscribe(EcodeEvent.HIT_BAR, self.hack)
 
     def charge_enter(self):
+        """Execute once upon entering charge state."""
         self.chargeStart = pygame.time.get_ticks()
         self.color = "blue"
         EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
+        """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
         self.color = "orange"
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
+        """Execute once upon entering dying state."""
         self.dyingStart = pygame.time.get_ticks()
         self.color = "red"
 
     def waiting_update(self, player: Player):
+        """Update function to run when in waiting state."""
         if self.room.colliderect(player.rect):
             self.fsm.set_state(Boss.BossState.CHARGE)
 
     def charge_update(self, _):
+        """Update function to run when in charge state."""
         if pygame.time.get_ticks() - self.chargeStart > 10000:
             self.fsm.set_state(Boss.BossState.ATTACK)
 
     def attack_update(self, player: Player):
+        """Update function to run when in attack state."""
         if self.rect.colliderect(player.rect):
             player.health.lose(1)
         if pygame.time.get_ticks() - self.attackStart > 10000:
@@ -185,10 +199,12 @@ class Boss(pygame.sprite.Sprite):
             self.nextPos = self.get_next_pos()
 
     def dying_update(self, _):
+        """Update function to run when in dying state."""
         if pygame.time.get_ticks() - self.dyingStart > 3000:
-            self.fsm.set_state(Boss.BossState.WAITING)
+            self.destroy()
 
     def hack(self):
+        """Trigger an attempt to hack the boss."""
         EventManager.emit(EcodeEvent.BOSS_HACK, problemSlug=self.problemSlug)
 
     def get_next_pos(self):
@@ -197,7 +213,7 @@ class Boss(pygame.sprite.Sprite):
         return pygame.Vector2(x * c.TILE_SIZE, y * c.TILE_SIZE)
 
     def move(self, target: pygame.Vector2):
-        """Move enemy to the target point.
+        """Move boss to the target point.
 
         Returns true if target was reached.
         
@@ -223,14 +239,14 @@ class Boss(pygame.sprite.Sprite):
         self.rect.topleft = self.pos
         return reached
 
+    def destroy(self):
+        """Clean up references to boss."""
+        EventManager.unsubscribe(EcodeEvent.HIT_BAR, self.hack)
+        self.fsm.destroy()
+        self.kill()
+
     def update(self, player: Player):
         self.fsm.update(player)
 
     def draw(self, surface, offset):
         pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
-        # if self.state != Boss.BossState.DEAD:
-        #     healthRect = pygame.Rect(0, 0, self.rect.width, self.rect.height * (self.health / 100))
-        #     healthRect.bottomleft = self.rect.bottomleft
-        #     pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
-        #     if self.state == Boss.BossState.DISABLE:
-        #         pygame.draw.rect(surface, "green", healthRect.move(offset[0], offset[1]), border_radius=10)
