@@ -182,7 +182,7 @@ class NoteUi:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                elif event.key == pygame.K_x:
+                elif event.key == pygame.K_o:
                     # TODO: probably don't want the LeetCodeManager to add the
                     # problem as an in progress problem if it was already
                     # solved
