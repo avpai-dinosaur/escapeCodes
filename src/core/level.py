@@ -49,6 +49,7 @@ class Level():
             self.roomba.update(self.player)
         self.doors.update(self.player)
         self.objects.update(self.player)
+        
         # self.map.background_objects.update(self.player)
     
     def handle_event(self, event):

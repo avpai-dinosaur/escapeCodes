@@ -306,9 +306,9 @@ class TestCaseHackUi:
         self.isVisible = False
 
         # Event Subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_HACK, self.on_open)
+        EventManager.subscribe(EcodeEvent.BOSS_HACK, self.open)
     
-    def on_open(self, problemSlug: str):
+    def open(self, problemSlug: str):
         self.problem = ProblemFactory.create(problemSlug)
         self.build_parameter_input()
         EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
@@ -340,6 +340,7 @@ class TestCaseHackUi:
                 if event.key == pygame.K_RETURN:
                     inputs = self.parameterInput.get_inputs()
                     if self.problem.check_input(**inputs):
+                        print("Found bug")
                         EventManager.emit(EcodeEvent.FOUND_BUG)
                     else:
                         self.isVisible = False
@@ -485,10 +486,14 @@ class MovingBarUi:
         self.keyUi = KeyUi(pygame.K_l, "Keys/L-Key.png", pygame.Vector2(self.rect.right + 10, self.rect.top - 10))
 
         # Event subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_BAR, self.on_open_bar)
+        EventManager.subscribe(EcodeEvent.BOSS_CHARGE, self.open)
+        EventManager.subscribe(EcodeEvent.BOSS_ATTACK, self.close)
     
-    def on_open_bar(self):
+    def open(self):
         self.moveCursor = True
+
+    def close(self):
+        self.moveCursor = False
 
     def update(self):
         if self.moveCursor:

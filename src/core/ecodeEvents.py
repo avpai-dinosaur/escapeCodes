@@ -18,8 +18,12 @@ class EcodeEvent(Enum):
     HIT_BAR = 14
     START_BOSS_FIGHT = 15
     GET_PROBLEM_DESCRIPTION = 16
-    OPEN_HACK = 17
     FOUND_BUG = 18
+
+    # Boss state change events
+    BOSS_CHARGE = 19
+    BOSS_ATTACK = 20
+    BOSS_HACK = 21
 
 class EventManager:
     listeners = defaultdict(list)
