@@ -3,7 +3,6 @@ from src.core.leetcodeManager import LeetcodeManager
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.uiManager import UiManager
 from src.core.level import Level
-from src.levels.tutorial import Tutorial, Level1
 import src.constants as c
 
 class Game():
@@ -15,7 +14,7 @@ class Game():
         self.leetcodeManager = LeetcodeManager()
         self.uiManager = UiManager()
         self.levels: list[Level] = [
-            Tutorial(),
+            #Level("level0.png", "level0.tmj"),
             Level("level1.png", "level1.tmj"),
             Level("level2.png", "level2.tmj")
         ]

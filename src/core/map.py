@@ -98,8 +98,6 @@ class Map():
         """Load JSON data for the map."""
         f = open(config.resource_path(config.MAP_DIR / filename))
         self.rawJson = json.load(f)
-        import pprint
-        pprint.pprint(self.rawJson)
         layers = self.rawJson["layers"]
         for layer in layers:
             if layer["name"] == "walls":

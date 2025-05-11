@@ -206,7 +206,6 @@ class NoteUi:
                 surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
-
 class ParameterInputUi:
     """Class representing ui component for inputing multiple parameters."""
 
@@ -302,6 +301,9 @@ class TestCaseHackUi:
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
         )
 
+        self.errorFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
+        self.set_error_text("")
+
         self.isVisible = False
 
         # Event Subscribers
@@ -330,6 +332,12 @@ class TestCaseHackUi:
         self.textUi.set_text(text)
         self.isVisible = True
 
+    def set_error_text(self, text: str):
+        self.errorText = ""
+        self.errorTextImage = self.errorFont.render(text, True, "red")
+        self.errorTextRect = self.errorTextImage.get_rect()
+        self.errorTextRect.bottomright = self.backgroundRect.bottomright
+
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
@@ -339,12 +347,15 @@ class TestCaseHackUi:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                 if event.key == pygame.K_RETURN:
-                    inputs = self.parameterInput.get_inputs()
-                    if self.problem.check_input(**inputs):
-                        EventManager.emit(EcodeEvent.KILL_BOSS)
-                        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                    else:
-                        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                    try: 
+                        inputs = self.parameterInput.get_inputs()
+                        if self.problem.check_input(**inputs):
+                            EventManager.emit(EcodeEvent.KILL_BOSS)
+                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                        else:
+                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                    except ValueError as e:
+                        self.set_error_text(f"Error: {str(e)}")
         elif event.type == c.PROBLEM_DESCRIPTION:
             self.set_problem_description(BeautifulSoup(event.html, "html.parser").get_text())
     
@@ -360,9 +371,7 @@ class TestCaseHackUi:
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
             self.parameterInput.draw(surface)
-
-
-
+            surface.blit(self.errorTextImage, self.errorTextRect)
 
 
 class KeyControlBarUi:
