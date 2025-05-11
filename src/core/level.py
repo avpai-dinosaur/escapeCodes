@@ -19,6 +19,7 @@ class Level():
             self.roomba = Roomba("roomba.png", self.map.roombaPath)
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
+        self.rooms = self.map.rooms_factory()
         self.doors = self.map.doors_factory()
 
     def load_camera(self, camera: Camera):

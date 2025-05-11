@@ -81,6 +81,7 @@ class Map():
         self.image, _ = utils.load_png(imageFile)
         self.graph = Graph()
         self.walls = {}
+        self.rooms = {}
         self.doors = {}
         self.laserDoors = {}
         self.computers = {}
@@ -97,10 +98,14 @@ class Map():
         """Load JSON data for the map."""
         f = open(config.resource_path(config.MAP_DIR / filename))
         self.rawJson = json.load(f)
+        import pprint
+        pprint.pprint(self.rawJson)
         layers = self.rawJson["layers"]
         for layer in layers:
             if layer["name"] == "walls":
                 self.walls = layer
+            elif layer["name"] == "rooms":
+                self.rooms = layer
             elif layer["name"] == "doors":
                 self.doors = layer
             elif layer["name"] == "objects":
@@ -246,6 +251,20 @@ class Map():
                 )
             )
         return wallRects
+
+    def rooms_factory(self):
+        """Generates the rooms for this map as a list of rects."""
+        startX = self.rooms["x"]
+        startY = self.rooms["y"]
+        roomRects = []
+        for room in self.rooms["objects"]:
+            roomRects.append(
+                pygame.Rect(
+                    (startX + room["x"], startY + room["y"]),
+                    (room["width"], room["height"])
+                )
+            )
+        return roomRects
 
     def draw(self, surface, offset):
         """Draw map background to surface."""

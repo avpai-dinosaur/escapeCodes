@@ -8,9 +8,6 @@ class Tutorial(Level):
         super().__init__("level0.png", "level0.tmj")
 
 class Level1(Level):
-    def __init__(self, imageFile, dataFile):
-        super().__init__(imageFile, dataFile)
-
     def load_entities(self):
         super().load_entities()
         roomRect = pygame.Rect(
