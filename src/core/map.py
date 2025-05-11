@@ -257,6 +257,7 @@ class Map():
         startX = self.rooms["x"]
         startY = self.rooms["y"]
         roomRects = []
+        bossRoom = None
         for room in self.rooms["objects"]:
             roomRects.append(
                 pygame.Rect(
@@ -264,7 +265,12 @@ class Map():
                     (room["width"], room["height"])
                 )
             )
-        return roomRects
+            if room["name"] == "bossRoom":
+                bossRoom = pygame.Rect(
+                    (startX + room["x"], startY + room["y"]),
+                    (room["width"], room["height"])
+                )
+        return roomRects, bossRoom
 
     def draw(self, surface, offset):
         """Draw map background to surface."""

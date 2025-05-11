@@ -16,7 +16,7 @@ class Game():
         self.uiManager = UiManager()
         self.levels: list[Level] = [
             Tutorial(),
-            Level1("level1.png", "level1.tmj"),
+            Level("level1.png", "level1.tmj"),
             Level("level2.png", "level2.tmj")
         ]
         self.level = 0

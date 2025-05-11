@@ -52,25 +52,22 @@
                 6,
                 2,
                 4,
+                7,
                 5
             ],
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 844.6666666666666,
-                "y": 467.33333333333326
+                "x": 1055.3333333333333,
+                "y": 307.33333333333326
             }
         },
         "level1.tmx": {
-            "expandedObjectLayers": [
-                19,
-                10
-            ],
             "scale": 0.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 1527,
-                "y": 683
+                "x": 2849,
+                "y": 671
             }
         },
         "level2.tmx": {

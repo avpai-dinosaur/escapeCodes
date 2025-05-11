@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="51" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="87">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="51" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="87">
  <editorsettings>
-  <export target="atticusMap.tmj" format="json"/>
+  <export target="level1.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="atticusWalls.tsx"/>
  <tileset firstgid="47" source="spaceship.tsx"/>
@@ -106,7 +106,7 @@
  </objectgroup>
  <objectgroup id="21" name="rooms" visible="0">
   <object id="84" x="832" y="128" width="1408" height="1088"/>
-  <object id="85" x="2496" y="128" width="704" height="1088"/>
+  <object id="85" name="bossRoom" x="2496" y="128" width="704" height="1088"/>
   <object id="86" x="64" y="512" width="512" height="576"/>
  </objectgroup>
  <objectgroup id="19" name="doors" visible="0">
