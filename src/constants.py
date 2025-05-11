@@ -91,7 +91,7 @@ ENEMY_SHEET_METADATA = {
 DRUCK_SHEET_METADATA = {
     "frame_width": 64,
     "frame_height": 64,
-    "scale": 2,
+    "scale": 1.5,
     "actions":  {
         "attack": {
             "row": 2,

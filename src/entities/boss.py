@@ -175,18 +175,21 @@ class Boss(pygame.sprite.Sprite):
         """Execute once upon entering charge state."""
         self.chargeStart = pygame.time.get_ticks()
         self.action = "charge"
+        self.currentFrame = 0
         EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
         """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
         self.action = "attack"
+        self.currentFrame = 0
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
         """Execute once upon entering dying state."""
         self.dyingStart = pygame.time.get_ticks()
         self.action = "dying"
+        self.currentFrame = 0
 
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
@@ -281,4 +284,7 @@ class Druck(Boss):
         if pygame.time.get_ticks() - self.attackStart > 3000:
             self.fsm.set_state(Boss.BossState.CHARGE)
         if self.move(self.nextPos):
-            self.nextPos = player.pos
+            if self.room.colliderect(player.rect):
+                self.nextPos = player.rect.topleft
+            else:
+                self.fsm.set_state(Boss.BossState.WAITING)
