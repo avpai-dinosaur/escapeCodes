@@ -88,6 +88,30 @@ ENEMY_SHEET_METADATA = {
     "colorkey": (0, 0, 0)
 }
 
+DRUCK_SHEET_METADATA = {
+    "frame_width": 64,
+    "frame_height": 64,
+    "scale": 2,
+    "actions":  {
+        "attack": {
+            "row": 2,
+            "num_frames": 6,
+            "cooldown": 50
+        },
+        "charge": {
+            "row": 1,
+            "num_frames": 7,
+            "cooldown": 500
+        },
+        "dying": {
+            "row": 0,
+            "num_frames": 7,
+            "cooldown": 500
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
 WASD_SHEET_METADATA = {
     "frame_width": 96,
     "frame_height": 54,

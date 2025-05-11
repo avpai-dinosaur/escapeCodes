@@ -2,7 +2,7 @@ import pygame
 from src.core.camera import Camera
 from src.entities.player import Player
 from src.entities.roomba import Roomba
-from src.entities.boss import Boss
+from src.entities.boss import Druck
 from src.core.map import Map
 import src.core.utils as utils
 import src.constants as c
@@ -22,8 +22,8 @@ class Level():
 
         self.player = Player("Oldhero.png", self.map.playerSpawn, {})
         self.entities = pygame.sprite.Group()
-        if self.bossRoom != None:
-            boss = Boss(
+        if self.bossRoom:
+            boss = Druck(
                 utils.get_vector2(self.bossRoom.topleft),
                 self.bossRoom,
                 "two-sum"

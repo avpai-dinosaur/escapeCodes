@@ -7,6 +7,7 @@ import pygame
 from enum import Enum
 from random import randint
 from src import constants as c
+from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.entities.player import Player
 
@@ -132,13 +133,21 @@ class Boss(pygame.sprite.Sprite):
         """
         super().__init__()
         self.pos = pos
-        self.rect = pygame.Rect(pos.x, pos.y, 64 * 3, 64 * 3)
         self.room = room
         self.problemSlug = problemSlug
         self.fsm = FiniteStateMachine()
-        self.health = 100
         self.speed = 10
-        self.color = "grey"
+
+        # Animation variables
+        self.spritesheet = SpriteSheet("druck.png", c.DRUCK_SHEET_METADATA)
+        self.action = "charge"
+        self.currentFrame = 0
+        self.lastUpdate = pygame.time.get_ticks()
+
+        # Image variables
+        self.image = self.spritesheet.get_image(self.action, self.currentFrame)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.pos
 
         # Attacking data
         self.nextPos = self.get_next_pos()
@@ -165,19 +174,19 @@ class Boss(pygame.sprite.Sprite):
     def charge_enter(self):
         """Execute once upon entering charge state."""
         self.chargeStart = pygame.time.get_ticks()
-        self.color = "blue"
+        self.action = "charge"
         EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
         """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
-        self.color = "orange"
+        self.action = "attack"
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
         """Execute once upon entering dying state."""
         self.dyingStart = pygame.time.get_ticks()
-        self.color = "red"
+        self.action = "dying"
 
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
@@ -186,14 +195,14 @@ class Boss(pygame.sprite.Sprite):
 
     def charge_update(self, _):
         """Update function to run when in charge state."""
-        if pygame.time.get_ticks() - self.chargeStart > 10000:
+        if pygame.time.get_ticks() - self.chargeStart > 3000:
             self.fsm.set_state(Boss.BossState.ATTACK)
 
     def attack_update(self, player: Player):
         """Update function to run when in attack state."""
         if self.rect.colliderect(player.rect):
             player.health.lose(1)
-        if pygame.time.get_ticks() - self.attackStart > 10000:
+        if pygame.time.get_ticks() - self.attackStart > 3000:
             self.fsm.set_state(Boss.BossState.CHARGE)
         if self.move(self.nextPos):
             self.nextPos = self.get_next_pos()
@@ -245,8 +254,31 @@ class Boss(pygame.sprite.Sprite):
         self.fsm.destroy()
         self.kill()
 
+    def update_animation(self):
+        """Update animation of boss."""
+        currentTime = pygame.time.get_ticks()
+        if(currentTime - self.lastUpdate >= self.spritesheet.cooldown(self.action)):
+            self.currentFrame += 1
+            self.lastUpdate = currentTime
+            if(self.currentFrame >= self.spritesheet.num_frames(self.action)):
+                self.currentFrame = 0
+            self.image = self.spritesheet.get_image(self.action, self.currentFrame)
+
     def update(self, player: Player):
         self.fsm.update(player)
+        self.update_animation()
 
-    def draw(self, surface, offset):
-        pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
+    def draw(self, surface: pygame.Surface, offset):
+        surface.blit(self.image, self.rect.move(offset[0], offset[1]))
+
+
+class Druck(Boss):
+
+     def attack_update(self, player: Player):
+        """Update function to run when in attack state."""
+        if self.rect.colliderect(player.rect):
+            player.health.lose(1)
+        if pygame.time.get_ticks() - self.attackStart > 3000:
+            self.fsm.set_state(Boss.BossState.CHARGE)
+        if self.move(self.nextPos):
+            self.nextPos = player.pos

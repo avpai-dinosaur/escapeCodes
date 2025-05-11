@@ -5,6 +5,7 @@ from src.core.uiManager import UiManager
 from src.core.level import Level
 import src.constants as c
 
+
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
    
@@ -25,12 +26,18 @@ class Game():
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
         EventManager.subscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
+        EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
 
     def pause(self):
         self.isPaused = True
     
     def unpause(self):
         self.isPaused = False
+
+    def on_death(self):
+        self.camera.reset()
+        self.levels[self.level].reset(self.camera)
+        self.manager.set_state("died")
 
     def update(self):
         if not self.isPaused:
@@ -56,15 +63,9 @@ class Game():
             if event.type == c.LEVEL_ENDED:
                 self.camera.reset()
                 self.next_level()
-            elif event.type == c.PLAYER_DIED:
-                self.camera.reset()
-                self.levels[self.level].reset(self.camera)
-                self.manager.set_state("died")
         
         self.leetcodeManager.handle_event(event)
         self.uiManager.handle_event(event)
-        
-        
 
     def draw(self, surface):
         self.camera.draw(surface)
