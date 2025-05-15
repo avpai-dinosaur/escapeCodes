@@ -69,6 +69,7 @@ class Graph():
                         pq.put((dist[neighbor.id], neighbor.id))
         return dist, prev
 
+
 class Map():
     """Parses exported map data from Tiled."""
 

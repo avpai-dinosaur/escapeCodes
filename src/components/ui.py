@@ -276,6 +276,7 @@ class TestCaseHackUi:
 
     def __init__(self):
         """Constructor."""
+        # Background
         self.problem : Problem = None
         self.margin = 40
         self.backgroundRect = pygame.Rect()
@@ -283,6 +284,7 @@ class TestCaseHackUi:
         self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.margin
         self.backgroundRect.topleft = (self.margin, self.margin)
 
+        # Key Controls
         self.keyControls = KeyControlBarUi()
         self.keyControls.add_control(KeyUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close"))
         self.keyControls.build()
@@ -291,19 +293,40 @@ class TestCaseHackUi:
             self.backgroundRect.bottom - 10
         )
 
+        # Headings
+        self.headingMargin = 10
+        self.headingFont = utils.load_font("SpaceMono/SpaceMono-Bold.ttf", 30)
+
+        self.leftTextImage = self.headingFont.render("Intercepted Signal", True, "white")
+        self.leftTextRect = self.leftTextImage.get_rect()
+        self.leftTextRect.top = self.backgroundRect.top + self.headingMargin
+        self.leftTextRect.left = self.backgroundRect.left + self.headingMargin
+
+        self.rightTextImage = self.headingFont.render("Bug Injector", True, "white")
+        self.rightTextRect = self.leftTextImage.get_rect()
+        self.rightTextRect.top = self.backgroundRect.top + self.headingMargin
+        self.rightTextRect.left = self.backgroundRect.left + self.backgroundRect.width / 2 + self.headingMargin
+
+        # Problem Description
         self.textUiMargin = 10
         self.textUi = ScrollableTextUi(
             pygame.Vector2(
                 self.backgroundRect.left + self.textUiMargin,
-                self.backgroundRect.top + self.textUiMargin
+                self.leftTextRect.bottom + self.textUiMargin
             ),
             self.backgroundRect.width / 2 - 2 * self.textUiMargin,
-            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
+            self.backgroundRect.height - self.keyControls.rect.height - self.leftTextRect.height - 2 * self.textUiMargin
         )
 
-        self.errorFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
+        # Parsing Errors
+        self.textFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         self.set_error_text("")
 
+        # Success Message
+        self.set_success_message(True)
+
+        self.submitted = False
+        self.submittedTime = pygame.time.get_ticks()
         self.isVisible = False
 
         # Event Subscribers
@@ -311,17 +334,18 @@ class TestCaseHackUi:
     
     def open(self, problemSlug: str):
         self.problem = ProblemFactory.create(problemSlug)
+        self.submitted = False
         self.build_parameter_input()
         EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
         EventManager.emit(EcodeEvent.PAUSE_GAME)
 
     def build_parameter_input(self):
-        parameterInputMargin = 20
+        parameterInputMargin = 10
         self.parameterInput = ParameterInputUi(
             self.backgroundRect.width / 2 - 2 * parameterInputMargin,
             pygame.Vector2(
                 self.backgroundRect.left + self.backgroundRect.width / 2 + parameterInputMargin,
-                self.backgroundRect.top + self.backgroundRect.height / 2 + parameterInputMargin - 100
+                self.rightTextRect.bottom + parameterInputMargin
             )
         )
         for parameter in self.problem.parameters:
@@ -333,11 +357,18 @@ class TestCaseHackUi:
         self.isVisible = True
 
     def set_error_text(self, text: str):
-        self.errorText = ""
-        self.errorTextImage = self.errorFont.render(text, True, "red")
+        self.errorTextImage = self.textFont.render(text, True, "red")
         self.errorTextRect = self.errorTextImage.get_rect()
         self.errorTextRect.bottomright = self.backgroundRect.bottomright
-
+    
+    def set_success_message(self, isHacked: bool):
+        text = "Exposed bug :P" if isHacked else "Failed to expose bug :O"
+        color = "green" if isHacked else "red"
+        self.successTextImage = self.headingFont.render(text, True, color)
+        self.successTextRect = self.successTextImage.get_rect()
+        self.successTextRect.bottom = self.backgroundRect.bottom - 100
+        self.successTextRect.right = self.backgroundRect.right - 100
+    
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
@@ -351,9 +382,11 @@ class TestCaseHackUi:
                         inputs = self.parameterInput.get_inputs()
                         if self.problem.check_input(**inputs):
                             EventManager.emit(EcodeEvent.KILL_BOSS)
-                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                            self.set_success_message(True)
                         else:
-                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                            self.set_success_message(False)
+                        self.submitted = True
+                        self.submittedTime = pygame.time.get_ticks()
                     except ValueError as e:
                         self.set_error_text(f"Error: {str(e)}")
         elif event.type == c.PROBLEM_DESCRIPTION:
@@ -364,6 +397,9 @@ class TestCaseHackUi:
             self.textUi.update()
             self.keyControls.update()
             self.parameterInput.update()
+            if self.submitted and pygame.time.get_ticks() - self.submittedTime > 2000:
+                self.isVisible = False
+                EventManager.emit(EcodeEvent.UNPAUSE_GAME)
 
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
@@ -372,6 +408,10 @@ class TestCaseHackUi:
             self.textUi.draw(surface)
             self.parameterInput.draw(surface)
             surface.blit(self.errorTextImage, self.errorTextRect)
+            surface.blit(self.leftTextImage, self.leftTextRect)
+            surface.blit(self.rightTextImage, self.rightTextRect)
+            if self.submitted:
+                surface.blit(self.successTextImage, self.successTextRect)
 
 
 class KeyControlBarUi:

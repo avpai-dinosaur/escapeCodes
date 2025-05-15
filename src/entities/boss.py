@@ -121,7 +121,7 @@ class Boss(pygame.sprite.Sprite):
 
     def __init__(
         self,
-        pos: pygame.Vector2,
+        _,
         room: pygame.Rect,
         problemSlug: str
     ):
@@ -132,8 +132,11 @@ class Boss(pygame.sprite.Sprite):
             problemSlug: Url slug of problem this boss is associated with
         """
         super().__init__()
-        self.pos = pos
         self.room = room
+        self.pos = pygame.Vector2(
+            self.room.left + self.room.width / 2,
+            self.room.top + self.room.height / 2
+        )
         self.problemSlug = problemSlug
         self.fsm = FiniteStateMachine()
         self.speed = 10
