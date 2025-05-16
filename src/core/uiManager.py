@@ -7,11 +7,13 @@ class UiManager:
         self.noteUi = ui.NoteUi()
         self.testCaseBattleUi = ui.TestCaseHackUi()
         self.movingBarUi = ui.MovingBarUi()
+        self.dialogUi = ui.DialogUi()
     
     def handle_event(self, event):
         self.noteUi.handle_event(event)
         self.movingBarUi.handle_event(event)
         self.testCaseBattleUi.handle_event(event)
+        self.dialogUi.handle_event(event)
 
     def update(self):
         self.wasdUi.update()
@@ -24,3 +26,4 @@ class UiManager:
         self.noteUi.draw(surface)
         self.movingBarUi.draw(surface)
         self.testCaseBattleUi.draw(surface)
+        self.dialogUi.draw(surface)

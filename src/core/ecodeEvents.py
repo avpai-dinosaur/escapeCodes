@@ -28,6 +28,9 @@ class EcodeEvent(Enum):
     PAUSE_GAME = 22
     UNPAUSE_GAME = 23
 
+    OPEN_DIALOG = 24
+    FINISHED_DIALOG = 25
+
 class EventManager:
     """Class to represent an event subscription system."""
 

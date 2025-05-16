@@ -24,7 +24,6 @@ class Level():
         self.entities = pygame.sprite.Group()
         if self.bossRoom:
             boss = Druck(
-                utils.get_vector2(self.bossRoom.topleft),
                 self.bossRoom,
                 "two-sum"
             )

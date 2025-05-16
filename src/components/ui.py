@@ -572,4 +572,63 @@ class MovingBarUi:
             pygame.draw.rect(surface, "green", self.innerRect)
             pygame.draw.rect(surface, "red", self.cursor)
             self.keyUi.draw(surface)
+
+
+class DialogUi:
+    """Class representing a dialog ui element."""
+
+    def __init__(self):
+        """Constructor."""
+        self.rect = pygame.Rect()
+        self.rect.width = c.SCREEN_WIDTH
+        self.rect.height = (c.SCREEN_HEIGHT) / 4
+        self.rect.bottom = c.SCREEN_HEIGHT
+        self.textLeft = self.rect.width // 5
+
+        self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=30)
+        self.isVisible = False
+
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_DIALOG, self.open)
+    
+    def set_dialog(self, text: str):
+        """Set the dialog text."""
+        self.textImage = self.font.render(text, True, "white", wraplength=self.rect.right - self.textLeft)
+        self.textRect = self.textImage.get_rect()
+        self.textRect.bottom = self.rect.bottom
+        self.textRect.left = self.textLeft
+
+    def next_line(self):
+        """Proceed to next line of dialog."""
+        self.currentLine += 1
+        if self.currentLine >= len(self.lines):
+            self.isVisible = False
+            EventManager.emit(EcodeEvent.FINISHED_DIALOG)
+        else:
+            self.set_dialog(self.lines[self.currentLine])
+    
+    def open(self, lines: list[str], currentLine: int):
+        """Open the dialog box.
         
+            lines: dialog lines
+            currentLine: index of dialog line to start from
+        """
+        self.isVisible = True
+        self.lines = lines
+        self.currentLine = currentLine
+        self.set_dialog(self.lines[self.currentLine])
+
+    def close(self):
+        """Close the dialog box."""
+        self.isVisible = False
+
+    def handle_event(self, event: pygame.Event):
+        if self.isVisible:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.next_line()
+                    
+    def draw(self, surface: pygame.Surface):
+        if self.isVisible:
+            pygame.draw.rect(surface, "blue", self.rect)
+            surface.blit(self.textImage, self.textRect)

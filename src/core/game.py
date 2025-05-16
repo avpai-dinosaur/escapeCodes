@@ -15,7 +15,7 @@ class Game():
         self.leetcodeManager = LeetcodeManager()
         self.uiManager = UiManager()
         self.levels: list[Level] = [
-            #Level("level0.png", "level0.tmj"),
+            Level("level0.png", "level0.tmj"),
             Level("level1.png", "level1.tmj"),
             Level("level2.png", "level2.tmj")
         ]
