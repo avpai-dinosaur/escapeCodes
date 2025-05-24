@@ -6,7 +6,6 @@ Individual ui components that live in screen space.
 import pygame
 from bs4 import BeautifulSoup
 from src.entities.problem import Parameter, Problem, ProblemFactory
-from src.core.leetcodeManager import LeetcodeManager
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EcodeEvent, EventManager
 from src.core import utils
@@ -151,25 +150,23 @@ class NoteUi:
             self.backgroundRect.width - 2 * self.textUiMargin,
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
         )
+        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
         self.set_text("")
 
         self.isVisible = False
         self.isSolved = False
 
-        # Solved Text
-        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
-        self.solvedTextImage = self.solvedFont.render("Solved", True, 'green')
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
+    
+    def set_text(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
+        self.textUi.set_text(text)
+        self.solvedTextImage = self.solvedFont.render(f"{pinText}", True, 'green')
         self.solvedTextRect = self.solvedTextImage.get_rect()
         self.solvedTextRect.bottomright = (
             self.backgroundRect.right - 10,
             self.backgroundRect.bottom
         )
-
-        # Event subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
-    
-    def set_text(self, text: str, url: str=None, isSolved: bool=False):
-        self.textUi.set_text(text)
         self.url = url
         self.isSolved = isSolved
         self.isVisible = True
@@ -731,6 +728,8 @@ class PinPad:
             self.inputDigitRects[i].left = digitMargin + i * (digitWidth + digitMargin)
 
     def open(self, pin: int, id: int):
+        self.inputBuffer = ["0", "0", "0", "0"]
+        self.inputPtr = 0
         self.isVisible = True
         self.pin = pin
         self.doorId = id

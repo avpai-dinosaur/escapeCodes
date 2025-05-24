@@ -145,7 +145,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -160,9 +160,9 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"brokenComputer",
-                         "type":"object",
-                         "value":2
+                         "name":"pin",
+                         "type":"int",
+                         "value":1234
                         }],
                  "rotation":0,
                  "type":"LaserDoor",
@@ -220,6 +220,11 @@
                          "name":"note",
                          "type":"string",
                          "value":"From: Melon Husk\nTo: All\nSubject: Bumping up efficiency.\n\nHey Technicians!\nIf you're looking at this note I'm guessing you noticed the giant laser door blocking the ship's main entrance. Perhaps you also noticed that we are behind on the launch schedule? Again! Honestly, I'm wondering if half of you guys can even code at this point.\n\nAnyways, I've cooked up a little challenge to get us back on track. From now on, to get into the ship, you've got to solve a little coding problem called (412. Fizz Buzz).\n\nBest Regards,\nMelon\n\nP.S. Completing this challenge is \"explicitly voluntary\". That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter."
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"_ 2 _ _"
                         }, 
                         {
                          "name":"problemName",

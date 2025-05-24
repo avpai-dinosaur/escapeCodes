@@ -26,6 +26,11 @@
                     "value": "TODO: this computer needs a note"
                 },
                 {
+                    "name": "pinText",
+                    "type": "string",
+                    "value": "_ _ _ _"
+                },
+                {
                     "name": "problemName",
                     "type": "string",
                     "value": ""
@@ -92,8 +97,8 @@
             "id": 3,
             "members": [
                 {
-                    "name": "brokenComputer",
-                    "type": "object",
+                    "name": "pin",
+                    "type": "int",
                     "value": 0
                 }
             ],
@@ -110,15 +115,15 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
-            "id": 4,
+            "id": 7,
             "members": [
                 {
-                    "name": "initialHealth",
-                    "type": "int",
-                    "value": 100
+                    "name": "path",
+                    "type": "object",
+                    "value": 0
                 }
             ],
-            "name": "Player",
+            "name": "Npc",
             "type": "class",
             "useAs": [
                 "property",
@@ -135,15 +140,15 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
-            "id": 7,
+            "id": 4,
             "members": [
                 {
-                    "name": "path",
-                    "type": "object",
-                    "value": 0
+                    "name": "initialHealth",
+                    "type": "int",
+                    "value": 100
                 }
             ],
-            "name": "Npc",
+            "name": "Player",
             "type": "class",
             "useAs": [
                 "property",

@@ -112,10 +112,14 @@
  <objectgroup id="19" name="doors" visible="0">
   <object id="76" type="LaserDoor" x="2240" y="640" width="256" height="192">
    <properties>
-    <property name="brokenComputer" type="object" value="63"/>
+    <property name="pin" type="int" value="2345"/>
    </properties>
   </object>
-  <object id="77" type="LaserDoor" x="576" y="640" width="256" height="192"/>
+  <object id="77" type="LaserDoor" x="576" y="640" width="256" height="192">
+   <properties>
+    <property name="pin" type="int" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="playerSpawn" visible="0">
   <object id="33" type="Player" x="192" y="896">
@@ -182,6 +186,7 @@ Our stupid spaceship door is breaking again.
 Druck says I need to solve (1. TwoSum) to get it working.
 I tried going through all pairs of numbers, but that took too long...
 Ugh, guess I'll be staying late. Again.</property>
+    <property name="pinText" value="_ _ 4 _"/>
     <property name="problemName" value="TwoSum"/>
     <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
    </properties>

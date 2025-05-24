@@ -52,7 +52,7 @@
  <objectgroup id="2" name="doors" visible="0">
   <object id="1" type="LaserDoor" x="1152" y="576" width="128" height="192">
    <properties>
-    <property name="brokenComputer" type="object" value="2"/>
+    <property name="pin" type="int" value="1234"/>
    </properties>
   </object>
  </objectgroup>
@@ -78,6 +78,7 @@ Best Regards,
 Melon
 
 P.S. Completing this challenge is &quot;explicitly voluntary&quot;. That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter.</property>
+    <property name="pinText" value="_ 2 _ _"/>
     <property name="problemName" value="Fizz Buzz"/>
     <property name="problemUrl" value="https://leetcode.com/problems/fizz-buzz/description/"/>
    </properties>

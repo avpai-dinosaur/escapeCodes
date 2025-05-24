@@ -86,7 +86,6 @@ class Map():
         self.doors = {}
         self.laserDoors = {}
         self.computers = {}
-        self.generatedComputers = {}
         self.objects = {}
         self.playerSpawn = None
         self.roombaPath = None
@@ -154,9 +153,8 @@ class Map():
             if door["type"] == "LaserDoor":
                 self.parse_object(door, self.laserDoors)
 
-    def computer_factory(self, computer, id, startX, startY):
+    def computer_factory(self, computer, startX, startY):
         """Generates a computer from an entry in the internal computer dict."""
-        generatedComputer = None
         if "hasProblem" in computer.keys() and computer["hasProblem"]:
             generatedComputer = o.ProblemComputer(
                 pygame.Rect(
@@ -166,7 +164,8 @@ class Map():
                     computer["height"]
                 ),
                 computer["note"],
-                computer["problemUrl"]
+                computer["problemUrl"],
+                computer["pinText"]
             ) 
         else:
             generatedComputer = o.Computer(
@@ -178,7 +177,6 @@ class Map():
                 ),
                 computer["note"] if "note" in computer.keys() else "TODO"
             )
-        self.generatedComputers[id] = generatedComputer
         return generatedComputer
 
     def laser_door_factory(self, laserDoor, startX, startY):
@@ -189,7 +187,8 @@ class Map():
                 startY + laserDoor["y"],
                 laserDoor["width"],
                 laserDoor["height"]
-            )
+            ),
+            laserDoor["pin"]
         )
         return door
     
@@ -216,7 +215,7 @@ class Map():
         for object in self.objects["objects"]:
             if object["type"] == "Computer":
                 computer = self.computers[object["id"]]
-                objectGroup.add(self.computer_factory(computer, object["id"], startX, startY))
+                objectGroup.add(self.computer_factory(computer,  startX, startY))
             elif object["type"] == "DanceFloor":
                 objectGroup.add(
                     o.DanceFloor((startX + object["x"], startY + object["y"] - object["height"]))

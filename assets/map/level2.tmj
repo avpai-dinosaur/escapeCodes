@@ -241,9 +241,9 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"brokenComputer",
-                         "type":"object",
-                         "value":11
+                         "name":"pin",
+                         "type":"int",
+                         "value":0
                         }],
                  "rotation":0,
                  "type":"LaserDoor",
@@ -258,9 +258,9 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"brokenComputer",
-                         "type":"object",
-                         "value":10
+                         "name":"pin",
+                         "type":"int",
+                         "value":0
                         }],
                  "rotation":0,
                  "type":"LaserDoor",
@@ -297,6 +297,44 @@
                          "value":"TODO"
                         }, 
                         {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"_ _ _ _"
+                        }, 
+                        {
+                         "name":"problemUrl",
+                         "type":"string",
+                         "value":"https:\/\/www.google.com\/"
+                        }],
+                 "rotation":0,
+                 "type":"Computer",
+                 "visible":true,
+                 "width":64,
+                 "x":320,
+                 "y":512
+                }, 
+                {
+                 "gid":17,
+                 "height":64,
+                 "id":24,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"hasProblem",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"note",
+                         "type":"string",
+                         "value":"TODO"
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"_ _ _ _"
+                        }, 
+                        {
                          "name":"problemUrl",
                          "type":"string",
                          "value":"https:\/\/www.google.com\/"
@@ -323,6 +361,11 @@
                          "name":"note",
                          "type":"string",
                          "value":"TODO"
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"_ _ _ _"
                         }, 
                         {
                          "name":"problemUrl",
@@ -419,8 +462,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":24,
+ "nextlayerid":11,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

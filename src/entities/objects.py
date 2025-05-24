@@ -142,7 +142,7 @@ class LaserDoor(Door):
 
     id = 0
 
-    def __init__(self, rect):
+    def __init__(self, rect, pin):
         """Constructor.
 
             rect: pygame.Rect representing the door's area and position.
@@ -155,6 +155,7 @@ class LaserDoor(Door):
         self.triedDoor = False
         self.id = LaserDoor.id
         LaserDoor.id += 1
+        self.pin = pin
 
         # Question prompting
         self.speech_bubble = SpeechBubble(
@@ -242,7 +243,10 @@ class LaserDoor(Door):
             self.update_receding_animation()
     
     def door_action(self):
-        EventManager.emit(EcodeEvent.OPEN_PIN, pin=1234, id=self.id)
+        if self.pin != 0:
+            EventManager.emit(EcodeEvent.OPEN_PIN, pin=self.pin, id=self.id)
+        else:
+            self.receding = True
 
     def draw_door(self, surface, offset):
         if self.toggle:
@@ -366,11 +370,12 @@ class Computer(pygame.sprite.Sprite):
 class ProblemComputer(Computer):
     """Class to represent a computer that hosts a LeetCode problem."""
 
-    def __init__(self, rect, textInput, url):
+    def __init__(self, rect, textInput, url, pinText):
         super().__init__(rect, textInput)
         self.url = url
         self.problemSlug = None
         self.isSolved = False
+        self.pinText = pinText
         # TODO: Remove this
         if self.url != "https://www.google.com/":
             self.problemSlug = utils.get_problem_slug(url)
@@ -384,58 +389,14 @@ class ProblemComputer(Computer):
 
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input, url=self.url, isSolved=self.isSolved)
+        EventManager.emit(
+            EcodeEvent.OPEN_NOTE,
+            text=self.note.text_input,
+            url=self.url,
+            isSolved=self.isSolved,
+            pinText=self.pinText
+        )
 
-class TechNote(pygame.sprite.Sprite):
-    """Class to represent a technical note."""
-
-    def __init__(self, filename, pos):
-        super().__init__()
-        og_image, _ = utils.load_png(filename)
-        self.image = pygame.transform.scale(og_image, (72 * 2, 72 * 2))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = pos
-        self.pos = pygame.Vector2(pos)
-        self.scaled_rect = self.rect.inflate(50, 50)
-
-        self.open_note = ("M", pygame.K_m)
-        self.font = pygame.font.Font(size=30)
-        self.button_text = self.font.render(self.open_note[0], True, (250, 250, 250), (0, 0, 0))
-        self.button_textRect = self.button_text.get_rect()
-        self.button_textRect.center = (self.rect.centerx - 100, self.rect.centery - 100)
-        self.present_button = False
-
-        text = "A really brute force way would be to search for all possible pairs of numbers but that would be too slow."
-        self.note_text = self.font.render(text, True, (250, 250, 25), (0, 0, 0), 72 * 2)
-        self.note_textRect = self.note_text.get_rect()
-        self.note_textRect.center = (self.rect.centerx - 100, self.rect.centery - 100)
-        self.toggle_note = False
-    
-
-    def update(self, player):
-        """Updates the note based on player position.
-
-        If the player is within the note's range, show the key needed to
-        read the note.
-            
-            player: Player object.
-        """
-        if self.scaled_rect.colliderect(player.rect):
-            keys = pygame.key.get_pressed()
-            self.present_button = True
-            if (keys[self.open_note[1]]):
-                self.toggle_note = True
-        else:
-            self.present_button = False
-            self.toggle_note = False
-    
-    def draw(self, surface, offset):
-        """Draw the note to the surface."""
-        #surface.blit(self.image, self.rect.topleft + offset)
-        if self.present_button:
-            surface.blit(self.button_text, self.button_textRect.topleft + offset)
-        if self.toggle_note:
-            surface.blit(self.note_text, self.note_textRect.topleft + offset)
 
 class StaticItem(pygame.sprite.Sprite):
     def __init__(self, pos, width, height, filename=None):

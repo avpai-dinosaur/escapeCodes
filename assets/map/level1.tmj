@@ -436,9 +436,9 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"brokenComputer",
-                         "type":"object",
-                         "value":63
+                         "name":"pin",
+                         "type":"int",
+                         "value":2345
                         }],
                  "rotation":0,
                  "type":"LaserDoor",
@@ -451,6 +451,12 @@
                  "height":192,
                  "id":77,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"pin",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"LaserDoor",
                  "visible":true,
@@ -649,6 +655,11 @@
                          "name":"note",
                          "type":"string",
                          "value":"User: Aakash\nDev Note (3\/9\/2100):\nOur stupid spaceship door is breaking again.\nDruck says I need to solve (1. TwoSum) to get it working.\nI tried going through all pairs of numbers, but that took too long...\nUgh, guess I'll be staying late. Again."
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"_ _ 4 _"
                         }, 
                         {
                          "name":"problemName",
