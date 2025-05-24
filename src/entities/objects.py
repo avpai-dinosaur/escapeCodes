@@ -244,6 +244,8 @@ class LaserDoor(Door):
             and self.present_button
             and event.key == self.open_button[1]
         ):
+            EventManager.emit(EcodeEvent.OPEN_PIN, pin=1234)
+
             self.triedDoor = True
             if len(self.problems) > 0:
                 pygame.event.post(pygame.Event(c.CHECK_PROBLEMS))

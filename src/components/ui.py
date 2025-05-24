@@ -666,6 +666,7 @@ class PinPad:
 
     def __init__(self):
         # Input Screen
+        self.pin = None
         self.inputBuffer = ["0", "0", "0", "0"]
         self.inputPtr = 0
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 60)
@@ -705,6 +706,7 @@ class PinPad:
                 pos = pygame.Vector2(j * keyWidth, i * keyHeight)
                 self.keys[i][j].imageRect.topleft = pos
         
+        # Background
         self.backgroundRect = pygame.Rect(0, 0, self.keyGridRect.width + 20, self.keyGridRect.height + self.inputScreenRect.height + 20)
         self.backgroundRect.centerx = c.SCREEN_WIDTH // 2
         self.backgroundRect.centery = c.SCREEN_HEIGHT // 2
@@ -712,6 +714,11 @@ class PinPad:
         self.inputScreenRect.top = self.backgroundRect.top + 10
         self.keyGridRect.centerx = self.inputScreenRect.centerx
         self.keyGridRect.top = self.inputScreenRect.bottom
+
+        self.isVisible = False
+
+        # Event subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_PIN, self.open)
 
     def render_input_screen(self):
         self.inputDigitImages = [self.font.render(digit, True, "white") for digit in self.inputBuffer]
@@ -723,6 +730,11 @@ class PinPad:
         for i in range(len(self.inputDigitRects)):
             self.inputDigitRects[i].left = digitMargin + i * (digitWidth + digitMargin)
 
+    def open(self, pin: int):
+        self.isVisible = True
+        self.pin = pin
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
+
     def update(self):
         pressedKeys = pygame.key.get_pressed()
         for keyRow in self.keys:
@@ -730,28 +742,41 @@ class PinPad:
                 key.update(pressedKeys)    
 
     def handle_event(self, event: pygame.Event):
-        if event.type == pygame.KEYDOWN:
-            if event.unicode.isdigit():
-                self.inputBuffer[self.inputPtr] = event.unicode
-                self.inputPtr = min(len(self.inputBuffer) - 1, self.inputPtr + 1)
-            elif event.key == pygame.K_BACKSPACE:
-                self.inputBuffer[self.inputPtr] = "0"
-                self.inputPtr = max(0, self.inputPtr - 1)
-            elif event.key == pygame.K_RETURN:
-                pass
+        if self.isVisible: 
+            if event.type == pygame.KEYDOWN:
+                if event.unicode.isdigit():
+                    self.inputBuffer[self.inputPtr] = event.unicode
+                    self.inputPtr = min(len(self.inputBuffer) - 1, self.inputPtr + 1)
+                elif event.key == pygame.K_BACKSPACE:
+                    self.inputBuffer[self.inputPtr] = "0"
+                    self.inputPtr = max(0, self.inputPtr - 1)
+                elif event.key == pygame.K_RETURN:
+                    input = ""
+                    for digit in self.inputBuffer:
+                        input += digit
+                    input = int(input)
+                    if input == self.pin:
+                        print("input is correct!")
+                        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                    else:
+                        print("input is wrong!")
+                elif event.key == pygame.K_ESCAPE:
+                    self.isVisible = False
+                    EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                 
     def draw(self, surface: pygame.Surface):
-        pygame.draw.rect(surface, "blue", self.backgroundRect, border_radius=10)
+        if self.isVisible:
+            pygame.draw.rect(surface, "blue", self.backgroundRect, border_radius=10)
 
-        self.inputScreenInternalSurface.fill((0, 0, 0, 0))
-        for i in range(len(self.inputBuffer)):
-            color = "red" if i == self.inputPtr else "white"
-            self.inputDigitImages[i] = self.font.render(self.inputBuffer[i], True, color)
-            self.inputScreenInternalSurface.blit(self.inputDigitImages[i], self.inputDigitRects[i])
-        surface.blit(self.inputScreenInternalSurface, self.inputScreenRect)
+            self.inputScreenInternalSurface.fill((0, 0, 0, 0))
+            for i in range(len(self.inputBuffer)):
+                color = "red" if i == self.inputPtr else "white"
+                self.inputDigitImages[i] = self.font.render(self.inputBuffer[i], True, color)
+                self.inputScreenInternalSurface.blit(self.inputDigitImages[i], self.inputDigitRects[i])
+            surface.blit(self.inputScreenInternalSurface, self.inputScreenRect)
 
-        self.keyGridInternalSurface.fill((0, 0, 0, 0))
-        for keyRow in self.keys:
-            for key in keyRow:
-                key.draw(self.keyGridInternalSurface)
-        surface.blit(self.keyGridInternalSurface, self.keyGridRect)
+            self.keyGridInternalSurface.fill((0, 0, 0, 0))
+            for keyRow in self.keys:
+                for key in keyRow:
+                    key.draw(self.keyGridInternalSurface)
+            surface.blit(self.keyGridInternalSurface, self.keyGridRect)
