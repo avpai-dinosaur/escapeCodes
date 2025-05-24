@@ -2,7 +2,9 @@ import pygame
 from src.core.camera import Camera
 from src.entities.player import Player
 from src.entities.roomba import Roomba
+from src.entities.boss import Druck
 from src.core.map import Map
+import src.core.utils as utils
 import src.constants as c
 
 class Level():
@@ -13,20 +15,29 @@ class Level():
         self.load_entities()
 
     def load_entities(self):
-        self.player = Player("Oldhero.png", self.map.playerSpawn, {})
-        self.roomba = None
-        if self.map.roombaPath:
-            self.roomba = Roomba("roomba.png", self.map.roombaPath)
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
+        self.rooms, self.bossRoom = self.map.rooms_factory()
         self.doors = self.map.doors_factory()
 
+        self.player = Player("Oldhero.png", self.map.playerSpawn, {})
+        self.entities = pygame.sprite.Group()
+        if self.bossRoom:
+            boss = Druck(
+                self.bossRoom,
+                "two-sum"
+            )
+            self.entities.add(boss)
+        if self.map.roombaPath:
+            roomba = Roomba("roomba.png", self.map.roombaPath)
+            self.entities.add(roomba)
+    
     def load_camera(self, camera: Camera):
         camera.add(self.player)
-        if self.roomba is not None:
-            camera.add(self.roomba)
+        camera.add(self.entities)
         camera.add(self.objects)
         camera.add(self.doors)
+
         # camera.background_objects.add(self.map.background_objects)
 
         camera.target = self.player.rect
@@ -45,8 +56,7 @@ class Level():
 
     def update(self):
         self.player.update(self.walls, self.doors)
-        if self.roomba is not None:
-            self.roomba.update(self.player)
+        self.entities.update(self.player)
         self.doors.update(self.player)
         self.objects.update(self.player)
         

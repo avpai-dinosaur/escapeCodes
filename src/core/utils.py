@@ -97,3 +97,10 @@ def linear_move(pos: pygame.Vector2, target: pygame.Vector2, speed: int) -> pyga
         else:
             nextPos = pos
     return nextPos
+
+def get_vector2(t: tuple) -> pygame.Vector2:
+    """Get a Vector2 object from a tuple.
+    
+        t: Tuple to initialize from where t[0] = x and t[1] = y
+    """
+    return pygame.Vector2(t[0], t[1])

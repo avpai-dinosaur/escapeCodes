@@ -176,6 +176,39 @@
         }, 
         {
          "draworder":"topdown",
+         "id":9,
+         "name":"rooms",
+         "objects":[
+                {
+                 "height":448,
+                 "id":22,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":960,
+                 "x":128,
+                 "y":192
+                }, 
+                {
+                 "height":384,
+                 "id":23,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":960,
+                 "x":128,
+                 "y":768
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":6,
          "name":"playerSpawn",
          "objects":[
@@ -386,11 +419,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":22,
+ "nextlayerid":10,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.11.2",
  "tileheight":64,
  "tilesets":[
         {

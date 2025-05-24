@@ -69,6 +69,7 @@ class Graph():
                         pq.put((dist[neighbor.id], neighbor.id))
         return dist, prev
 
+
 class Map():
     """Parses exported map data from Tiled."""
 
@@ -81,6 +82,7 @@ class Map():
         self.image, _ = utils.load_png(imageFile)
         self.graph = Graph()
         self.walls = {}
+        self.rooms = {}
         self.doors = {}
         self.laserDoors = {}
         self.computers = {}
@@ -101,6 +103,8 @@ class Map():
         for layer in layers:
             if layer["name"] == "walls":
                 self.walls = layer
+            elif layer["name"] == "rooms":
+                self.rooms = layer
             elif layer["name"] == "doors":
                 self.doors = layer
             elif layer["name"] == "objects":
@@ -187,9 +191,6 @@ class Map():
                 laserDoor["height"]
             )
         )
-        if "brokenComputer" in laserDoor.keys():
-            computerId = laserDoor["brokenComputer"]
-            door.problems.add(self.generatedComputers[computerId])
         return door
     
     def exit_door_factory(self, exitDoor, startX, startY):
@@ -246,6 +247,26 @@ class Map():
                 )
             )
         return wallRects
+
+    def rooms_factory(self):
+        """Generates the rooms for this map as a list of rects."""
+        startX = self.rooms["x"]
+        startY = self.rooms["y"]
+        roomRects = []
+        bossRoom = None
+        for room in self.rooms["objects"]:
+            roomRects.append(
+                pygame.Rect(
+                    (startX + room["x"], startY + room["y"]),
+                    (room["width"], room["height"])
+                )
+            )
+            if room["name"] == "bossRoom":
+                bossRoom = pygame.Rect(
+                    (startX + room["x"], startY + room["y"]),
+                    (room["width"], room["height"])
+                )
+        return roomRects, bossRoom
 
     def draw(self, surface, offset):
         """Draw map background to surface."""

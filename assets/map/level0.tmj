@@ -129,6 +129,28 @@
         }, 
         {
          "draworder":"topdown",
+         "id":7,
+         "name":"rooms",
+         "objects":[
+                {
+                 "height":256,
+                 "id":12,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":448,
+                 "x":832,
+                 "y":128
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":2,
          "name":"doors",
          "objects":[
@@ -234,8 +256,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":12,
+ "nextlayerid":8,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

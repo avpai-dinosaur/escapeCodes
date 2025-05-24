@@ -88,6 +88,30 @@ ENEMY_SHEET_METADATA = {
     "colorkey": (0, 0, 0)
 }
 
+DRUCK_SHEET_METADATA = {
+    "frame_width": 64,
+    "frame_height": 64,
+    "scale": 1.5,
+    "actions":  {
+        "attack": {
+            "row": 2,
+            "num_frames": 6,
+            "cooldown": 50
+        },
+        "charge": {
+            "row": 1,
+            "num_frames": 7,
+            "cooldown": 500
+        },
+        "dying": {
+            "row": 0,
+            "num_frames": 7,
+            "cooldown": 500
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
 WASD_SHEET_METADATA = {
     "frame_width": 96,
     "frame_height": 54,
@@ -102,8 +126,36 @@ WASD_SHEET_METADATA = {
     "colorkey": (0, 0, 0)
 }
 
-KEY_SHEET_METADATA = {
+SM_KEY_SHEET_METADATA = {
     "frame_width": 32,
+    "frame_height": 32,
+    "scale": 2,
+    "actions": {
+        "press": {
+            "row": 0,
+            "num_frames": 2,
+            "cooldown": 500
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
+MD_KEY_SHEET_METADATA = {
+    "frame_width": 48,
+    "frame_height": 32,
+    "scale": 2,
+    "actions": {
+        "press": {
+            "row": 0,
+            "num_frames": 2,
+            "cooldown": 500
+        }
+    },
+    "colorkey": (0, 0, 0)
+}
+
+LG_KEY_SHEET_METADATA = {
+    "frame_width": 64,
     "frame_height": 32,
     "scale": 2,
     "actions": {

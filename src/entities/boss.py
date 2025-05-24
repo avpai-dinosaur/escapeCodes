@@ -7,6 +7,7 @@ import pygame
 from enum import Enum
 from random import randint
 from src import constants as c
+from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.entities.player import Player
 
@@ -17,6 +18,7 @@ class FiniteStateMachine():
         """Constructor."""
         self.fsm = {}
         self.updates = {}
+        self.eventHandlers = {}
         self.enters = {}
         self.subscribers = []
         self.state = None
@@ -39,11 +41,13 @@ class FiniteStateMachine():
         self.enters[newState]()
         self.state = newState
 
-    def add_state(self, state, update_func, enter_func=lambda: None):
+    def add_state(self, state, update_func, handle_event_func, enter_func=lambda: None):
         """Add a state to the fsm.
         
             state: The state to add
             update_func: The function to run every tick when the given state becomes current
+            handle_event_func: The function to run to get events off the event queue
+                when the given state becomes current
             enter_func: Optional function to execute once upon entering the given state
         """
         if state in self.updates:
@@ -51,6 +55,7 @@ class FiniteStateMachine():
                 f"State {state} already exists with update function {self.updates[state]}"
             )
         self.updates[state] = update_func
+        self.eventHandlers[state] = handle_event_func
         self.enters[state] = enter_func
         return self
 
@@ -105,6 +110,9 @@ class FiniteStateMachine():
         for ecodeEvent, sub in self.subscribers:
             EventManager.unsubscribe(ecodeEvent, sub)
 
+    def handle_event(self, event: pygame.Event):
+        self.eventHandlers[self.state](event)
+
     def update(self, *args):
         self.updates[self.state](*args)
 
@@ -114,13 +122,14 @@ class Boss(pygame.sprite.Sprite):
 
     class BossState(Enum):
         WAITING = 0
-        CHARGE = 1
-        ATTACK = 2
-        DYING = 3
+        START_DIALOG = 1
+        CHARGE = 2
+        ATTACK = 3
+        DYING = 4
+        DEATH_DIALOG = 5
 
     def __init__(
         self,
-        pos: pygame.Vector2,
         room: pygame.Rect,
         problemSlug: str
     ):
@@ -131,14 +140,25 @@ class Boss(pygame.sprite.Sprite):
             problemSlug: Url slug of problem this boss is associated with
         """
         super().__init__()
-        self.pos = pos
-        self.rect = pygame.Rect(pos.x, pos.y, 64 * 3, 64 * 3)
         self.room = room
+        self.pos = pygame.Vector2(
+            self.room.left + self.room.width / 2,
+            self.room.top + self.room.height / 2
+        )
         self.problemSlug = problemSlug
         self.fsm = FiniteStateMachine()
-        self.health = 100
         self.speed = 10
-        self.color = "grey"
+
+        # Animation variables
+        self.spritesheet = SpriteSheet("druck.png", c.DRUCK_SHEET_METADATA)
+        self.action = "charge"
+        self.currentFrame = 0
+        self.lastUpdate = pygame.time.get_ticks()
+
+        # Image variables
+        self.image = self.spritesheet.get_image(self.action, self.currentFrame)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.pos
 
         # Attacking data
         self.nextPos = self.get_next_pos()
@@ -151,10 +171,13 @@ class Boss(pygame.sprite.Sprite):
         # State Machine
         (
             self.fsm
-                .add_state(Boss.BossState.WAITING, self.waiting_update)
-                .add_state(Boss.BossState.CHARGE, self.charge_update, self.charge_enter)
-                .add_state(Boss.BossState.ATTACK, self.attack_update, self.attack_enter)
-                .add_state(Boss.BossState.DYING, self.dying_update, self.dying_enter)
+                .add_state(Boss.BossState.WAITING, self.waiting_update, self.waiting_handle_event)
+                .add_state(Boss.BossState.START_DIALOG, self.start_dialog_update, self.start_dialog_handle_event, self.start_dialog_enter)
+                .add_state(Boss.BossState.CHARGE, self.charge_update, self.charge_handle_event, self.charge_enter)
+                .add_state(Boss.BossState.ATTACK, self.attack_update, self.attack_handle_event, self.attack_enter)
+                .add_state(Boss.BossState.DYING, self.dying_update, self.dying_handle_event, self.dying_enter)
+                .add_state(Boss.BossState.DEATH_DIALOG, self.death_dialog_update, self.death_dialog_handle_event)
+                .add_transition(Boss.BossState.START_DIALOG, Boss.BossState.CHARGE, EcodeEvent.FINISHED_DIALOG)
                 .add_transition(Boss.BossState.CHARGE, Boss.BossState.DYING, EcodeEvent.KILL_BOSS)
                 .build(Boss.BossState.WAITING)
         )
@@ -162,38 +185,49 @@ class Boss(pygame.sprite.Sprite):
         # Event Subscriber
         EventManager.subscribe(EcodeEvent.HIT_BAR, self.hack)
 
+    def start_dialog_enter(self):
+        """Execute once upon entering dialog state."""
+        EventManager.emit(EcodeEvent.OPEN_DIALOG, lines=["TODO: Set boss dialog"], currentLine=0)
+
     def charge_enter(self):
         """Execute once upon entering charge state."""
         self.chargeStart = pygame.time.get_ticks()
-        self.color = "blue"
+        self.action = "charge"
+        self.currentFrame = 0
         EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
         """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
-        self.color = "orange"
+        self.action = "attack"
+        self.currentFrame = 0
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
         """Execute once upon entering dying state."""
         self.dyingStart = pygame.time.get_ticks()
-        self.color = "red"
+        self.action = "dying"
+        self.currentFrame = 0
 
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
         if self.room.colliderect(player.rect):
-            self.fsm.set_state(Boss.BossState.CHARGE)
+            self.fsm.set_state(Boss.BossState.START_DIALOG)
+
+    def start_dialog_update(self, _):
+        """Update function to run when in start dialog state."""
+        pass
 
     def charge_update(self, _):
         """Update function to run when in charge state."""
-        if pygame.time.get_ticks() - self.chargeStart > 10000:
+        if pygame.time.get_ticks() - self.chargeStart > 3000:
             self.fsm.set_state(Boss.BossState.ATTACK)
 
     def attack_update(self, player: Player):
         """Update function to run when in attack state."""
         if self.rect.colliderect(player.rect):
             player.health.lose(1)
-        if pygame.time.get_ticks() - self.attackStart > 10000:
+        if pygame.time.get_ticks() - self.attackStart > 3000:
             self.fsm.set_state(Boss.BossState.CHARGE)
         if self.move(self.nextPos):
             self.nextPos = self.get_next_pos()
@@ -202,6 +236,34 @@ class Boss(pygame.sprite.Sprite):
         """Update function to run when in dying state."""
         if pygame.time.get_ticks() - self.dyingStart > 3000:
             self.destroy()
+    
+    def death_dialog_update(self, _):
+        """Update function to run when in death dialog state."""
+        pass
+
+    def waiting_handle_event(self, event: pygame.Event):
+        """Event handler to run when in waiting state."""
+        pass
+
+    def start_dialog_handle_event(self, event: pygame.Event):
+        """Event handler to run when in the start dialog state."""
+        pass
+
+    def charge_handle_event(self, event: pygame.Event):
+        """Event handler to run when in charge state."""
+        pass
+
+    def attack_handle_event(self, event: pygame.Event):
+        """Event handler to run when in attack state."""
+        pass
+
+    def dying_handle_event(self, event: pygame.Event):
+        """Event handler to run when in dying state."""
+        pass
+
+    def death_dialog_handle_event(self, event: pygame.Event):
+        """Event handler to run when in death dialog state."""
+        pass
 
     def hack(self):
         """Trigger an attempt to hack the boss."""
@@ -245,8 +307,41 @@ class Boss(pygame.sprite.Sprite):
         self.fsm.destroy()
         self.kill()
 
+    def update_animation(self):
+        """Update animation of boss."""
+        currentTime = pygame.time.get_ticks()
+        if(currentTime - self.lastUpdate >= self.spritesheet.cooldown(self.action)):
+            self.currentFrame += 1
+            self.lastUpdate = currentTime
+            if(self.currentFrame >= self.spritesheet.num_frames(self.action)):
+                self.currentFrame = 0
+            self.image = self.spritesheet.get_image(self.action, self.currentFrame)
+
+    def handle_event(self, event: pygame.Event):
+        self.fsm.handle_event(event)
+
     def update(self, player: Player):
         self.fsm.update(player)
+        self.update_animation()
 
-    def draw(self, surface, offset):
-        pygame.draw.rect(surface, self.color, self.rect.move(offset[0], offset[1]), border_radius=10)
+    def draw(self, surface: pygame.Surface, offset):
+        surface.blit(self.image, self.rect.move(offset[0], offset[1]))
+
+
+class Druck(Boss):
+
+    def start_dialog_enter(self):
+        """Execute once upon entering dialog state."""
+        EventManager.emit(EcodeEvent.OPEN_DIALOG, lines=["hmmm... chocolate", "ok time to fight"], currentLine=0)
+
+    def attack_update(self, player: Player):
+        """Update function to run when in attack state."""
+        if self.rect.colliderect(player.rect):
+            player.health.lose(1)
+        if pygame.time.get_ticks() - self.attackStart > 3000:
+            self.fsm.set_state(Boss.BossState.CHARGE)
+        if self.move(self.nextPos):
+            if self.room.colliderect(player.rect):
+                self.nextPos = player.rect.topleft
+            else:
+                self.fsm.set_state(Boss.BossState.WAITING)

@@ -383,6 +383,50 @@
         }, 
         {
          "draworder":"topdown",
+         "id":21,
+         "name":"rooms",
+         "objects":[
+                {
+                 "height":1088,
+                 "id":84,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1408,
+                 "x":832,
+                 "y":128
+                }, 
+                {
+                 "height":1088,
+                 "id":85,
+                 "name":"bossRoom",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":704,
+                 "x":2496,
+                 "y":128
+                }, 
+                {
+                 "height":576,
+                 "id":86,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":512,
+                 "x":64,
+                 "y":512
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":19,
          "name":"doors",
          "objects":[
@@ -653,8 +697,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":20,
- "nextobjectid":84,
+ "nextlayerid":23,
+ "nextobjectid":87,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
@@ -663,10 +707,6 @@
         {
          "firstgid":1,
          "source":"atticusWalls.tsx"
-        }, 
-        {
-         "firstgid":47,
-         "source":"redSpace.tsx"
         }, 
         {
          "firstgid":47,
