@@ -32,6 +32,7 @@ class EcodeEvent(Enum):
     FINISHED_DIALOG = 25
 
     OPEN_PIN = 26
+    OPEN_DOOR = 27
 
 class EventManager:
     """Class to represent an event subscription system."""

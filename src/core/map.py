@@ -191,9 +191,6 @@ class Map():
                 laserDoor["height"]
             )
         )
-        if "brokenComputer" in laserDoor.keys():
-            computerId = laserDoor["brokenComputer"]
-            door.problems.add(self.generatedComputers[computerId])
         return door
     
     def exit_door_factory(self, exitDoor, startX, startY):

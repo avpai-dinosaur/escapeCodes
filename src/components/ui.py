@@ -730,9 +730,10 @@ class PinPad:
         for i in range(len(self.inputDigitRects)):
             self.inputDigitRects[i].left = digitMargin + i * (digitWidth + digitMargin)
 
-    def open(self, pin: int):
+    def open(self, pin: int, id: int):
         self.isVisible = True
         self.pin = pin
+        self.doorId = id
         EventManager.emit(EcodeEvent.PAUSE_GAME)
 
     def update(self):
@@ -756,10 +757,9 @@ class PinPad:
                         input += digit
                     input = int(input)
                     if input == self.pin:
-                        print("input is correct!")
+                        self.isVisible = False
+                        EventManager.emit(EcodeEvent.OPEN_DOOR, id=self.doorId)
                         EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                    else:
-                        print("input is wrong!")
                 elif event.key == pygame.K_ESCAPE:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
