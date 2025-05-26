@@ -15,7 +15,7 @@ class SlideshowUi:
 
         self.rightArrow = pygame.transform.scale(
             utils.load_png("rightArrow.png")[0],
-            (50, 50)
+            (75, 75)
         )
         self.leftArrow = pygame.transform.flip(self.rightArrow, True, False)
         self.rightArrowRect = self.rightArrow.get_rect()
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         utils.load_png("titleSlide.png")[0],
         utils.load_png("secondSlide.png")[0]
     ]
-    slideshow = SlideshowUi(480, 270, slides)
+    slideshow = SlideshowUi(480 * 2, 270 * 2, slides)
     slideshow.rect.centerx = 500
     slideshow.rect.centery = 500
 
