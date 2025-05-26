@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level1.tmx",
+    "activeFile": "level2.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -126,9 +126,9 @@
     "property.type": "string",
     "recentFiles": [
         "atticusWalls.tsx",
-        "level2.tmx",
         "level0.tmx",
         "level1.tmx",
+        "level2.tmx",
         "redSpace.tsx",
         "atticusMap.tmx",
         "map.tmx",
