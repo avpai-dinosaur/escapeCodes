@@ -11,6 +11,7 @@ from src.core.ecodeEvents import EcodeEvent, EventManager
 from src.core import utils
 from src import constants as c
 from src.components.button import TextInput
+from src.components.scrollable import ScrollableTextUi
 
 
 class WasdUi:
@@ -148,7 +149,8 @@ class NoteUi:
                 self.backgroundRect.top + self.textUiMargin
             ),
             self.backgroundRect.width - 2 * self.textUiMargin,
-            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin
+            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin,
+            utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         )
         self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
         self.set_text("")
@@ -312,7 +314,8 @@ class TestCaseHackUi:
                 self.leftTextRect.bottom + self.textUiMargin
             ),
             self.backgroundRect.width / 2 - 2 * self.textUiMargin,
-            self.backgroundRect.height - self.keyControls.rect.height - self.leftTextRect.height - 2 * self.textUiMargin
+            self.backgroundRect.height - self.keyControls.rect.height - self.leftTextRect.height - 2 * self.textUiMargin,
+            utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         )
 
         # Parsing Errors
@@ -444,68 +447,6 @@ class KeyPromptControlBarUi:
     def draw(self, surface: pygame.Surface):
         self.internalSurface.fill((0, 0, 0, 0))
         [c.draw(self.internalSurface) for c in self.controls]
-        surface.blit(self.internalSurface, self.rect)
-
-
-class ScrollableTextUi:
-    """Class representing scrollable text ui element."""
-
-    def __init__(
-        self, pos: pygame.Vector2, width: int, height: int,
-        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)    
-    ):
-        """Constructor.
-        
-            pos: Coordinates of left top corner of the element.
-            width: Width of the element.
-            height: Height of the element.
-            font: Font to render text with.
-        """
-        self.rect = pygame.Rect(pos.x, pos.y, width, height)
-        self.font = font
-        self.scrollBarTrackWidth = 10
-        self.internalSurface = pygame.Surface(self.rect.size, pygame.SRCALPHA).convert_alpha()
-        self.set_text("")
-    
-    def set_text(self, textInput: str):
-        self.text = textInput
-        self.textImage = self.font.render(
-            self.text, True, 'white',
-            wraplength=self.rect.width - self.scrollBarTrackWidth
-        )
-        self.textRect = self.textImage.get_rect()
-        self.textRect.topleft = (0, 0)
-
-        # Create the scroll bar
-        self.scrollBar = None
-        self.showScrollBar = False
-        if self.textRect.height > self.rect.height:
-            self.scrollBar = pygame.Rect()
-            self.scrollBar.width = self.scrollBarTrackWidth
-            self.scrollBar.height = self.internalSurface.height ** 2 // self.textRect.height
-            self.scrollBar.top = 0
-            self.scrollBar.right = self.internalSurface.width
-    
-    def update(self):
-        self.showScrollBar = utils.is_mouse_in_rect(self.rect)
-
-    def handle_event(self, event: pygame.Event):
-        if event.type == pygame.MOUSEWHEEL and utils.is_mouse_in_rect(self.rect):
-            scroll = (
-                (event.y < 0 and self.textRect.bottom > self.rect.height)
-                or (event.y > 0 and self.textRect.top < 0)
-            )
-            if scroll:
-                # Scale scroll distance by the height of one character
-                distanceY = event.y * self.font.size("c")[1]
-                self.textRect.top += distanceY
-                self.scrollBar.top = -(self.textRect.top * self.internalSurface.height) // self.textRect.height
-
-    def draw(self, surface: pygame.Surface):
-        self.internalSurface.fill((0, 0, 0, 0))
-        self.internalSurface.blit(self.textImage, self.textRect)
-        if self.scrollBar is not None and self.showScrollBar:
-            pygame.draw.rect(self.internalSurface, "grey", self.scrollBar)
         surface.blit(self.internalSurface, self.rect)
 
 
