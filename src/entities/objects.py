@@ -389,6 +389,7 @@ class ProblemComputer(Computer):
 
     def computer_action(self):
         self.present_button = False
+        EventManager.emit(EcodeEvent.CHECK_PROBLEMS)
         EventManager.emit(
             EcodeEvent.OPEN_NOTE,
             text=self.note.text_input,

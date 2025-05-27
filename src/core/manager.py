@@ -1,5 +1,6 @@
 import pygame
 from src.core.game import Game
+from src.core.leetcodeManager import LeetcodeManager
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
 import src.core.utils as utils
 import src.constants as c
@@ -15,6 +16,7 @@ class GameManager:
             "died": YouDiedMenu(self)
         }
         self.active_state = self.states["menu"]
+        self.leetcodeManager = LeetcodeManager()
 
     def set_state(self, state_name):
         pygame.display.set_caption(state_name)
@@ -22,6 +24,7 @@ class GameManager:
 
     def handle_event(self, event):
         self.active_state.handle_event(event)
+        self.leetcodeManager.handle_event(event)
 
     def update(self):
         self.active_state.update()

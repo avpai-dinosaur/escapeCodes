@@ -24,13 +24,11 @@ class LeetcodeManager:
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.OPEN_PROBLEM, self.on_open_problem)
         EventManager.subscribe(EcodeEvent.GET_PROBLEM_DESCRIPTION, LeetcodeManager.on_get_problem_description)
+        EventManager.subscribe(EcodeEvent.CHECK_PROBLEMS, self.on_check_problems)
 
     def handle_event(self, event: pygame.Event) -> None:
         """Handle events off the event queue."""
-        if event.type == c.CHECK_PROBLEMS:
-            apiRequestThread = threading.Thread(target=self.check_submissions, args=(self.startTimestamp,))
-            apiRequestThread.start()
-        elif event.type == c.USER_LOGIN:
+        if event.type == c.USER_LOGIN:
             self.username = event.username
             self.stats = event.stats
 
@@ -45,9 +43,18 @@ class LeetcodeManager:
             args=(problemSlug,)
         )
         t.start()
+    
+    def on_check_problems(self):
+        t = threading.Thread(
+            target=self.check_submissions,
+            args=(self.startTimestamp,)
+        )
+        t.start()
 
     def check_submissions(self, lowerTimestamp: int) -> None:
         """Check the user's last 50 accepted submissions."""
+        print(f"Getting {self.username}'s recent submissions")
+        
         LeetcodeManager.lock.acquire_lock()
         
         payload = {
@@ -79,7 +86,6 @@ class LeetcodeManager:
             headers=headers
         )
         recentSubmissions = json.loads(response.text)["data"]
-        print(f"Getting {self.username}'s recent submissions")
         pprint(recentSubmissions)
         
         LeetcodeManager.lock.acquire_lock()
@@ -156,6 +162,7 @@ class LeetcodeManager:
             lowerTimestamp: time the submission should have occured after to be considered valid
         """
         for submission in submissionList:
+            print(submission, lowerTimestamp)
             if (
                 submission["titleSlug"] == problemSlug \
                 and int(submission["timestamp"]) >= lowerTimestamp
@@ -163,7 +170,3 @@ class LeetcodeManager:
                 EventManager.emit(EcodeEvent.PROBLEM_SOLVED, problemSlug=problemSlug)
                 return True
         return False
-            
-    def update(self):
-        """Update to run each game loop."""
-        pass

@@ -12,7 +12,6 @@ class Game():
     def __init__(self, manager, playerStats):
         self.manager = manager
         self.camera = Camera()
-        self.leetcodeManager = LeetcodeManager()
         self.uiManager = UiManager()
         self.levels: list[Level] = [
             Level("level0.png", "level0.tmj"),
@@ -43,7 +42,6 @@ class Game():
         if not self.isPaused:
             self.levels[self.level].update()
             self.camera.update()
-        self.leetcodeManager.update()
         self.uiManager.update()
     
     def next_level(self):
@@ -64,7 +62,6 @@ class Game():
                 self.camera.reset()
                 self.next_level()
         
-        self.leetcodeManager.handle_event(event)
         self.uiManager.handle_event(event)
 
     def draw(self, surface):
