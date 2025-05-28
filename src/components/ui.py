@@ -26,7 +26,7 @@ class WasdUi:
         self.currentFrame = 0
         self.image = self.spritesheet.get_image("press", self.currentFrame)
         self.rect = self.image.get_rect()
-        self.rect.topleft = pos
+        self.rect.center = pos
         self.lastUpdate = pygame.time.get_ticks()
         self.isVisible = True
         self.disappearStartTimestamp = None
