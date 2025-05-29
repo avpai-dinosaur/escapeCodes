@@ -141,6 +141,7 @@ class LaserDoor(Door):
     """Class to represent a laser door."""
 
     id = 0
+    giveTutorial = True
 
     def __init__(self, rect, pin):
         """Constructor.
@@ -245,6 +246,12 @@ class LaserDoor(Door):
     def door_action(self):
         if self.pin != 0:
             EventManager.emit(EcodeEvent.OPEN_PIN, pin=self.pin, id=self.id)
+            if LaserDoor.giveTutorial:
+                EventManager.emit(
+                    EcodeEvent.GIVE_ORDER,
+                    text="Explore the environment to discover the pin to locked doors."
+                )
+                LaserDoor.giveTutorial = False
         else:
             self.receding = True
 
@@ -267,7 +274,8 @@ class ExitDoor(Door):
     """Class to represent door that takes player to next level."""
 
     def door_action(self):
-        pygame.event.post(pygame.Event(c.LEVEL_ENDED))
+        EventManager.emit(EcodeEvent.CAMERA_SHAKE)
+        # pygame.event.post(pygame.Event(c.LEVEL_ENDED))
 
 
 class SpeechBubble():
@@ -369,7 +377,6 @@ class Computer(pygame.sprite.Sprite):
 
 class ProblemComputer(Computer):
     """Class to represent a computer that hosts a LeetCode problem."""
-    giveTutorial = True 
 
     def __init__(self, rect, textInput, url, pinText):
         super().__init__(rect, textInput)
@@ -398,12 +405,6 @@ class ProblemComputer(Computer):
             isSolved=self.isSolved,
             pinText=self.pinText
         )
-        if ProblemComputer.giveTutorial:
-            EventManager.emit(
-                EcodeEvent.GIVE_ORDER,
-                text="Solve the LeetCode question to get the locked door's PIN"
-            )
-            ProblemComputer.giveTutorial = False
 
 
 class StaticItem(pygame.sprite.Sprite):
@@ -417,6 +418,7 @@ class StaticItem(pygame.sprite.Sprite):
     def draw(self, surface, offset):
         pygame.draw.rect(surface, (219, 134, 111), self.rect.move(offset))
         # surface.blit(self.image, self.rect.topleft + offset)
+
 
 class DanceFloor(StaticItem):
 

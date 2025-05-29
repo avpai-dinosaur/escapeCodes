@@ -134,10 +134,10 @@ class Player(pygame.sprite.Sprite):
             self.image = self.spritesheet.get_image(self.action, self.current_frame)
         
         if self.action == "run" and self.current_frame != self.lastFootStepFrame:
-            if self.current_frame == 2:
-                self.footstepLeftSound.play()
-            elif self.current_frame == 5:
-                self.footstepRightSound.play()
+            # if self.current_frame == 2:
+            #     self.footstepLeftSound.play()
+            # elif self.current_frame == 5:
+            #     self.footstepRightSound.play()
             self.lastFootStepFrame = self.current_frame
 
         # if self.health.hp <= 0:

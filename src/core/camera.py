@@ -1,6 +1,7 @@
 import pygame
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
+import random
 
 
 class Camera(pygame.sprite.Group):
@@ -29,12 +30,18 @@ class Camera(pygame.sprite.Group):
         self.x_bound_distance = self.half_w
         self.y_bound_distance = self.half_h
 
+        # Shake effect
+        self.shakeDuration = 10000
+        self.shakeIntensity = 5
+        self.shakeStart = None
+
         # Lighting
         self.light_radius = 300
         self.dim = False
 
         # Event subscribers
         EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.set_target)
+        EventManager.subscribe(EcodeEvent.CAMERA_SHAKE, self.shake)
 
         self.foreground_objects = pygame.sprite.Group()
         self.background_objects = pygame.sprite.Group()
@@ -52,10 +59,20 @@ class Camera(pygame.sprite.Group):
         """Centers the camera onto stored target."""
         self.offset.x = self.target.centerx - self.half_w
         self.offset.y = self.target.centery - self.half_h
+        if (
+            self.shakeStart
+            and pygame.time.get_ticks() - self.shakeStart < self.shakeDuration
+        ):
+            self.offset.x += random.uniform(-self.shakeIntensity, self.shakeIntensity)
+            self.offset.y += random.uniform(-self.shakeIntensity, self.shakeIntensity)
 
     def set_target(self, target: pygame.Rect):
         """Set the camera's target."""
         self.target = target
+    
+    def shake(self):
+        """Execute shake effect."""
+        self.shakeStart = pygame.time.get_ticks()
 
     def update(self):
         """Update the camera."""

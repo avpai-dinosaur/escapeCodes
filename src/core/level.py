@@ -131,4 +131,9 @@ class Tutorial(Level):
 class Level1(Level):
     def __init__(self):
         super().__init__("level1.png", "level1.tmj")
-     
+    
+    def give_objective(self):
+        EventManager.emit(
+            EcodeEvent.GIVE_ORDER,
+            text="ERR: Unable To Find Objective"
+        )
