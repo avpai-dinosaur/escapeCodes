@@ -24,12 +24,12 @@ class OrderUi:
     def set_text(self, text: str):
         self.textImage = self.font.render(text, True, "white", wraplength=self.width - 2 * self.textMargin)
         self.textRect = self.textImage.get_rect()
-        self.rect = self.textRect.inflate(
-            self.textMargin * 2 + self.infoIconRect.width,
-            self.textMargin + self.infoIconRect.height)
+        self.rect = pygame.Rect()
+        self.rect.width = self.textMargin + self.textRect.width + self.infoIconRect.width
+        self.rect.height = self.textRect.height + self.textMargin * 2
         self.rect.top = 10
         self.rect.right = c.SCREEN_WIDTH - 10
-        self.textRect.top = self.infoIconRect.bottom + self.textMargin
+        self.textRect.top = self.rect.top + self.textMargin
         self.textRect.left = self.rect.left + self.textMargin
         self.infoIconRect.topright = self.rect.topright
         self.startVisibility = pygame.time.get_ticks()

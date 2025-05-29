@@ -369,6 +369,7 @@ class Computer(pygame.sprite.Sprite):
 
 class ProblemComputer(Computer):
     """Class to represent a computer that hosts a LeetCode problem."""
+    giveTutorial = True 
 
     def __init__(self, rect, textInput, url, pinText):
         super().__init__(rect, textInput)
@@ -397,6 +398,12 @@ class ProblemComputer(Computer):
             isSolved=self.isSolved,
             pinText=self.pinText
         )
+        if ProblemComputer.giveTutorial:
+            EventManager.emit(
+                EcodeEvent.GIVE_ORDER,
+                text="Solve the LeetCode question to get the locked door's PIN"
+            )
+            ProblemComputer.giveTutorial = False
 
 
 class StaticItem(pygame.sprite.Sprite):
