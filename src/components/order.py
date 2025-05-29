@@ -26,12 +26,12 @@ class OrderUi:
         self.textRect = self.textImage.get_rect()
         self.rect = self.textRect.inflate(
             self.textMargin * 2 + self.infoIconRect.width,
-            self.textMargin * 2 + self.infoIconRect.height)
+            self.textMargin + self.infoIconRect.height)
         self.rect.top = 10
         self.rect.right = c.SCREEN_WIDTH - 10
-        self.textRect.top = self.rect.top + self.textMargin
+        self.textRect.top = self.infoIconRect.bottom + self.textMargin
         self.textRect.left = self.rect.left + self.textMargin
-        self.infoIconRect.bottomright = self.rect.bottomright
+        self.infoIconRect.topright = self.rect.topright
         self.startVisibility = pygame.time.get_ticks()
         self.isVisible = True
     
@@ -39,8 +39,15 @@ class OrderUi:
         if pygame.time.get_ticks() - self.startVisibility > 10000:
             self.isVisible = False
 
+    def handle_event(self, event: pygame.Event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if utils.is_mouse_in_rect(self.infoIconRect):
+                if not self.isVisible:
+                    self.startVisibility = pygame.time.get_ticks()
+                self.isVisible = not self.isVisible
+
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, "dimgrey", self.rect, border_radius=5)
             surface.blit(self.textImage, self.textRect)
-            surface.blit(self.infoIcon, self.infoIconRect)
+        surface.blit(self.infoIcon, self.infoIconRect)

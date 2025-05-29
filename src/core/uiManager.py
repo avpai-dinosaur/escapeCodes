@@ -19,6 +19,7 @@ class UiManager:
         self.testCaseBattleUi.handle_event(event)
         self.dialogUi.handle_event(event)
         self.pinUi.handle_event(event)
+        self.orderUi.handle_event(event)
 
     def update(self):
         self.wasdUi.update()

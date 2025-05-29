@@ -15,6 +15,7 @@ class Level():
     def __init__(self, imageFile: str, dataFile: str):
         self.map = Map(imageFile, dataFile)
         self.load_entities()
+        self.give_objective()
 
     def load_entities(self):
         self.objects = self.map.object_factory()
@@ -44,6 +45,9 @@ class Level():
 
         camera.target = self.player.rect
         camera.background = self.map.image
+    
+    def give_objective(self):
+        pass
     
     def reset(self, camera):
         self.load_entities()
@@ -115,5 +119,16 @@ class LevelFactory():
 class Tutorial(Level):
     def __init__(self):
         super().__init__("level0.png", "level0.tmj")
-        EventManager.emit(EcodeEvent.GIVE_ORDER, text="Do the tutorial")
+    
+    def give_objective(self):
+        EventManager.emit(
+            EcodeEvent.GIVE_ORDER,
+            text="Secure the bridge between our world and the Utopia. You are responsible for ensuring that it is in operational order before liftoff."
+        )
+
+
+@LevelFactory.register_level("level1")
+class Level1(Level):
+    def __init__(self):
+        super().__init__("level1.png", "level1.tmj")
      
