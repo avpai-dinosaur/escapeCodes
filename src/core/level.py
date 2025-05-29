@@ -6,6 +6,8 @@ from src.entities.boss import Druck
 from src.core.map import Map
 import src.core.utils as utils
 import src.constants as c
+from src.core.ecodeEvents import EventManager, EcodeEvent
+
 
 class Level():
     """Represents a level in the game."""
@@ -86,3 +88,32 @@ class Level():
     def draw_ui(self, surface):
         """Draw any ui specific to the level."""
         pass
+
+
+class LevelFactory():
+    """Maps level names to the level class."""
+    _registry = {}
+
+    def register(levelName: str, levelClass) -> None:
+        if levelName in LevelFactory._registry:
+            raise ValueError(f"Level {levelName} already registered")
+        LevelFactory._registry[levelName] = levelClass
+    
+    def create(levelName: str) -> Level:
+        if levelName not in LevelFactory._registry:
+            raise ValueError(f"Level '{levelName}' not found")
+        return LevelFactory._registry[levelName]()
+    
+    def register_level(levelName):
+        def decorator(levelClass):
+            LevelFactory.register(levelName, levelClass)
+            return levelClass
+        return decorator
+
+
+@LevelFactory.register_level("tutorial")
+class Tutorial(Level):
+    def __init__(self):
+        super().__init__("level0.png", "level0.tmj")
+        EventManager.emit(EcodeEvent.GIVE_ORDER, text="Do the tutorial")
+     

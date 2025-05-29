@@ -1,8 +1,7 @@
 from src.core.camera import Camera
-from src.core.leetcodeManager import LeetcodeManager
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.uiManager import UiManager
-from src.core.level import Level
+from src.core.level import LevelFactory 
 import src.constants as c
 
 
@@ -13,14 +12,14 @@ class Game():
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
-        self.levels: list[Level] = [
-            Level("level0.png", "level0.tmj"),
-            Level("level1.png", "level1.tmj"),
-            Level("level2.png", "level2.tmj")
+        self.levels: list[str] = [
+            "tutorial",
+            "level1",
+            "level2"
         ]
-        self.level = 0
-        self.levels[self.level].load_camera(self.camera)
+        self.currentLevelIdx = -1
         self.isPaused = False
+        self.next_level()
 
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
@@ -35,27 +34,28 @@ class Game():
 
     def on_death(self):
         self.camera.reset()
-        self.levels[self.level].reset(self.camera)
+        self.currentLevel.reset(self.camera)
         self.manager.set_state("died")
 
     def update(self):
         if not self.isPaused:
-            self.levels[self.level].update()
+            self.currentLevel.update()
             self.camera.update()
         self.uiManager.update()
     
     def next_level(self):
         self.camera.reset()
-        if self.level == len(self.levels) - 1:
-            self.level = 0
+        if self.currentLevelIdx == len(self.levels) - 1:
+            self.currentLevelIdx = -1
             self.manager.set_state("menu")
         else:
-            self.level += 1
-        self.levels[self.level].load_camera(self.camera)
+            self.currentLevelIdx += 1
+        self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])
+        self.currentLevel.load_camera(self.camera)
 
     def handle_event(self, event):
         if not self.isPaused:
-            self.levels[self.level].handle_event(event)
+            self.currentLevel.handle_event(event)
             self.camera.handle_event(event)
         
             if event.type == c.LEVEL_ENDED:

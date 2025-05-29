@@ -12,9 +12,6 @@ class UiManager:
         self.dialogUi = ui.DialogUi()
         self.pinUi = ui.PinPad()
         self.orderUi = order.OrderUi(500)
-        self.orderUi.set_text("Secure the bridge between our world and the Utopia. You are responsible for ensuring that it is in operational order before liftoff.")
-        self.orderUi.rect.top = 10
-        self.orderUi.rect.right = c.SCREEN_WIDTH - 10
     
     def handle_event(self, event):
         self.noteUi.handle_event(event)

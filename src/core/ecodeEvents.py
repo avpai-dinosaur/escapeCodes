@@ -34,6 +34,8 @@ class EcodeEvent(Enum):
     OPEN_PIN = 26
     OPEN_DOOR = 27
 
+    GIVE_ORDER = 28
+
 class EventManager:
     """Class to represent an event subscription system."""
 

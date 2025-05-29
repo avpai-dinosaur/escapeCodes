@@ -5,6 +5,7 @@ order.py
 import pygame
 import src.core.utils as utils
 import src.constants as c
+from src.core.ecodeEvents import EventManager, EcodeEvent
 
 class OrderUi:
     def __init__(self, width):
@@ -12,18 +13,20 @@ class OrderUi:
         self.textMargin = 10
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
         self.infoIcon, self.infoIconRect = utils.load_png("information.png")
+        
         # Event Subscribers
-        EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.on_player_move)
+        EventManager.subscribe(EcodeEvent.GIVE_ORDER, self.on_give_order)
 
-    def on_player_move(self, **kwargs):
-        self.disappearStartTimestamp = pygame.time.get_ticks()
-        EventManager.unsubscribe(EcodeEvent.PLAYER_MOVED, self.on_player_move)
+    def on_give_order(self, text: str):
+        self.startVisibility = pygame.time.get_ticks()
+        self.set_text(text)
 
-    
     def set_text(self, text: str):
         self.textImage = self.font.render(text, True, "white", wraplength=self.width - 2 * self.textMargin)
         self.textRect = self.textImage.get_rect()
-        self.rect = self.textRect.inflate(self.textMargin * 2, self.textMargin * 2)
+        self.rect = self.textRect.inflate(
+            self.textMargin * 2 + self.infoIconRect.width,
+            self.textMargin * 2 + self.infoIconRect.height)
         self.rect.top = 10
         self.rect.right = c.SCREEN_WIDTH - 10
         self.textRect.top = self.rect.top + self.textMargin
