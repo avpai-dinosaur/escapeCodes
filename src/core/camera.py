@@ -31,17 +31,21 @@ class Camera(pygame.sprite.Group):
         self.y_bound_distance = self.half_h
 
         # Shake effect
-        self.shakeDuration = 10000
-        self.shakeIntensity = 5
+        self.shakeDuration = None
+        self.maxShakeIntensity = None
         self.shakeStart = None
 
+        # Blackout effect
+        self.blackoutDuration = None
+        self.blackoutStart = None
+    
         # Lighting
-        self.light_radius = 300
-        self.dim = False
+        self.brightness = 0
 
         # Event subscribers
         EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.set_target)
         EventManager.subscribe(EcodeEvent.CAMERA_SHAKE, self.shake)
+        EventManager.subscribe(EcodeEvent.CAMERA_BLACKOUT, self.blackout)
 
         self.foreground_objects = pygame.sprite.Group()
         self.background_objects = pygame.sprite.Group()
@@ -63,21 +67,36 @@ class Camera(pygame.sprite.Group):
             self.shakeStart
             and pygame.time.get_ticks() - self.shakeStart < self.shakeDuration
         ):
-            self.offset.x += random.uniform(-self.shakeIntensity, self.shakeIntensity)
-            self.offset.y += random.uniform(-self.shakeIntensity, self.shakeIntensity)
+            shakeIntensityScale = (pygame.time.get_ticks() - self.shakeStart) / self.shakeDuration
+            intensity = self.maxShakeIntensity * shakeIntensityScale
+            self.offset.x += random.uniform(-intensity, intensity)
+            self.offset.y += random.uniform(-intensity, intensity)
 
     def set_target(self, target: pygame.Rect):
         """Set the camera's target."""
         self.target = target
     
-    def shake(self):
+    def shake(self, duration, maxIntensity):
         """Execute shake effect."""
+        self.shakeDuration = duration
+        self.maxShakeIntensity = maxIntensity
         self.shakeStart = pygame.time.get_ticks()
+    
+    def blackout(self, duration):
+        """Execute blackout followed by fade in effect."""
+        self.blackoutDuration = duration
+        self.blackoutStart = pygame.time.get_ticks()
 
     def update(self):
         """Update the camera."""
         if self.target:
             self.center_camera()
+        if (
+            self.blackoutStart
+            and pygame.time.get_ticks() - self.blackoutStart < self.blackoutDuration
+        ):
+            blackoutIntensityScale = 1 - (pygame.time.get_ticks() - self.blackoutStart) / self.blackoutDuration
+            self.brightness = 0 + 255 * blackoutIntensityScale
 
     def handle_event(self, event):
         """Handle an event off the event queue."""
@@ -108,8 +127,7 @@ class Camera(pygame.sprite.Group):
         scaled_rect = scaled_surface.get_rect(center=(self.half_w, self.half_h))
         surface.blit(scaled_surface, scaled_rect)
 
-        # Dance floor
-        dim_surface = pygame.Surface((1280, 800), pygame.SRCALPHA).convert_alpha()
-        dim_surface.fill((0, 0, 0, 180))  # RGBA: Dark transparent overlay
-        if self.dim:
-            surface.blit(dim_surface, (0, 0))
+        # Tweak lighting
+        dim_surface = pygame.Surface((c.SCREEN_WIDTH, c.SCREEN_HEIGHT), pygame.SRCALPHA).convert_alpha()
+        dim_surface.fill((0, 0, 0, self.brightness)) 
+        surface.blit(dim_surface, (0, 0))

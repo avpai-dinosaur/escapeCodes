@@ -1,4 +1,5 @@
-from collections import defaultdict
+import pygame
+from collections import defaultdict, deque
 from enum import Enum
 
 class EcodeEvent(Enum):
@@ -36,11 +37,21 @@ class EcodeEvent(Enum):
 
     GIVE_ORDER = 28
     CAMERA_SHAKE = 29
+    CAMERA_BLACKOUT = 30
+
+
+class ScheduledEvent:
+    def __init__(self, event: EcodeEvent, triggerTime: int, kwargs):
+        self.event = event
+        self.triggerTime = triggerTime
+        self.kwargs = kwargs
+
 
 class EventManager:
     """Class to represent an event subscription system."""
 
     listeners = defaultdict(list)
+    scheduled = deque()
 
     def subscribe(event: EcodeEvent, callback):
         """Subscribe to an event.
@@ -50,15 +61,6 @@ class EventManager:
         """
         EventManager.listeners[event].append(callback)
     
-    def emit(event: EcodeEvent, **kwargs):
-        """Emit an event.
-        
-            event: Event to emit.
-            **kwargs: Keyword arguments to pass to subscriber callbacks.
-        """
-        for func in EventManager.listeners[event]:
-            func(**kwargs)
-    
     def unsubscribe(event: EcodeEvent, callback):
         """Unsubscribe from an event.
         
@@ -66,3 +68,24 @@ class EventManager:
             callback: Function to unsubscribe
         """
         EventManager.listeners[event].remove(callback)
+
+    def emit(event: EcodeEvent, delay: int=0, **kwargs):
+        """Emit an event.
+        
+            event: Event to emit.
+            **kwargs: Keyword arguments to pass to subscriber callbacks.
+        """
+        if delay == 0:
+            for func in EventManager.listeners[event]:
+                func(**kwargs)
+        else:
+            triggerTime = pygame.time.get_ticks() + delay
+            EventManager.scheduled.append(ScheduledEvent(event, triggerTime, kwargs))
+    
+    def update():
+        """Emit scheduled events."""
+        now = pygame.time.get_ticks()
+        while len(EventManager.scheduled) > 0 and EventManager.scheduled[0].triggerTime <= now:
+            scheduledEvent = EventManager.scheduled.popleft()
+            for func in EventManager.listeners[scheduledEvent.event]:
+                func(**scheduledEvent.kwargs) 

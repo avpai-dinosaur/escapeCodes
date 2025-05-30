@@ -133,6 +133,7 @@ class Level1(Level):
         super().__init__("level1.png", "level1.tmj")
     
     def give_objective(self):
+        EventManager.emit(EcodeEvent.CAMERA_BLACKOUT, duration=10000)
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
             text="ERR: Unable To Find Objective"
