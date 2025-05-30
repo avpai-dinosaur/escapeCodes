@@ -95,7 +95,9 @@ class Camera(pygame.sprite.Group):
             self.blackoutStart
             and pygame.time.get_ticks() - self.blackoutStart < self.blackoutDuration
         ):
-            blackoutIntensityScale = 1 - (pygame.time.get_ticks() - self.blackoutStart) / self.blackoutDuration
+            timePassed = pygame.time.get_ticks() - self.blackoutStart
+            normalized = timePassed / self.blackoutDuration
+            blackoutIntensityScale = 1 if normalized < 0.4 else 1 - (normalized - 0.4) / 0.6
             self.brightness = 0 + 255 * blackoutIntensityScale
 
     def handle_event(self, event):

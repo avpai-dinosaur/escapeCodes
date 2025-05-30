@@ -73,6 +73,7 @@ class EventManager:
         """Emit an event.
         
             event: Event to emit.
+            delay: Time in milliseconds to wait before emitting this event
             **kwargs: Keyword arguments to pass to subscriber callbacks.
         """
         if delay == 0:
