@@ -58,20 +58,22 @@
             "scale": 0.75,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 768.6666666666666,
-                "y": 415.33333333333337
+                "x": 2652,
+                "y": 411.33333333333326
             }
         },
         "level1.tmx": {
             "expandedObjectLayers": [
+                21,
                 10,
-                19
+                19,
+                4
             ],
-            "scale": 0.75,
-            "selectedLayer": 5,
+            "scale": 0.5,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1632.6666666666665,
-                "y": 640.6666666666665
+                "x": 2824,
+                "y": 411
             }
         },
         "level2.tmx": {
@@ -125,9 +127,9 @@
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "level1.tmx",
         "atticusWalls.tsx",
         "level0.tmx",
-        "level1.tmx",
         "level2.tmx",
         "redSpace.tsx",
         "atticusMap.tmx",

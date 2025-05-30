@@ -123,7 +123,7 @@ class Tutorial(Level):
     def give_objective(self):
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
-            text="Secure the bridge between our world and the Utopia. You are responsible for ensuring that it is in operational order before liftoff."
+            text="Go to the bridge of the Utopia and perform a routine check of the ship's functionality."
         )
 
 
