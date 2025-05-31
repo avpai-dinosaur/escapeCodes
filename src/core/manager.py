@@ -44,10 +44,11 @@ class TextSlideShow:
         ]
         self.line = 0
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
+        self.font2 = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
         self.margin = 100
         self.render_text()
     
-    def render_text(self):
+    def render_text(self):        
         self.textImage = self.font.render(
             self.lines[self.line],
             True,
@@ -57,6 +58,17 @@ class TextSlideShow:
         self.textRect = self.textImage.get_rect()
         self.textRect.centerx = c.SCREEN_WIDTH // 2
         self.textRect.centery = c.SCREEN_HEIGHT // 2
+
+        self.textImage2 = self.font2.render(
+            '\nPress Return to Continue',
+            True,
+            "white",
+            wraplength=c.SCREEN_WIDTH - 2 * self.margin
+        )
+        self.textRect2 = self.textImage2.get_rect()
+        self.textRect2.centerx = c.SCREEN_WIDTH // 2
+        self.textRect2.centery = c.SCREEN_HEIGHT // 2 + 150
+
     
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -72,3 +84,4 @@ class TextSlideShow:
 
     def draw(self, screen):
         screen.blit(self.textImage, self.textRect)
+        screen.blit(self.textImage2, self.textRect2)
