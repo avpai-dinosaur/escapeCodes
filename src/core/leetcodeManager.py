@@ -101,7 +101,6 @@ class LeetcodeManager:
                     solvedProblems.append(problemSlug)
         for p in solvedProblems:
             self.inProgressProblems.remove(p)
-        pygame.event.post(pygame.Event(c.CHECKED_PROBLEMS))
         
         LeetcodeManager.lock.release_lock()
     

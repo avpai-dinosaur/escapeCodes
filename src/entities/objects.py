@@ -335,11 +335,11 @@ class SpeechBubble():
 class Computer(pygame.sprite.Sprite):
     """Class to represent a computer."""
 
-    def __init__(self, rect, text_input):
+    def __init__(self, rect, textInput):
         super().__init__()
         self.rect = rect
         self.scaled_rect = rect.inflate(50, 50)
-        self.note = SpeechBubble(text_input, pygame.font.Font(size=25), (65, 74, 74), (80,199,199), self.rect.midtop)
+        self.textInput = textInput
 
         # Open button
         self.open_note_button = ("O", pygame.K_o)
@@ -356,22 +356,15 @@ class Computer(pygame.sprite.Sprite):
         EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input)
 
     def handle_event(self, event):
-        self.note.handle_event(event)
+        if event.type == pygame.KEYDOWN:
+            if event.key == self.open_note_button[1] and self.present_button:
+                self.computer_action()
 
     def update(self, player):
-        if self.scaled_rect.colliderect(player.rect):
-            keys = pygame.key.get_pressed()
-            self.present_button = True
-            if (keys[self.open_note_button[1]]):
-                self.computer_action()
-        else:
-            self.present_button = False
-            self.note.toggle = False      
+        self.present_button = self.scaled_rect.colliderect(player.rect)
 
     def draw(self, surface, offset):
-        if self.note.toggle:
-            self.note.draw(surface, offset)
-        elif self.present_button:
+        if self.present_button:
             pygame.draw.rect(surface, (252, 3, 3), self.button_bg_rect.move(offset.x, offset.y), border_radius=5)
             surface.blit(self.button_text, self.button_textRect.move(offset.x, offset.y))
 
@@ -395,13 +388,18 @@ class ProblemComputer(Computer):
     def on_problem_solved(self, problemSlug : str):
         if problemSlug == self.problemSlug:
             self.isSolved = True
+            self.open_note()
 
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.CHECK_PROBLEMS)
+        if not self.isSolved:
+            EventManager.emit(EcodeEvent.CHECK_PROBLEMS)
+        self.open_note()
+    
+    def open_note(self):
         EventManager.emit(
             EcodeEvent.OPEN_NOTE,
-            text=self.note.text_input,
+            text=self.textInput,
             url=self.url,
             isSolved=self.isSolved,
             pinText=self.pinText

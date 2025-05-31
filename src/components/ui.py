@@ -12,6 +12,7 @@ from src.core import utils
 from src import constants as c
 from src.components.button import TextInput
 from src.components.scrollable import ScrollableTextUi
+from src.core.fontManager import FontManager
 
 
 class WasdUi:
@@ -64,7 +65,7 @@ class KeyPromptUi:
         filename: str,
         pos: pygame.Vector2=pygame.Vector2(0, 0),
         caption="",
-        font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
+        font=None
     ):
         """Constructor.
         
@@ -85,7 +86,10 @@ class KeyPromptUi:
         self.imageRect.topleft = (0, 0)
 
         # Caption
-        self.font = font
+        if font is None:
+            self.font = FontManager.get_font("SpaceMono/SpaceMono-Regular.ttf", 20)
+        else:
+            self.font = font
         self.caption = caption
         self.captionMargin = 5
         self.captionImage = self.font.render(self.caption, True, 'white')
@@ -116,93 +120,6 @@ class KeyPromptUi:
         self.internalSurface.blit(self.image, self.imageRect)
         self.internalSurface.blit(self.captionImage, self.captionRect)
         surface.blit(self.internalSurface, self.rect)
-
-
-class NoteUi:
-    """Class representing ui for reading a note."""
-
-    def __init__(self):
-        """Constructor.
-        
-            text: Text to display on note.
-        """
-        self.noteMargin = 40
-        self.backgroundRect = pygame.Rect()
-        self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.noteMargin
-        self.backgroundRect.height = c.SCREEN_HEIGHT - 2 * self.noteMargin
-        self.backgroundRect.topleft = (self.noteMargin, self.noteMargin)
-
-        self.keyControls = KeyPromptControlBarUi()
-        self.keyControls.add_control(KeyPromptUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
-        self.keyControls.build()
-        self.keyControls.rect.bottomleft = (
-            self.backgroundRect.left + 10,
-            self.backgroundRect.bottom - 10
-        )
-
-        self.textUiMargin = 10
-        self.textUi = ScrollableTextUi(
-            pygame.Vector2(
-                self.backgroundRect.left + self.textUiMargin,
-                self.backgroundRect.top + self.textUiMargin
-            ),
-            self.backgroundRect.width - 2 * self.textUiMargin,
-            self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin,
-            utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
-        )
-        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
-        self.set_text("")
-
-        self.isVisible = False
-        self.isSolved = False
-
-        # Event subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
-    
-    def set_text(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
-        self.textUi.set_text(text)
-        self.solvedTextImage = self.solvedFont.render(f"{pinText}", True, 'green')
-        self.solvedTextRect = self.solvedTextImage.get_rect()
-        self.solvedTextRect.bottomright = (
-            self.backgroundRect.right - 10,
-            self.backgroundRect.bottom
-        )
-        self.url = url
-        self.isSolved = isSolved
-        self.isVisible = True
-        EventManager.emit(EcodeEvent.PAUSE_GAME)
-
-    def handle_event(self, event: pygame.Event):
-        if self.isVisible:
-            self.textUi.handle_event(event)
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.isVisible = False
-                    EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                elif event.key == pygame.K_o:
-                    # TODO: probably don't want the LeetCodeManager to add the
-                    # problem as an in progress problem if it was already
-                    # solved
-                    EventManager.emit(EcodeEvent.OPEN_PROBLEM, url=self.url)
-                elif event.key == pygame.K_s:
-                    EventManager.emit(
-                        EcodeEvent.PROBLEM_SOLVED,
-                        problemSlug=utils.get_problem_slug(self.url)
-                    )
-
-    def update(self):
-        self.textUi.update()
-        self.keyControls.update()
-
-    def draw(self, surface: pygame.Surface):
-        if self.isVisible:
-            pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
-            self.keyControls.draw(surface)
-            self.textUi.draw(surface)
-            if self.isSolved:
-                surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
 class ParameterInputUi:

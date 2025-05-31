@@ -1,12 +1,12 @@
 import pygame
 from src.components import ui
-from src.components import order
+from src.components import order, note
 import src.constants as c
 
 class UiManager:
     def __init__(self):
         self.wasdUi = ui.WasdUi(pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200))
-        self.noteUi = ui.NoteUi()
+        self.noteUi = note.NoteUi()
         self.testCaseBattleUi = ui.TestCaseHackUi()
         self.movingBarUi = ui.MovingBarUi()
         self.dialogUi = ui.DialogUi()

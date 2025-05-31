@@ -51,3 +51,28 @@ class OrderUi:
             pygame.draw.rect(surface, "dimgrey", self.rect, border_radius=5)
             surface.blit(self.textImage, self.textRect)
         surface.blit(self.infoIcon, self.infoIconRect)
+
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT))
+    pygame.display.set_caption("Scrollable")
+    clock = pygame.time.Clock()
+
+    orderUi = OrderUi(c.SCREEN_WIDTH // 5)
+    orderUi.set_text("Hello this is an order for you")    
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            orderUi.handle_event(event)
+
+        orderUi.update()
+        
+        screen.fill("black")
+        orderUi.draw(screen)
+        pygame.display.flip()
+        clock.tick(60)
+    
+    pygame.quit()

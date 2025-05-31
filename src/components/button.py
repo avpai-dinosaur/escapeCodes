@@ -1,12 +1,13 @@
 import pygame
 import src.core.utils as utils
+from src.core.fontManager import FontManager
 
 class Button:
 	"""Represents a button on a game menu."""
 
 	def __init__(
 		self, image, pos, textInput, 
-		font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 40),
+		font=None,
 		baseColor="white",
 		hoveringColor="red",
 		onClick=lambda : None 
@@ -24,7 +25,10 @@ class Button:
 		self.onClick = onClick
 		self.pos = pos
 
-		self.font = font
+		if font is None:
+			self.font = FontManager.get_font("SpaceMono/SpaceMono-Regular.ttf", 40)
+		else:
+			self.font = font
 		self.baseColor = baseColor
 		self.hoveringColor = hoveringColor
 
@@ -83,7 +87,7 @@ class TextInput:
 		self, pos, width, height,
 		activeColor=pygame.Color('red'),
 		inactiveColor=pygame.Color('white'),
-		font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
+		font=None,
 		inputTextColor='white',
 		onSubmit=lambda x : None
 	):
@@ -98,7 +102,10 @@ class TextInput:
 			inputTextColor: Color of the text being typed.
 			onSubmit: Callback function for when user presses Enter key.
 		"""
-		self.font = font
+		if font is None:
+			self.font = FontManager.get_font("SpaceMono/SpaceMono-Regular.ttf", 40)
+		else:
+			self.font = font
 		self.inputTextColor = inputTextColor
 		self.activeColor = activeColor
 		self.inactiveColor = inactiveColor
