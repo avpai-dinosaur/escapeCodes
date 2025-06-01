@@ -161,7 +161,6 @@ class LeetcodeManager:
             lowerTimestamp: time the submission should have occured after to be considered valid
         """
         for submission in submissionList:
-            print(submission, lowerTimestamp)
             if (
                 submission["titleSlug"] == problemSlug \
                 and int(submission["timestamp"]) >= lowerTimestamp

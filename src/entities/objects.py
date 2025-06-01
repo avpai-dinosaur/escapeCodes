@@ -342,7 +342,7 @@ class Computer(pygame.sprite.Sprite):
         self.textInput = textInput
 
         # Open button
-        self.open_note_button = ("O", pygame.K_o)
+        self.open_note_button = ("M", pygame.K_m)
         self.button_font = pygame.font.Font(size=50)
         self.button_text = self.button_font.render(self.open_note_button[0], True, (250, 250, 250))
         self.button_textRect = self.button_text.get_rect()

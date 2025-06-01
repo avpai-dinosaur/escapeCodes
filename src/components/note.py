@@ -8,8 +8,11 @@ from src.components.ui import KeyPromptControlBarUi, KeyPromptUi, ScrollableText
 class NoteUi:
     """Class representing ui for reading a note."""
 
-    def __init__(self):
-        """Constructor."""
+    def __init__(self, on_close):
+        """Constructor.
+
+            on_close: Callback function provided by UiManager
+        """
         self.noteMargin = 40
         self.backgroundRect = pygame.Rect()
         self.backgroundRect.width = c.SCREEN_WIDTH - 2 * self.noteMargin
@@ -37,14 +40,12 @@ class NoteUi:
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin,
             utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         )
-        self.solvedFont = utils.load_font("Monoton/Monoton-Regular.ttf", 50)
+        self.solvedFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)
         self.set_text("")
 
         self.isVisible = False
         self.isSolved = False
-
-        # Event subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.set_text)
+        self.on_close = on_close
     
     def set_text(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         self.textUi.set_text(text)
@@ -69,6 +70,7 @@ class NoteUi:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                    self.on_close(self)
                 elif event.key == pygame.K_o:
                     # TODO: probably don't want the LeetCodeManager to add the
                     # problem as an in progress problem if it was already
@@ -112,7 +114,8 @@ if __name__ == "__main__":
         "_2_4"
     )
     mockPlayer = type('MockPlayer', (object,), {'rect': pygame.Rect(400, 400, 1, 1)})()
-    noteUi = NoteUi()
+    noteUi = NoteUi(lambda x: None)
+    EventManager.subscribe(EcodeEvent.OPEN_NOTE, noteUi.set_text)
 
     running = True
     while running:
