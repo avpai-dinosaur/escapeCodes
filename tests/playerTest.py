@@ -97,7 +97,8 @@ class TestMovement(unittest.TestCase):
             pygame.Rect(
                 self.player.rect.left + self.player.rect.width,
                 self.player.rect.top, 1, 1
-            )
+            ),
+            0
         )
         mockGetPressed.return_value = {
             pygame.K_w: 0,
@@ -117,7 +118,8 @@ class TestMovement(unittest.TestCase):
             pygame.Rect(
                 self.player.rect.left + self.player.rect.width,
                 self.player.rect.top, 1, 1
-            )
+            ),
+            0
         )
         door.toggle = False
         mockGetPressed.return_value = {
