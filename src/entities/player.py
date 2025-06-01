@@ -41,10 +41,9 @@ class Player(pygame.sprite.Sprite):
         self.stats = stats
 
         # Walking sounds
-        self.footstepLeftSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Left_Stone.ogg")
-        self.footstepRightSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Right_Stone.ogg")
-        self.lastFootStepFrame = self.current_frame
-
+        # self.footstepLeftSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Left_Stone.ogg")
+        # self.footstepRightSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Right_Stone.ogg")
+        # self.lastFootStepFrame = self.current_frame
     
     def update(self, walls: list[pygame.Rect], doors: pygame.sprite.Group):
         """Updates the player's position."""
