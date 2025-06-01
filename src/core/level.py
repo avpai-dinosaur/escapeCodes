@@ -140,3 +140,27 @@ class Level1(Level):
             delay=blackoutDuration,
             text="ERR: Unable To Find Objective"
         )
+
+
+@LevelFactory.register_level("level2")
+class Level2(Level):
+    def __init__(self):
+        super().__init__("level2.png", "level2.tmj")
+    
+    def give_objective(self):
+        EventManager.emit(
+            EcodeEvent.GIVE_ORDER,
+            text="Hello? HELLO?"
+        )
+
+
+@LevelFactory.register_level("level3")
+class Level3(Level):
+    def __init__(self):
+        super().__init__("level3.png", "level3.tmj")
+    
+    def give_objective(self):
+        EventManager.emit(
+            EcodeEvent.GIVE_ORDER,
+            text="Turn back if you can here me. Do not go that way!"
+        )

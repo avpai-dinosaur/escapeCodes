@@ -1,124 +1,220 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="11" nextobjectid="25">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="42">
  <editorsettings>
   <export target="level2.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="atticusWalls.tsx"/>
- <layer id="1" name="Base" width="20" height="20">
+ <layer id="1" name="Base" width="25" height="20">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,32,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,33,0,0,
-0,31,11,6,6,6,6,6,6,6,6,6,6,6,6,6,12,28,0,0,
-0,31,4,8,8,8,8,8,8,8,8,8,8,8,8,8,9,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,1073741851,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741854,7,7,10,28,0,0,
-0,31,5,7,7,27,29,29,29,29,29,29,29,30,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,
-0,31,1,2,2,2,2,2,2,2,2,2,2,2,2,2,3,28,0,0,
-0,1073741856,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741857,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,32,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,33,0,0,0,0,0,0,0,
+0,31,11,6,6,6,6,6,6,6,6,6,6,6,6,6,12,28,0,0,0,0,0,0,0,
+0,31,4,8,8,8,8,8,8,8,8,8,8,8,8,8,9,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,27,29,29,29,29,29,29,33,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,0,0,0,0,0,0,0,2147483679,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,8,8,8,8,8,8,9,2147483679,
+0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,3221225473,2147483679,
+0,31,1,2,2,2,2,2,2,2,2,2,2,2,2,2,3221225478,3221225478,3221225478,3221225478,3221225478,3221225478,1073741830,2147483649,2147483679,
+0,1073741856,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741857,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="2" name="Embellish" width="20" height="20">
+ <layer id="2" name="Embellish" width="25" height="20">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2147483663,0,0,0,0,
-0,0,0,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,14,0,0,0,0,0,0,14,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,25,0,0,25,0,0,25,0,0,25,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,37,37,37,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,
+0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="11" name="Embellish2" width="25" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="4" name="walls" visible="0">
-  <object id="3" x="1088" y="128" width="64" height="1024"/>
-  <object id="4" x="128" y="1152" width="960" height="64"/>
+  <object id="3" x="1088" y="128" width="64" height="768"/>
+  <object id="4" x="128" y="1152" width="1408" height="64"/>
   <object id="5" x="64" y="128" width="64" height="1024"/>
   <object id="6" x="128" y="128" width="960" height="128"/>
-  <object id="7" x="320" y="640" width="576" height="128"/>
-  <object id="13" x="320" y="320" width="128" height="192"/>
-  <object id="14" x="768" y="320" width="128" height="192"/>
-  <object id="15" x="256" y="384" width="64" height="64"/>
-  <object id="16" x="960" y="320" width="64" height="64"/>
+  <object id="25" x="1088" y="896" width="448" height="64"/>
+  <object id="27" x="1536" y="960" width="64" height="192"/>
+  <object id="38" x="896" y="320" width="128" height="192"/>
+  <object id="39" x="192" y="832" width="128" height="192"/>
+  <object id="40" x="960" y="768" width="128" height="192"/>
+  <object id="41" x="448" y="576" width="320" height="64"/>
  </objectgroup>
- <objectgroup id="9" name="rooms" visible="0">
-  <object id="22" x="128" y="192" width="960" height="448"/>
-  <object id="23" x="128" y="768" width="960" height="384"/>
- </objectgroup>
+ <objectgroup id="9" name="rooms" visible="0"/>
  <objectgroup id="6" name="playerSpawn" visible="0">
   <object id="12" x="192" y="320">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="5" name="doors" visible="0">
-  <object id="8" type="LaserDoor" x="896" y="640" width="192" height="128">
+ <objectgroup id="5" name="doors">
+  <object id="29" type="LaserDoor" x="1088" y="960" width="256" height="192">
    <properties>
-    <property name="pin" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="9" type="LaserDoor" x="128" y="640" width="192" height="128">
-   <properties>
-    <property name="pin" type="int" value="0"/>
+    <property name="pin" type="int" value="5189"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="3" name="objects">
-  <object id="10" type="Computer" gid="17" x="320" y="512" width="64" height="64">
-   <properties>
-    <property name="hasProblem" type="bool" value="true"/>
-    <property name="note" value="TODO"/>
-    <property name="pinText" value="_ _ _ _"/>
-    <property name="problemUrl" value="https://www.google.com/"/>
-   </properties>
-  </object>
-  <object id="24" type="Computer" gid="17" x="320" y="512" width="64" height="64">
-   <properties>
-    <property name="hasProblem" type="bool" value="true"/>
-    <property name="note" value="TODO"/>
-    <property name="pinText" value="_ _ _ _"/>
-    <property name="problemUrl" value="https://www.google.com/"/>
-   </properties>
-  </object>
-  <object id="11" type="Computer" gid="18" x="832" y="448" width="64" height="64">
-   <properties>
-    <property name="hasProblem" type="bool" value="true"/>
-    <property name="note" value="TODO"/>
-    <property name="pinText" value="_ _ _ _"/>
-    <property name="problemUrl" value="https://www.google.com/"/>
-   </properties>
-  </object>
-  <object id="18" type="ExitDoor" gid="19" x="576" y="192" width="64" height="64"/>
   <object id="20" type="Npc" gid="44" x="192" y="448" width="80" height="64" visible="0">
    <properties>
     <property name="path" type="object" value="17"/>
    </properties>
   </object>
+  <object id="31" type="ExitDoor" gid="19" x="1408" y="960" width="64" height="64"/>
+  <object id="33" type="Computer" gid="17" x="896" y="448" width="64" height="64">
+   <properties>
+    <property name="note">Sticky Note App - Draft Message
+Title: &quot;JOE SUCKSSS&quot;
+User: Meena
+
+4/1: farted and denied it even though it was stinky
+
+4/3: ate my food from the fridge. denied eating it
+
+4/3: tried to tell me I looked good and smelled nice. ugh. what a creep
+
+4/4: i dont think he showered today
+
+4/5: day 2 of no shower
+
+4/6: day 3 of no shower
+
+4/7: day FOUR of NO SHOWER! also took my food from the fridge again
+
+4/8: can't take it anymore, I'm moving my desk to the other corner of the room</property>
+   </properties>
+  </object>
+  <object id="34" type="Computer" gid="22" x="256" y="960" width="64" height="64">
+   <properties>
+    <property name="note">Internal Chat
+Members: Joe &amp; Rushabh
+Timestamp: Tuesday 2:03 PM
+
+Joe: 
+shit, i got tapped to conduct an interview
+
+Rushabh:
+Ok? And you're telling me this because...
+
+Joe:
+dude don't act dumb, everyone knows you got that question bank that u use every time u have to do one of these
+
+Joe:
+give me the good stuff. something nobody could answer and totaly unrelated to the job. i'm not tryn to see another fresh out of college shmuck hanging around here, its already too crowded as is
+
+Rushabh:
+Fine. But don't tell anyone else about this. I'm not trying to make this a whole thing.
+
+Joe:
+dude, I owe you one
+
+Rushabh:
+On a gameshow, the contestant is on the verge of winning a million dollars. But he is shown 3 boxes for his last question. 
+
+One has the number 51
+One has the number 72
+One has the number 94 
+
+But each box has a label printed on it. 
+
+Box A says “This box contains Number 72”
+
+Box B says “this box does not contain the number 51”
+
+Box C says “Box A is lying”
+
+Only one of the labels is stating the truth. Find the number in Box B.
+
+joe:
+and the answer to this is?
+
+Rushabh:
+You gotta be kidding me.
+
+joe:
+dude theyre asking for the booster control system to be done at the end of the week. i don't have time to think about this bs
+
+Rushabh:
+Don't even worry about the answer. People get so flustered with this one they just freeze up. And you can always just tell them their answer is wrong anyways.
+
+joe: 
+ahh thats evil...i like how u think my friend
+</property>
+    <property name="pinText" value="5 _ 1 _"/>
+   </properties>
+  </object>
+  <object id="35" type="Computer" gid="17" x="960" y="896" width="64" height="64">
+   <properties>
+    <property name="hasProblem" type="bool" value="true"/>
+    <property name="note">From: Melon Husk
+To: All
+Subject: Bumping up efficiency.
+
+Hello again Technicians,
+You've probably realized what a great privilege it is to work for me by now. Being the humble man I am, I failed to recognize my own genius until well into my own life, 5 years old to be exact.
+
+Ah, while the other children played games with balls and stick and tortured ants and snails I was poring over quantumn physics textbooks and confounding my parents with fluent Latin.
+
+So yes, you are privileged to be working for me. And to keep that privilege you'll have to solve another problem now! (1. TwoSum) to be exact.
+
+Toodaloo,
+Melon</property>
+    <property name="pinText" value=" _ _ 8 9"/>
+    <property name="problemName" value="TwoSum"/>
+    <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup id="8" name="roombaPath">
-  <object id="17" x="192" y="448">
-   <polyline points="0,0 0,128 384,128 512,-64 576,128 768,128"/>
+ <objectgroup id="8" name="roombaPath" visible="0">
+  <object id="37" x="384" y="1088">
+   <polyline points="0,0 0,-192 0,-704 448,-704 448,-384 448,0 640,0"/>
   </object>
  </objectgroup>
 </map>

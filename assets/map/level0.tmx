@@ -81,7 +81,7 @@ Best Regards,
 Melon
 
 P.S. Completing this challenge is &quot;explicitly voluntary&quot;. That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter.</property>
-    <property name="pinText" value="1 2 3 4"/>
+    <property name="pinText" value="1234"/>
     <property name="problemName" value="Fizz Buzz"/>
     <property name="problemUrl" value="https://leetcode.com/problems/fizz-buzz/description/"/>
    </properties>

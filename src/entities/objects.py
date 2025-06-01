@@ -353,7 +353,7 @@ class Computer(pygame.sprite.Sprite):
     
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.note.text_input)
+        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.textInput)
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:

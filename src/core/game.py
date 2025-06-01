@@ -13,9 +13,10 @@ class Game():
         self.camera = Camera()
         self.uiManager = UiManager()
         self.levels: list[str] = [
-            "tutorial",
-            "level1",
-            "level2"
+            # "tutorial",
+            # "level1",
+            # "level2",
+            "level3"
         ]
         self.currentLevelIdx = -1
         self.isPaused = False
