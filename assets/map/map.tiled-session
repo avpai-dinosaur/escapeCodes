@@ -93,11 +93,18 @@
             }
         },
         "level3.tmx": {
+            "expandedObjectLayers": [
+                6,
+                7,
+                3,
+                2,
+                4
+            ],
             "scale": 0.89953125,
-            "selectedLayer": 4,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 640.3335070349141,
-                "y": 436.3383706791732
+                "x": 778.1830814660411,
+                "y": 553.0658328990794
             }
         },
         "map.tmx": {

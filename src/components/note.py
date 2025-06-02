@@ -20,15 +20,8 @@ class NoteUi:
         self.backgroundRect.topleft = (self.noteMargin, self.noteMargin)
 
         self.keyControls = KeyPromptControlBarUi()
-        self.keyControls.add_control(KeyPromptUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_r, "Keys/R-Key.png", caption="Refresh"))
         self.keyControls.add_control(KeyPromptUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
         self.keyControls.build()
-        self.keyControls.rect.bottomleft = (
-            self.backgroundRect.left + 10,
-            self.backgroundRect.bottom - 10
-        )
 
         self.textUiMargin = 10
         self.textUi = ScrollableTextUi(
@@ -43,24 +36,43 @@ class NoteUi:
         self.solvedFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)
         self.set_text("")
 
+        self.solvedTextImage = None
+        self.solvedTextRect = None
+
         self.isVisible = False
         self.isSolved = False
         self.on_close = on_close
     
     def set_text(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         self.textUi.set_text(text)
-        self.solvedTextImage = (
-            self.solvedFont.render(f"{pinText}", True, 'green') if isSolved
-            else self.solvedFont.render("Unsolved", True, "red")
-        )
-        self.solvedTextRect = self.solvedTextImage.get_rect()
-        self.solvedTextRect.bottomright = (
-            self.backgroundRect.right - 10,
-            self.backgroundRect.bottom
-        )
+
         self.url = url
-        self.isSolved = isSolved
+        if self.url:
+            self.solvedTextImage = (
+                self.solvedFont.render(f"{pinText}", True, 'green') if isSolved
+                else self.solvedFont.render("Unsolved", True, "red")
+            )
+            self.solvedTextRect = self.solvedTextImage.get_rect()
+            self.solvedTextRect.bottomright = (
+                self.backgroundRect.right - 10,
+                self.backgroundRect.bottom
+            )
+            self.isSolved = isSolved
+
+            self.keyControls.controls.clear()
+            self.keyControls.add_control(KeyPromptUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
+            self.keyControls.add_control(KeyPromptUi(pygame.K_o, "Keys/O-Key.png", caption="Open Problem"))
+            self.keyControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Skip"))
+            self.keyControls.add_control(KeyPromptUi(pygame.K_r, "Keys/R-Key.png", caption="Refresh"))
+            self.keyControls.build()
+        
+        self.keyControls.rect.bottomleft = (
+            self.backgroundRect.left + 10,
+            self.backgroundRect.bottom - 10
+        )
+
         self.isVisible = True
+
         EventManager.emit(EcodeEvent.PAUSE_GAME)
 
     def handle_event(self, event: pygame.Event):
@@ -93,7 +105,8 @@ class NoteUi:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
-            surface.blit(self.solvedTextImage, self.solvedTextRect)
+            if self.solvedTextImage and self.solvedTextRect:
+                surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
 if __name__ == "__main__":
