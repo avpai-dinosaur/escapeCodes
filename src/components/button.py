@@ -166,4 +166,44 @@ class TextInput:
 		pygame.draw.rect(surface, self.color, self.rect, width=2)
 		surface.blit(inputTextImage, inputTextRect)
 		
-	
+class ToggleButton(Button):
+    def __init__(
+        self, pos, size=(20, 20),
+        initial_state=True,
+        baseColor="white",
+        toggleColor="black",
+        outlineColor="white",
+        onToggle=lambda state: None
+    ):
+        super().__init__(
+            image=None,
+            pos=pos,
+            textInput="",
+            baseColor=baseColor,
+            onClick=self.toggle
+        )
+        self.rect = pygame.Rect(0, 0, *size)
+        self.rect.center = pos
+        self.state = initial_state
+        self.toggleColor = toggleColor
+        self.outlineColor = outlineColor
+        self.onToggle = onToggle
+
+    def toggle(self):
+        self.state = not self.state
+        self.onToggle(self.state)
+
+    def draw(self, surface):
+        if self.state:
+            pygame.draw.rect(surface, pygame.Color(self.baseColor), self.rect)
+        else:
+            pygame.draw.rect(surface, pygame.Color(self.toggleColor), self.rect)
+            pygame.draw.rect(surface, pygame.Color(self.outlineColor), self.rect, width=2)
+
+    def check_mouseover(self, mousePosition):
+        return self.rect.collidepoint(mousePosition)
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(pygame.mouse.get_pos()):
+                self.toggle()

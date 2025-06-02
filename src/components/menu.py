@@ -6,7 +6,7 @@ from pprint import pprint
 import src.core.utils as utils
 import src.config as config
 import src.constants as c
-from src.components.button import Button, TextInput
+from src.components.button import Button, TextInput, ToggleButton
 
 class Menu:
     """Base class for all menus in the game."""
@@ -81,12 +81,30 @@ class OptionsMenu(Menu):
     def __init__(self, manager):
         super().__init__(manager)
         self.backImage, _ = utils.load_png("Play.png")
+        self.headingFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
         self.controls += [
             Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
         ]
+        
+        self.backgroundMusic = self.headingFont.render("Background Music", True, 'white')
+        self.backgroundMusicRect = self.backgroundMusic.get_rect(center=(1000, 250))
+        self.musicToggle = ToggleButton(pos=(1000,300))  # Near "Background Music"
+        
+        self.soundEffect = self.headingFont.render("Sound Effects", True, 'white')
+        self.soundEffectRect = self.soundEffect.get_rect(center=(1000, 350))
+        self.soundToggle = ToggleButton(pos=(1000, 400))  # Near "Sound Effects"
     
+        self.controls += [self.musicToggle, self.soundToggle]
+            
     def onBack(self):
         self.manager.set_state("menu")
+
+    def draw(self, surface):
+        super().draw(surface)
+        surface.blit(self.backgroundMusic, self.backgroundMusicRect)
+        surface.blit(self.soundEffect, self.soundEffectRect)
+        self.musicToggle.draw(surface)
+        self.soundToggle.draw(surface)
 
 class LoginMenu(Menu):
     """Login menu."""
