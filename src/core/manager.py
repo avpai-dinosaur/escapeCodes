@@ -8,29 +8,29 @@ import src.constants as c
 class GameManager:
     def __init__(self):
         self.states = {
-            "menu": MainMenu(self),
-            "options": OptionsMenu(self),
-            "login": LoginMenu(self),
-            "intro": TextSlideShow(self),
-            "world": Game(self, {}),
-            "died": YouDiedMenu(self)
+            "menu": MainMenu,
+            "options": OptionsMenu,
+            "login": LoginMenu,
+            "intro": TextSlideShow,
+            "world": Game,
+            "died": YouDiedMenu
         }
-        self.active_state = self.states["menu"]
+        self.set_state("menu")
         self.leetcodeManager = LeetcodeManager()
 
     def set_state(self, state_name):
         pygame.display.set_caption(state_name)
-        self.active_state = self.states[state_name]
+        self.activeState = self.states[state_name](self) # Call the state's constructor
 
     def handle_event(self, event):
-        self.active_state.handle_event(event)
+        self.activeState.handle_event(event)
         self.leetcodeManager.handle_event(event)
 
     def update(self):
-        self.active_state.update()
+        self.activeState.update()
 
     def draw(self, screen):
-        self.active_state.draw(screen)
+        self.activeState.draw(screen)
 
 class TextSlideShow:
     def __init__(self, manager):

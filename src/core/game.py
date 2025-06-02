@@ -8,7 +8,7 @@ import src.constants as c
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
    
-    def __init__(self, manager, playerStats):
+    def __init__(self, manager):
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
