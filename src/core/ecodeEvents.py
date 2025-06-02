@@ -39,6 +39,8 @@ class EcodeEvent(Enum):
     CAMERA_SHAKE = 29
     CAMERA_BLACKOUT = 30
 
+    NEXT_LEVEL = 31
+
 
 class ScheduledEvent:
     def __init__(self, event: EcodeEvent, triggerTime: int, kwargs):

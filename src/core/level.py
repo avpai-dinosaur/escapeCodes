@@ -54,7 +54,7 @@ class Level():
         self.load_camera(camera)
 
     def end_level(self):
-        pygame.event.post(pygame.event.Event(c.LEVEL_ENDED))
+        EventManager.emit(EcodeEvent.NEXT_LEVEL)
     
     def player_died(self):
         # TODO: the player should probably post this event
@@ -125,6 +125,11 @@ class Tutorial(Level):
             EcodeEvent.GIVE_ORDER,
             text="Go to the bridge of the Utopia and perform a routine check of the ship's functionality."
         )
+    
+    def end_level(self):
+        cameraShakeDuration = 5000
+        EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)
+        EventManager.emit(EcodeEvent.NEXT_LEVEL, delay=cameraShakeDuration)
 
 
 @LevelFactory.register_level("level1")

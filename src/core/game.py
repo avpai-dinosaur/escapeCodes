@@ -26,7 +26,8 @@ class Game():
         EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
         EventManager.subscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
         EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
-        EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.next_level)
+        EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.on_level_end)
+        EventManager.subscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
 
     def pause(self):
         self.isPaused = True
@@ -38,6 +39,9 @@ class Game():
         self.camera.reset()
         self.currentLevel.reset(self.camera)
         self.manager.set_state("died")
+    
+    def on_level_end(self):
+        self.currentLevel.end_level()
 
     def update(self):
         if not self.isPaused:

@@ -274,9 +274,7 @@ class ExitDoor(Door):
     """Class to represent door that takes player to next level."""
 
     def door_action(self):
-        cameraShakeDuration = 5000
-        EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)
-        EventManager.emit(EcodeEvent.LEVEL_ENDED, delay=cameraShakeDuration)
+        EventManager.emit(EcodeEvent.LEVEL_ENDED)
 
 
 class SpeechBubble():
