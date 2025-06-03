@@ -122,6 +122,34 @@ class KeyPromptUi:
         surface.blit(self.internalSurface, self.rect)
 
 
+class StandAloneKeyPromptUi(KeyPromptUi):
+    """Class representing a stand alone key prompt ui element."""
+
+    def __init__(
+        self,
+        on_close,
+        key: int,
+        filename: str,
+        pos: pygame.Vector2=pygame.Vector2(0, 0),
+    ):
+        """Constructor."""
+        super().__init__(key, filename, pos)
+        self.on_close = on_close
+        self.closeDuration = 300
+        self.closeStart = None
+    
+    def update(self):
+        super().update()
+        if self.closeStart:
+            if pygame.time.get_ticks() - self.closeStart > self.closeDuration:
+                self.on_close(self)
+    
+    def handle_event(self, event: pygame.Event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == self.key:
+                self.closeStart = pygame.time.get_ticks()
+
+
 class ParameterInputUi:
     """Class representing ui component for inputing multiple parameters."""
 

@@ -1,4 +1,5 @@
 import pygame
+from collections import deque
 from src.core.camera import Camera
 from src.entities.player import Player
 from src.entities.roomba import Roomba
@@ -15,7 +16,7 @@ class Level():
     def __init__(self, imageFile: str, dataFile: str):
         self.map = Map(imageFile, dataFile)
         self.load_entities()
-        self.give_objective()
+        self.start_level()
 
     def load_entities(self):
         self.objects = self.map.object_factory()
@@ -46,7 +47,7 @@ class Level():
         camera.target = self.player.rect
         camera.background = self.map.image
     
-    def give_objective(self):
+    def start_level(self):
         pass
     
     def reset(self, camera):
@@ -119,12 +120,31 @@ class LevelFactory():
 class Tutorial(Level):
     def __init__(self):
         super().__init__("level0.png", "level0.tmj")
+        self.keyPromptEvents = deque()
+        self.keyPromptEvents.append(
+            (pygame.K_q, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_q, filename="Keys/Q-Key.png"))
+        )
+        self.keyPromptEvents.append(
+            (pygame.K_e, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_e, filename="Keys/E-Key.png"))
+        )
+        self.keyPromptEvents.append(
+            (pygame.K_p, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_p, filename="Keys/P-Key.png"))
+        )
     
-    def give_objective(self):
+    def start_level(self):
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
             text="Go to the bridge of the Utopia and perform a routine check of the ship's functionality."
         )
+    
+    def handle_event(self, event):
+        super().handle_event(event)
+        if event.type == pygame.KEYDOWN:
+            if len(self.keyPromptEvents) > 0:
+                key, emitter = self.keyPromptEvents.popleft()
+                if key == event.key:
+                    pass
+
     
     def end_level(self):
         cameraShakeDuration = 5000
@@ -137,7 +157,7 @@ class Level1(Level):
     def __init__(self):
         super().__init__("level1.png", "level1.tmj")
     
-    def give_objective(self):
+    def start_level(self):
         blackoutDuration = 10000
         EventManager.emit(EcodeEvent.CAMERA_BLACKOUT, duration=blackoutDuration)
         EventManager.emit(
@@ -152,7 +172,7 @@ class Level2(Level):
     def __init__(self):
         super().__init__("level2.png", "level2.tmj")
     
-    def give_objective(self):
+    def start_level(self):
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
             text="Hello? HELLO?"
@@ -164,7 +184,7 @@ class Level3(Level):
     def __init__(self):
         super().__init__("level3.png", "level3.tmj")
     
-    def give_objective(self):
+    def start_level(self):
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
             text="Turn back if you can here me. Do not go that way!"

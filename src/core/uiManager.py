@@ -16,11 +16,17 @@ class UiManager:
         self.activeUi = set()
 
         EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.on_open_note)
+        EventManager.subscribe(EcodeEvent.OPEN_KEY_PROMPT, self.on_open_key_prompt)
 
     def on_open_note(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         noteUi = note.NoteUi(self.deactivate_ui)
         noteUi.set_text(text, url, isSolved, pinText)
         self.activeUi.add(noteUi)
+    
+    def on_open_key_prompt(self, key, filename):
+        keyPromptUi = ui.StandAloneKeyPromptUi(self.deactivate_ui, key, filename)
+        keyPromptUi.rect.center = pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200)
+        self.activeUi.add(keyPromptUi)
     
     def deactivate_ui(self, uiElement):
         if uiElement in self.activeUi:

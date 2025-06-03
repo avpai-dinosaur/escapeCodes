@@ -41,6 +41,8 @@ class EcodeEvent(Enum):
 
     NEXT_LEVEL = 31
 
+    OPEN_KEY_PROMPT = 32
+
 
 class ScheduledEvent:
     def __init__(self, event: EcodeEvent, triggerTime: int, kwargs):
