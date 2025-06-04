@@ -127,7 +127,7 @@ class OptionsMenu(Menu):
 
         self.SpaceControls = KeyPromptControlBarUi()
         self.SpaceControls.controls.clear()
-        self.SpaceControls.add_control(KeyPromptUi(pygame.K_SPACE, "Keys/Space-Key.png", caption="Dash"))
+        self.SpaceControls.add_control(KeyPromptUi(pygame.K_SPACE, "Keys/Space-Key.png", fileMetadata=c.LG_KEY_SHEET_METADATA, caption="Dash"))
         self.SpaceControls.build()
         self.SpaceControls.rect.center = (
             self.backImageRect.left/2, 400
@@ -136,6 +136,7 @@ class OptionsMenu(Menu):
     def update(self):
         self.WASDControls.update()
         self.QEPControls.update()
+        self.SpaceControls.update()
 
     def onBack(self):
         self.manager.set_state("menu")
@@ -149,7 +150,7 @@ class OptionsMenu(Menu):
         self.soundToggle.draw(surface)
         self.WASDControls.draw(surface)
         self.QEPControls.draw(surface)
-        #self.SpaceControls.draw(surface)
+        self.SpaceControls.draw(surface)
 
 class LoginMenu(Menu):
     """Login menu."""
