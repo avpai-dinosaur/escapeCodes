@@ -122,15 +122,25 @@ class Tutorial(Level):
         super().__init__("level0.png", "level0.tmj")
         self.keyPromptEvents = deque()
         self.keyPromptEvents.append(
-            (pygame.K_q, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_q, filename="Keys/Q-Key.png"))
+            (pygame.K_q, {"key": pygame.K_q, "filename": "Keys/Q-Key.png"})
         )
         self.keyPromptEvents.append(
-            (pygame.K_e, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_e, filename="Keys/E-Key.png"))
+            (pygame.K_e, {"key": pygame.K_e, "filename": "Keys/E-Key.png"})
         )
         self.keyPromptEvents.append(
-            (pygame.K_p, EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, key=pygame.K_p, filename="Keys/P-Key.png"))
+            (pygame.K_p, {"key": pygame.K_p, "filename": "Keys/P-Key.png"})
         )
+        self.keyPromptEvents.append(
+            (pygame.K_SPACE, {"key": pygame.K_SPACE, "filename": "Keys/Space-Key.png"})
+        )
+        self.currentKey = None
+        self.next_key_prompt()
     
+    def next_key_prompt(self):
+        if len(self.keyPromptEvents) > 0:
+            self.currentKey, eventArgs = self.keyPromptEvents.popleft()
+            EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, **eventArgs)
+
     def start_level(self):
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
@@ -140,12 +150,9 @@ class Tutorial(Level):
     def handle_event(self, event):
         super().handle_event(event)
         if event.type == pygame.KEYDOWN:
-            if len(self.keyPromptEvents) > 0:
-                key, emitter = self.keyPromptEvents.popleft()
-                if key == event.key:
-                    pass
-
-    
+            if self.currentKey and event.key == self.currentKey:
+                self.next_key_prompt()
+                
     def end_level(self):
         cameraShakeDuration = 5000
         EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)
