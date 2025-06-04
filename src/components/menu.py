@@ -7,6 +7,7 @@ import src.core.utils as utils
 import src.config as config
 import src.constants as c
 from src.components.button import Button, TextInput, ToggleButton
+from src.components.ui import KeyPromptControlBarUi, KeyPromptUi
 
 class Menu:
     """Base class for all menus in the game."""
@@ -85,7 +86,9 @@ class OptionsMenu(Menu):
         self.controls += [
             Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
         ]
-        
+        self.backImageRect =  self.backImage.get_rect(center=(1000, 540))
+
+        # background music + sound
         self.backgroundMusic = self.headingFont.render("Background Music", True, 'white')
         self.backgroundMusicRect = self.backgroundMusic.get_rect(center=(1000, 250))
         self.musicToggle = ToggleButton(pos=(1000,300))  # Near "Background Music"
@@ -95,6 +98,17 @@ class OptionsMenu(Menu):
         self.soundToggle = ToggleButton(pos=(1000, 400))  # Near "Sound Effects"
     
         self.controls += [self.musicToggle, self.soundToggle]
+
+        # Controls
+        self.optionControl = self.headingFont.render("Controls", True, 'white')
+        self.optionControlRect = self.optionControl.get_rect(center=(self.backImageRect.left/2, 100))
+        
+        self.keyControls = KeyPromptControlBarUi()
+        self.keyControls.add_control(KeyPromptUi(pygame.K_w, "Keys/W-Key.png", caption="Move Up"))
+        self.keyControls.add_control(KeyPromptUi(pygame.K_a, "Keys/A-Key.png", caption="Move Left"))
+        self.keyControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Move Down"))
+        self.keyControls.add_control(KeyPromptUi(pygame.K_d, "Keys/D-Key.png", caption="Move Right"))
+        self.keyControls.build()
             
     def onBack(self):
         self.manager.set_state("menu")
@@ -103,8 +117,11 @@ class OptionsMenu(Menu):
         super().draw(surface)
         surface.blit(self.backgroundMusic, self.backgroundMusicRect)
         surface.blit(self.soundEffect, self.soundEffectRect)
+        surface.blit(self.optionControl, self.optionControlRect)
         self.musicToggle.draw(surface)
         self.soundToggle.draw(surface)
+
+        self.keyControls.draw(surface)
 
 class LoginMenu(Menu):
     """Login menu."""
