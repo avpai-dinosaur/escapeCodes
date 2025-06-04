@@ -63,6 +63,7 @@ class KeyPromptUi:
         self,
         key: int,
         filename: str,
+        fileMetadata: dict=c.SM_KEY_SHEET_METADATA,
         pos: pygame.Vector2=pygame.Vector2(0, 0),
         caption="",
         font=None
@@ -71,6 +72,7 @@ class KeyPromptUi:
         
             key: The key (e.g. pygame.K_m).
             filename: The key spritesheet.
+            fileMetadata: The metadata for the key spritesheet.
             pos: Position of the ui element.
             caption: Text to display next to ui element.
             font: Font to render caption in.
@@ -80,7 +82,7 @@ class KeyPromptUi:
         # Press key animation
         self.currentFrame = 0
         self.lastUpdate = pygame.time.get_ticks()
-        self.spritesheet = SpriteSheet(filename, c.SM_KEY_SHEET_METADATA)
+        self.spritesheet = SpriteSheet(filename, fileMetadata)
         self.image = self.spritesheet.get_image("press", self.currentFrame)
         self.imageRect = self.image.get_rect()
         self.imageRect.topleft = (0, 0)
@@ -125,23 +127,26 @@ class KeyPromptUi:
 class StandAloneKeyPromptUi(KeyPromptUi):
     """Class representing a stand alone key prompt ui element."""
 
+    closeDuration = 300
+
     def __init__(
         self,
         on_close,
         key: int,
         filename: str,
+        fileMetadata: dict=c.SM_KEY_SHEET_METADATA,
         pos: pygame.Vector2=pygame.Vector2(0, 0),
+        caption: str=""
     ):
         """Constructor."""
-        super().__init__(key, filename, pos)
+        super().__init__(key, filename, fileMetadata, pos, caption)
         self.on_close = on_close
-        self.closeDuration = 300
         self.closeStart = None
     
     def update(self):
         super().update()
         if self.closeStart:
-            if pygame.time.get_ticks() - self.closeStart > self.closeDuration:
+            if pygame.time.get_ticks() - self.closeStart > StandAloneKeyPromptUi.closeDuration:
                 self.on_close(self)
     
     def handle_event(self, event: pygame.Event):
@@ -416,7 +421,7 @@ class MovingBarUi:
         self.rightCursorTarget = pygame.Vector2(self.rect.right - self.cursorWidth / 2, self.rect.top)
         self.isCursorMovingRight = False
         self.moveCursor = False
-        self.keyUi = KeyPromptUi(pygame.K_l, "Keys/L-Key.png", pygame.Vector2(self.rect.right + 10, self.rect.top - 10))
+        self.keyUi = KeyPromptUi(pygame.K_l, "Keys/L-Key.png", pos=pygame.Vector2(self.rect.right + 10, self.rect.top - 10))
 
         # Event subscribers
         EventManager.subscribe(EcodeEvent.BOSS_CHARGE, self.open)

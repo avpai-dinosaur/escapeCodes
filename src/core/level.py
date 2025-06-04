@@ -5,6 +5,7 @@ from src.entities.player import Player
 from src.entities.roomba import Roomba
 from src.entities.boss import Druck
 from src.core.map import Map
+from src.components.ui import StandAloneKeyPromptUi
 import src.core.utils as utils
 import src.constants as c
 from src.core.ecodeEvents import EventManager, EcodeEvent
@@ -122,16 +123,48 @@ class Tutorial(Level):
         super().__init__("level0.png", "level0.tmj")
         self.keyPromptEvents = deque()
         self.keyPromptEvents.append(
-            (pygame.K_q, {"key": pygame.K_q, "filename": "Keys/Q-Key.png"})
+            (
+                pygame.K_q,
+                {
+                    "key": pygame.K_q,
+                    "filename": "Keys/Q-Key.png",
+                    "fileMetadata": c.SM_KEY_SHEET_METADATA,
+                    "caption": "Zoom In"
+                }
+            )
         )
         self.keyPromptEvents.append(
-            (pygame.K_e, {"key": pygame.K_e, "filename": "Keys/E-Key.png"})
+            (
+                pygame.K_e,
+                {
+                    "key": pygame.K_e, 
+                    "filename": "Keys/E-Key.png", 
+                    "fileMetadata": c.SM_KEY_SHEET_METADATA, 
+                    "caption": "Zoom Out"
+                }
+            )
         )
         self.keyPromptEvents.append(
-            (pygame.K_p, {"key": pygame.K_p, "filename": "Keys/P-Key.png"})
+            (
+                pygame.K_p,
+                {
+                    "key": pygame.K_p,
+                    "filename": "Keys/P-Key.png",
+                    "fileMetadata": c.SM_KEY_SHEET_METADATA,
+                    "caption": "Punch"
+                }
+            )
         )
         self.keyPromptEvents.append(
-            (pygame.K_SPACE, {"key": pygame.K_SPACE, "filename": "Keys/Space-Key.png"})
+            (
+                pygame.K_SPACE,
+                {
+                    "key": pygame.K_SPACE,
+                    "filename": "Keys/Space-Key.png",
+                    "fileMetadata": c.LG_KEY_SHEET_METADATA,
+                    "caption": "Dash"
+                }
+            )
         )
         self.currentKey = None
         self.next_key_prompt()
@@ -139,7 +172,7 @@ class Tutorial(Level):
     def next_key_prompt(self):
         if len(self.keyPromptEvents) > 0:
             self.currentKey, eventArgs = self.keyPromptEvents.popleft()
-            EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, **eventArgs)
+            EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, **eventArgs, delay=StandAloneKeyPromptUi.closeDuration)
 
     def start_level(self):
         EventManager.emit(

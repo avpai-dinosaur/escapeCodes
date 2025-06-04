@@ -23,8 +23,13 @@ class UiManager:
         noteUi.set_text(text, url, isSolved, pinText)
         self.activeUi.add(noteUi)
     
-    def on_open_key_prompt(self, key, filename):
-        keyPromptUi = ui.StandAloneKeyPromptUi(self.deactivate_ui, key, filename)
+    def on_open_key_prompt(self, key, filename, fileMetadata=c.SM_KEY_SHEET_METADATA, caption=""):
+        keyPromptUi = ui.StandAloneKeyPromptUi(
+            self.deactivate_ui,
+            key, filename,
+            fileMetadata=fileMetadata,
+            caption=caption
+        )
         keyPromptUi.rect.center = pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200)
         self.activeUi.add(keyPromptUi)
     
