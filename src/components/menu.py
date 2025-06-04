@@ -86,7 +86,7 @@ class OptionsMenu(Menu):
         self.controls += [
             Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
         ]
-        self.backImageRect =  self.backImage.get_rect(center=(1000, 540))
+        self.backImageRect = self.backImage.get_rect(center=(1000, 540))
 
         # background music + sound
         self.backgroundMusic = self.headingFont.render("Background Music", True, 'white')
@@ -100,16 +100,43 @@ class OptionsMenu(Menu):
         self.controls += [self.musicToggle, self.soundToggle]
 
         # Controls
+        self.backgroundRect = pygame.Rect()
         self.optionControl = self.headingFont.render("Controls", True, 'white')
         self.optionControlRect = self.optionControl.get_rect(center=(self.backImageRect.left/2, 100))
         
-        self.keyControls = KeyPromptControlBarUi()
-        self.keyControls.add_control(KeyPromptUi(pygame.K_w, "Keys/W-Key.png", caption="Move Up"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_a, "Keys/A-Key.png", caption="Move Left"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Move Down"))
-        self.keyControls.add_control(KeyPromptUi(pygame.K_d, "Keys/D-Key.png", caption="Move Right"))
-        self.keyControls.build()
-            
+        self.WASDControls = KeyPromptControlBarUi()
+        self.WASDControls.controls.clear()
+        self.WASDControls.add_control(KeyPromptUi(pygame.K_w, "Keys/W-Key.png", caption="Move Up"))
+        self.WASDControls.add_control(KeyPromptUi(pygame.K_a, "Keys/A-Key.png", caption="Move Left"))
+        self.WASDControls.add_control(KeyPromptUi(pygame.K_s, "Keys/S-Key.png", caption="Move Down"))
+        self.WASDControls.add_control(KeyPromptUi(pygame.K_d, "Keys/D-Key.png", caption="Move Right"))
+        self.WASDControls.build()
+        self.WASDControls.rect.center = (
+            self.backImageRect.left/2, 200
+        )
+        
+        self.QEPControls = KeyPromptControlBarUi()
+        self.QEPControls.controls.clear()
+        self.QEPControls.add_control(KeyPromptUi(pygame.K_q, "Keys/Q-Key.png", caption="Zoom In"))
+        self.QEPControls.add_control(KeyPromptUi(pygame.K_e, "Keys/E-Key.png", caption="Zoom Out"))
+        self.QEPControls.add_control(KeyPromptUi(pygame.K_p, "Keys/P-Key.png", caption="Punch"))
+        self.QEPControls.build()
+        self.QEPControls.rect.center = (
+            self.backImageRect.left/2, 300
+        )
+
+        self.SpaceControls = KeyPromptControlBarUi()
+        self.SpaceControls.controls.clear()
+        self.SpaceControls.add_control(KeyPromptUi(pygame.K_SPACE, "Keys/Space-Key.png", caption="Dash"))
+        self.SpaceControls.build()
+        self.SpaceControls.rect.center = (
+            self.backImageRect.left/2, 400
+        )
+
+    def update(self):
+        self.WASDControls.update()
+        self.QEPControls.update()
+
     def onBack(self):
         self.manager.set_state("menu")
 
@@ -120,8 +147,9 @@ class OptionsMenu(Menu):
         surface.blit(self.optionControl, self.optionControlRect)
         self.musicToggle.draw(surface)
         self.soundToggle.draw(surface)
-
-        self.keyControls.draw(surface)
+        self.WASDControls.draw(surface)
+        self.QEPControls.draw(surface)
+        #self.SpaceControls.draw(surface)
 
 class LoginMenu(Menu):
     """Login menu."""
