@@ -18,11 +18,12 @@ from src.core.fontManager import FontManager
 class WasdUi:
     """Class representing 'WASD to move' ui instruction."""
 
-    def __init__(self, pos: pygame.Vector2):
+    def __init__(self, on_close, pos: pygame.Vector2):
         """Constructor.
         
             pos: Position of the ui instruction.
         """
+        self.on_close = on_close
         self.spritesheet = SpriteSheet("wasd.png", c.WASD_SHEET_METADATA)
         self.currentFrame = 0
         self.image = self.spritesheet.get_image("press", self.currentFrame)
@@ -30,14 +31,6 @@ class WasdUi:
         self.rect.center = pos
         self.lastUpdate = pygame.time.get_ticks()
         self.isVisible = True
-        self.disappearStartTimestamp = None
-
-        # Event Subscribers
-        EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.on_player_move)
-
-    def on_player_move(self, **kwargs):
-        self.disappearStartTimestamp = pygame.time.get_ticks()
-        EventManager.unsubscribe(EcodeEvent.PLAYER_MOVED, self.on_player_move)
 
     def update(self):
         if pygame.time.get_ticks() - self.lastUpdate >= self.spritesheet.cooldown("press"):
@@ -47,10 +40,11 @@ class WasdUi:
             self.image = self.spritesheet.get_image("press", self.currentFrame)
             self.lastUpdate = pygame.time.get_ticks()
 
-        if self.disappearStartTimestamp is not None:
-            if pygame.time.get_ticks() - self.disappearStartTimestamp >= 3000:
-                self.isVisible = False
-    
+    def handle_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key in [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d]:
+                self.on_close(self)
+
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             surface.blit(self.image, self.rect)
@@ -127,8 +121,6 @@ class KeyPromptUi:
 class StandAloneKeyPromptUi(KeyPromptUi):
     """Class representing a stand alone key prompt ui element."""
 
-    closeDuration = 300
-
     def __init__(
         self,
         on_close,
@@ -141,18 +133,11 @@ class StandAloneKeyPromptUi(KeyPromptUi):
         """Constructor."""
         super().__init__(key, filename, fileMetadata, pos, caption)
         self.on_close = on_close
-        self.closeStart = None
-    
-    def update(self):
-        super().update()
-        if self.closeStart:
-            if pygame.time.get_ticks() - self.closeStart > StandAloneKeyPromptUi.closeDuration:
-                self.on_close(self)
     
     def handle_event(self, event: pygame.Event):
         if event.type == pygame.KEYDOWN:
             if event.key == self.key:
-                self.closeStart = pygame.time.get_ticks()
+                self.on_close(self)
 
 
 class ParameterInputUi:

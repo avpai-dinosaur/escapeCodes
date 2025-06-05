@@ -6,7 +6,6 @@ import src.constants as c
 
 class UiManager:
     def __init__(self):
-        self.wasdUi = ui.WasdUi(pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200))
         self.testCaseBattleUi = ui.TestCaseHackUi()
         self.movingBarUi = ui.MovingBarUi()
         self.dialogUi = ui.DialogUi()
@@ -17,6 +16,7 @@ class UiManager:
 
         EventManager.subscribe(EcodeEvent.OPEN_NOTE, self.on_open_note)
         EventManager.subscribe(EcodeEvent.OPEN_KEY_PROMPT, self.on_open_key_prompt)
+        EventManager.subscribe(EcodeEvent.OPEN_WASD, self.on_open_wasd)
 
     def on_open_note(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         noteUi = note.NoteUi(self.deactivate_ui)
@@ -32,6 +32,13 @@ class UiManager:
         )
         keyPromptUi.rect.center = pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200)
         self.activeUi.add(keyPromptUi)
+    
+    def on_open_wasd(self):
+        wasdUi = ui.WasdUi(
+            self.deactivate_ui,
+            pygame.Vector2(c.SCREEN_WIDTH // 2, c.SCREEN_HEIGHT // 2 + 200)
+        )
+        self.activeUi.add(wasdUi)
     
     def deactivate_ui(self, uiElement):
         if uiElement in self.activeUi:
@@ -49,7 +56,6 @@ class UiManager:
     def update(self):
         for ui in self.activeUi.copy():
             ui.update()
-        self.wasdUi.update()
         self.movingBarUi.update()
         self.testCaseBattleUi.update()
         self.pinUi.update()
@@ -58,7 +64,6 @@ class UiManager:
     def draw(self, surface):
         for ui in self.activeUi.copy():
             ui.draw(surface)
-        self.wasdUi.draw(surface)
         self.movingBarUi.draw(surface)
         self.testCaseBattleUi.draw(surface)
         self.dialogUi.draw(surface)

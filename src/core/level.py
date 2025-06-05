@@ -124,7 +124,15 @@ class Tutorial(Level):
         self.keyPromptEvents = deque()
         self.keyPromptEvents.append(
             (
-                pygame.K_q,
+                EcodeEvent.OPEN_WASD,
+                [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
+                {}
+            )
+        )
+        self.keyPromptEvents.append(
+            (
+                EcodeEvent.OPEN_KEY_PROMPT,
+                [pygame.K_q],
                 {
                     "key": pygame.K_q,
                     "filename": "Keys/Q-Key.png",
@@ -135,7 +143,8 @@ class Tutorial(Level):
         )
         self.keyPromptEvents.append(
             (
-                pygame.K_e,
+                EcodeEvent.OPEN_KEY_PROMPT,
+                [pygame.K_e],
                 {
                     "key": pygame.K_e, 
                     "filename": "Keys/E-Key.png", 
@@ -146,7 +155,8 @@ class Tutorial(Level):
         )
         self.keyPromptEvents.append(
             (
-                pygame.K_p,
+                EcodeEvent.OPEN_KEY_PROMPT,
+                [pygame.K_p],
                 {
                     "key": pygame.K_p,
                     "filename": "Keys/P-Key.png",
@@ -157,7 +167,8 @@ class Tutorial(Level):
         )
         self.keyPromptEvents.append(
             (
-                pygame.K_SPACE,
+                EcodeEvent.OPEN_KEY_PROMPT,
+                [pygame.K_SPACE],
                 {
                     "key": pygame.K_SPACE,
                     "filename": "Keys/Space-Key.png",
@@ -166,13 +177,13 @@ class Tutorial(Level):
                 }
             )
         )
-        self.currentKey = None
+        self.currentKeys = None
         self.next_key_prompt()
     
     def next_key_prompt(self):
         if len(self.keyPromptEvents) > 0:
-            self.currentKey, eventArgs = self.keyPromptEvents.popleft()
-            EventManager.emit(EcodeEvent.OPEN_KEY_PROMPT, **eventArgs, delay=StandAloneKeyPromptUi.closeDuration)
+            event, self.currentKeys, eventArgs = self.keyPromptEvents.popleft()
+            EventManager.emit(event, **eventArgs)
 
     def start_level(self):
         EventManager.emit(
@@ -183,7 +194,7 @@ class Tutorial(Level):
     def handle_event(self, event):
         super().handle_event(event)
         if event.type == pygame.KEYDOWN:
-            if self.currentKey and event.key == self.currentKey:
+            if self.currentKeys and event.key in self.currentKeys:
                 self.next_key_prompt()
                 
     def end_level(self):

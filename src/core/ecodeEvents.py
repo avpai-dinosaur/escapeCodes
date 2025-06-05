@@ -42,6 +42,7 @@ class EcodeEvent(Enum):
     NEXT_LEVEL = 31
 
     OPEN_KEY_PROMPT = 32
+    OPEN_WASD = 33
 
 
 class ScheduledEvent:
