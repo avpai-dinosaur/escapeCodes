@@ -100,7 +100,10 @@ class OptionsMenu(Menu):
         self.controls += [self.musicToggle, self.soundToggle]
 
         # Controls
-        self.backgroundRect = pygame.Rect()
+        self.backgroundRect = self.backgroundImage.get_rect()
+        self.backgroundRect.inflate_ip(-20, -20)
+        self.backgroundOverlay = pygame.Surface(self.backgroundRect.size, pygame.SRCALPHA).convert_alpha()
+
         self.optionControl = self.headingFont.render("Controls", True, 'white')
         self.optionControlRect = self.optionControl.get_rect(center=(self.backImageRect.left/2, 100))
         
@@ -133,6 +136,8 @@ class OptionsMenu(Menu):
             self.backImageRect.left/2, 400
         )
 
+        self.backgroundRect.centerx = self.WASDControls.rect.centerx + 20
+
     def update(self):
         self.WASDControls.update()
         self.QEPControls.update()
@@ -141,8 +146,10 @@ class OptionsMenu(Menu):
     def onBack(self):
         self.manager.set_state("menu")
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         super().draw(surface)
+        pygame.draw.rect(self.backgroundOverlay, (73, 73, 73, 150), self.backgroundRect)
+        surface.blit(self.backgroundOverlay)
         surface.blit(self.backgroundMusic, self.backgroundMusicRect)
         surface.blit(self.soundEffect, self.soundEffectRect)
         surface.blit(self.optionControl, self.optionControlRect)
