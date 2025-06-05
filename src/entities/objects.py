@@ -6,6 +6,7 @@ import random
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.core.utils as utils
 import src.constants as c
+from src.components.ui import KeyPromptUi
 
 class StaminaBar():
     """Represents a stamina bar."""
@@ -86,15 +87,12 @@ class Door(pygame.sprite.Sprite):
         super().__init__()
         self.rect = rect
         self.scaled_rect = rect.inflate(50, 50)
-        self.open_button = ("M", pygame.K_m)
-        self.font = pygame.font.Font(size=50)
-        self.text = self.font.render(self.open_button[0], True, (250, 250, 250))
-        self.textRect = self.text.get_rect()
-        self.textRect.left = self.rect.left - self.textRect.width - 20
-        self.textRect.top = self.rect.top
-        self.bg_rect = self.textRect.inflate(10, 10)
+        self.open_button = pygame.K_m
         self.toggle = True
         self.present_button = False
+        self.keyPromptUi = KeyPromptUi(self.open_button, "Keys/M-Key.png", c.SM_KEY_SHEET_METADATA)
+        self.keyPromptUi.rect.bottom = self.rect.top - 10
+        self.keyPromptUi.rect.centerx = self.rect.centerx
     
     def door_action(self):
         """Runs the action specific to the door.
@@ -114,7 +112,7 @@ class Door(pygame.sprite.Sprite):
     def handle_event(self, event: pygame.Event):
         """Handle an event off the event queue."""
         if event.type == pygame.KEYDOWN:
-            if self.present_button and event.key == self.open_button[1]:
+            if self.present_button and event.key == self.open_button:
                 self.door_action()
     
     def update(self, player):
@@ -129,12 +127,14 @@ class Door(pygame.sprite.Sprite):
             self.present_button = True
         else:
             self.present_button = False
+        
+        if self.present_button:
+            self.keyPromptUi.update()
     
     def draw(self, surface, offset):
         """Draw the door to the surface."""
         if self.present_button:
-            pygame.draw.rect(surface, (240, 0, 0), self.bg_rect.move(offset.x, offset.y), border_radius=5)
-            surface.blit(self.text, self.textRect.topleft + offset)
+            self.keyPromptUi.draw(surface, offset)
         self.draw_door(surface, offset)
 
 class LaserDoor(Door):
@@ -263,8 +263,7 @@ class LaserDoor(Door):
 
     def draw(self, surface, offset):
         if self.present_button and self.toggle and not self.receding:
-            pygame.draw.rect(surface, (240, 0, 0), self.bg_rect.move(offset.x, offset.y), border_radius=5)
-            surface.blit(self.text, self.textRect.topleft + offset)
+            self.keyPromptUi.draw(surface, offset)
         
         self.draw_door(surface, offset)
         self.speech_bubble.draw(surface, offset)
@@ -340,13 +339,11 @@ class Computer(pygame.sprite.Sprite):
         self.textInput = textInput
 
         # Open button
-        self.open_note_button = ("M", pygame.K_m)
-        self.button_font = pygame.font.Font(size=50)
-        self.button_text = self.button_font.render(self.open_note_button[0], True, (250, 250, 250))
-        self.button_textRect = self.button_text.get_rect()
-        self.button_textRect.midbottom = (self.rect.midtop[0], self.rect.midtop[1] - 10)
-        self.button_bg_rect = self.button_textRect.inflate(10, 10)
-
+        self.open_note_button = pygame.K_m
+        self.keyPromptUi = KeyPromptUi(self.open_note_button, "Keys/M-Key.png", c.SM_KEY_SHEET_METADATA)
+        self.keyPromptUi.rect.bottom = self.rect.top - 10
+        self.keyPromptUi.rect.centerx = self.rect.centerx
+        
         self.present_button = False
     
     def computer_action(self):
@@ -355,16 +352,17 @@ class Computer(pygame.sprite.Sprite):
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == self.open_note_button[1] and self.present_button:
+            if event.key == self.open_note_button and self.present_button:
                 self.computer_action()
 
     def update(self, player):
         self.present_button = self.scaled_rect.colliderect(player.rect)
+        if self.present_button:
+            self.keyPromptUi.update()
 
     def draw(self, surface, offset):
         if self.present_button:
-            pygame.draw.rect(surface, (252, 3, 3), self.button_bg_rect.move(offset.x, offset.y), border_radius=5)
-            surface.blit(self.button_text, self.button_textRect.move(offset.x, offset.y))
+            self.keyPromptUi.draw(surface, offset)
 
 
 class ProblemComputer(Computer):

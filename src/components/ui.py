@@ -111,11 +111,11 @@ class KeyPromptUi:
             self.image = self.spritesheet.get_image("press", self.currentFrame)
             self.lastUpdate = pygame.time.get_ticks()
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface, offset=pygame.Vector2(0, 0)):
         self.internalSurface.fill((0, 0, 0, 0))
         self.internalSurface.blit(self.image, self.imageRect)
         self.internalSurface.blit(self.captionImage, self.captionRect)
-        surface.blit(self.internalSurface, self.rect)
+        surface.blit(self.internalSurface, self.rect.move(offset.x, offset.y))
 
 
 class StandAloneKeyPromptUi(KeyPromptUi):
