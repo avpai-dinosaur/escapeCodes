@@ -107,7 +107,7 @@ class OptionsMenu(Menu):
         self.optionControl = self.headingFont.render("Controls", True, 'white')
         self.optionControlRect = self.optionControl.get_rect(center=(self.backImageRect.left/2, 100))
         
-        self.WASDControls = KeyPromptControlBarUi()
+        self.WASDControls = KeyPromptControlBarUi() # test main branch protection
         self.WASDControls.controls.clear()
         self.WASDControls.add_control(KeyPromptUi(pygame.K_w, "Keys/W-Key.png", caption="Move Up"))
         self.WASDControls.add_control(KeyPromptUi(pygame.K_a, "Keys/A-Key.png", caption="Move Left"))
