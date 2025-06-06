@@ -458,7 +458,7 @@ class DialogUi:
         self.rect.bottom = c.SCREEN_HEIGHT
         self.textLeft = self.rect.width // 5
 
-        self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=30)
+        self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=20)
         self.isVisible = False
 
         # Event Subscribers
@@ -468,7 +468,7 @@ class DialogUi:
         """Set the dialog text."""
         self.textImage = self.font.render(text, True, "white", wraplength=self.rect.right - self.textLeft)
         self.textRect = self.textImage.get_rect()
-        self.textRect.bottom = self.rect.bottom
+        self.textRect.top = self.rect.top + 10
         self.textRect.left = self.textLeft
 
     def next_line(self):
@@ -496,7 +496,7 @@ class DialogUi:
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     self.next_line()
                     
     def draw(self, surface: pygame.Surface):

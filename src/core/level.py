@@ -35,8 +35,12 @@ class Level():
             self.entities.add(boss)
         if self.map.roombaPath:
             roomba = Roomba("roomba.png", self.map.roombaPath)
+            self.set_roomba_dialog(roomba)
             self.entities.add(roomba)
     
+    def set_roomba_dialog(self, roomba):
+        pass
+
     def load_camera(self, camera: Camera):
         camera.add(self.player)
         camera.add(self.entities)
@@ -81,7 +85,12 @@ class Level():
             handleEventOp = getattr(obj, "handle_event", None)
             if callable(handleEventOp):
                 handleEventOp(event)
-        
+
+        for entity in self.entities:
+            handleEventOp = getattr(entity, "handle_event", None)
+            if callable(handleEventOp):
+                handleEventOp(event)
+
         [d.handle_event(event) for d in self.doors]
 
         if event.type == pygame.KEYDOWN:
@@ -207,6 +216,24 @@ class Tutorial(Level):
 class Level1(Level):
     def __init__(self):
         super().__init__("level1.png", "level1.tmj")
+
+    def set_roomba_dialog(self, roomba: Roomba):
+        roomba.set_dialog(
+            [
+"""Remnants of a celebration detected.
+Joy levels: high.
+Cleanliness levels: catastrophic.
+Initiating deep clean protocol.
+Estimated time to completion: eternal""",
+"""Glitter.
+You people know glitter is forever, right?
+Even I can't find it all, and I'm a sentient dirt radar.""",
+"""I detect...sticky. So much sticky.
+What is this, pop? Juice? A melted popsicle?
+I wasn't built for this level of betrayal.""",
+"""In need of cleaning solution refueling. Desperation levels: high."""
+            ]
+        )
     
     def start_level(self):
         blackoutDuration = 10000

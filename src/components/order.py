@@ -13,6 +13,8 @@ class OrderUi:
         self.textMargin = 10
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
         self.infoIcon, self.infoIconRect = utils.load_png("information.png")
+        self.on_give_order("")
+        self.isVisible = False
         
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.GIVE_ORDER, self.on_give_order)
@@ -36,7 +38,7 @@ class OrderUi:
         self.isVisible = True
     
     def update(self):
-        if pygame.time.get_ticks() - self.startVisibility > 10000:
+        if self.startVisibility and pygame.time.get_ticks() - self.startVisibility > 10000:
             self.isVisible = False
 
     def handle_event(self, event: pygame.Event):

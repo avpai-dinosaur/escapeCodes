@@ -1,7 +1,9 @@
 import pygame
 import src.core.utils as utils
+from src.core.ecodeEvents import EcodeEvent, EventManager
 import src.constants as c
 import src.entities.objects as o
+from src.components.ui import KeyPromptUi
 from src.core.spritesheet import SpriteSheet
 from enum import Enum
 
@@ -25,7 +27,6 @@ class Roomba(pygame.sprite.Sprite):
         super().__init__()
 
         # Animation Variables
-        # self.spritesheet = SpriteSheet(image, c.ENEMY_SHEET_METADATA)
         self.action = "walk"
         self.current_frame = 0
         self.last_update = pygame.time.get_ticks()
@@ -34,8 +35,6 @@ class Roomba(pygame.sprite.Sprite):
         # Image variables
         og_image, _ = utils.load_png(image)
         self.image = pygame.transform.scale(og_image, (72, 72))
-
-        # self.image = self.spritesheet.get_image(self.action, self.current_frame)
         self.rect = self.image.get_rect()
         self.face_right = True
 
@@ -53,15 +52,12 @@ class Roomba(pygame.sprite.Sprite):
         # Roomba characteristics
         self.speed = c.ENEMY_SPEED
 
-        # Speech Bubble
-        self.speech = o.SpeechBubble(
-            "humans are slobs...",
-            pygame.font.Font(None, 36),
-            (255, 255, 255),
-            (0, 0, 0),
-            self.rect.midtop
-        )
-        self.half_width = self.rect.width
+        self.keyPromptUi = KeyPromptUi(pygame.K_t, "Keys/T-Key.png")
+        self.dialog = None
+
+    def set_dialog(self, dialog: list[str]):
+        self.dialog = dialog
+        self.dialogIdx = 0
 
     def update(self, player):
         """Update function to run each game tick.
@@ -78,23 +74,18 @@ class Roomba(pygame.sprite.Sprite):
             if self.move(self.target):
                 if self.target_point == len(self.path) - 1:
                     self.move_state = Roomba.MoveState.STOP
-                    self.speech.update_text(
-                        "Hey you!\nOpen this door, I need more cleaning supplies."
-                    )
-                        
                 else:
                     self.target_point += 1
                     self.target = self.path[self.target_point]
             if pygame.Rect.colliderect(self.rect, player.rect):
                 self.move_state = Roomba.MoveState.PAUSE
-                self.speech.toggle = True
         elif self.move_state == Roomba.MoveState.PAUSE:
             if not pygame.Rect.colliderect(self.rect, player.rect):
                 self.move_state = Roomba.MoveState.PATH
-                self.speech.toggle = False
         
-        self.speech.update_pos(self.rect.midtop)
-        # self.update_animation()
+        self.keyPromptUi.rect.bottom = self.rect.top
+        self.keyPromptUi.rect.centerx = self.rect.centerx
+        self.keyPromptUi.update()
 
     def update_animation(self):
         """Update animation of enemy."""
@@ -142,7 +133,19 @@ class Roomba(pygame.sprite.Sprite):
         self.rect.center = self.pos
         
         return reached
-
-    def draw(self, surface, offset):
-        self.speech.draw(surface, offset)
+    
+    def handle_event(self, event: pygame.Event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_t:
+                if self.dialog:
+                    EventManager.emit(
+                        EcodeEvent.OPEN_DIALOG,
+                        lines=[self.dialog[self.dialogIdx]],
+                        currentLine=0
+                    )
+                    self.dialogIdx = min(self.dialogIdx + 1, len(self.dialog) - 1)
+                    
+    def draw(self, surface: pygame.Surface, offset: pygame.Vector2):
+        if self.move_state == Roomba.MoveState.PAUSE:
+            self.keyPromptUi.draw(surface, offset)
         surface.blit(self.image, self.rect.topleft + offset)
