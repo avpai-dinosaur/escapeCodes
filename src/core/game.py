@@ -13,7 +13,7 @@ class Game():
         self.camera = Camera()
         self.uiManager = UiManager()
         self.levels: list[str] = [
-            # "tutorial",
+            "tutorial",
             "level1",
             "level2",
             "level3"

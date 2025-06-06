@@ -231,7 +231,8 @@ Even I can't find it all, and I'm a sentient dirt radar.""",
 """I detect...sticky. So much sticky.
 What is this, pop? Juice? A melted popsicle?
 I wasn't built for this level of betrayal.""",
-"""In need of cleaning solution refueling. Desperation levels: high."""
+"""In need of cleaning solution refueling.
+Desperation levels: high."""
             ]
         )
     
