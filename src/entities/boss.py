@@ -7,6 +7,7 @@ import pygame
 from enum import Enum
 from random import randint
 from src import constants as c
+from src.components.ui import KeyPromptUi
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.entities.player import Player
@@ -159,6 +160,10 @@ class Boss(pygame.sprite.Sprite):
         self.image = self.spritesheet.get_image(self.action, self.currentFrame)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
+        self.showKeyPrompt = False
+        self.keyPromptUi = KeyPromptUi(pygame.K_t, "Keys/T-Key.png")
+        self.keyPromptUi.rect.bottom = self.rect.top - 10
+        self.keyPromptUi.rect.centerx = self.rect.centerx
 
         # Attacking data
         self.nextPos = self.get_next_pos()
@@ -211,9 +216,8 @@ class Boss(pygame.sprite.Sprite):
 
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
-        if self.room.colliderect(player.rect):
-            self.fsm.set_state(Boss.BossState.START_DIALOG)
-
+        self.showKeyPrompt = self.rect.inflate(50, 50).colliderect(player.rect)
+        
     def start_dialog_update(self, _):
         """Update function to run when in start dialog state."""
         pass
@@ -243,7 +247,10 @@ class Boss(pygame.sprite.Sprite):
 
     def waiting_handle_event(self, event: pygame.Event):
         """Event handler to run when in waiting state."""
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == self.keyPromptUi.key and self.showKeyPrompt:
+                self.fsm.set_state(Boss.BossState.START_DIALOG)
+                self.showKeyPrompt = False
 
     def start_dialog_handle_event(self, event: pygame.Event):
         """Event handler to run when in the start dialog state."""
@@ -325,14 +332,37 @@ class Boss(pygame.sprite.Sprite):
         self.update_animation()
 
     def draw(self, surface: pygame.Surface, offset):
+        if self.showKeyPrompt:
+            self.keyPromptUi.draw(surface, offset)
         surface.blit(self.image, self.rect.move(offset[0], offset[1]))
 
 
 class Druck(Boss):
+    """Class representing boss player encounters at end of level 3."""
 
     def start_dialog_enter(self):
-        """Execute once upon entering dialog state."""
-        EventManager.emit(EcodeEvent.OPEN_DIALOG, lines=["hmmm... chocolate", "ok time to fight"], currentLine=0)
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+"""i told them...
+i told them they'd need me for what comes next...
+i dedicated more of our energy to this than any of the other companies in the galaxy...""",
+"""this was our roadmap to the future...
+seven years to prepare for...and this is how I'm rewarded?""",
+"""HEY! WHA...?! WHO ARE YOU!""",
+"""Just stand still. I'll make this quick"""
+            ],
+            currentLine=0
+        )
+        self.showKeyPrompt = False
+
+    def dying_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=["""I am overruling you! I am overruling..."""],
+            currentLine=0
+        )
+        super().dying_enter()
 
     def attack_update(self, player: Player):
         """Update function to run when in attack state."""

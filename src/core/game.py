@@ -14,8 +14,8 @@ class Game():
         self.uiManager = UiManager()
         self.levels: list[str] = [
             # "tutorial",
-            "level1",
-            "level2",
+            # "level1",
+            # "level2",
             "level3"
         ]
         self.currentLevelIdx = -1
