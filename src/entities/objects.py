@@ -104,7 +104,6 @@ class Door(pygame.sprite.Sprite):
         self.canOpen = False
     
     def on_boss_death(self):
-        self.toggle = False
         self.canOpen = True
     
     def door_action(self):

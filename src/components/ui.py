@@ -208,6 +208,8 @@ class ParameterInputUi:
 class TestCaseHackUi:
     """Class representing ui for test case hack."""
 
+    showTutorial = True
+
     def __init__(self):
         """Constructor."""
         # Background
@@ -268,6 +270,16 @@ class TestCaseHackUi:
         EventManager.subscribe(EcodeEvent.BOSS_HACK, self.open)
     
     def open(self, problemSlug: str):
+        if TestCaseHackUi.showTutorial:
+            EventManager.emit(
+                EcodeEvent.GIVE_ORDER,
+                text=
+"""You've intercepted the attack algorithm of the boss you're fighting!
+Bosses don't implement their attacks perfectly, though.
+Defeat the boss by providing a test input which exposes its buggy implementation."""
+            )
+            TestCaseHackUi.showTutorial = False
+
         self.problem = ProblemFactory.create(problemSlug)
         self.submitted = False
         self.build_parameter_input()
@@ -317,6 +329,8 @@ class TestCaseHackUi:
                         inputs = self.parameterInput.get_inputs()
                         if self.problem.check_input(**inputs):
                             EventManager.emit(EcodeEvent.KILL_BOSS)
+                            self.isVisible = False
+                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                             self.set_success_message(True)
                         else:
                             self.set_success_message(False)

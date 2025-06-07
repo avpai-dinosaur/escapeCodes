@@ -86,10 +86,10 @@
                 5
             ],
             "scale": 0.75,
-            "selectedLayer": 6,
+            "selectedLayer": 4,
             "viewCenter": {
                 "x": 475.9999999999999,
-                "y": 584.6666666666667
+                "y": 584
             }
         },
         "level3.tmx": {
@@ -101,10 +101,10 @@
                 4
             ],
             "scale": 0.89953125,
-            "selectedLayer": 1,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 778.1830814660411,
-                "y": 553.0658328990794
+                "x": 768.1778704186208,
+                "y": 543.6164669098489
             }
         },
         "map.tmx": {
@@ -143,6 +143,7 @@
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "level3.tmx",
         "level1.tmx",
         "atticusWalls.tsx",
         "level0.tmx",
