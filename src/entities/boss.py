@@ -277,9 +277,9 @@ class Boss(pygame.sprite.Sprite):
         EventManager.emit(EcodeEvent.BOSS_HACK, problemSlug=self.problemSlug)
 
     def get_next_pos(self):
-        x = randint(39, 49 - 3)
-        y = randint(3, 18 - 3)
-        return pygame.Vector2(x * c.TILE_SIZE, y * c.TILE_SIZE)
+        x = randint(self.room.left, self.room.right)
+        y = randint(self.room.top, self.room.bottom)
+        return pygame.Vector2(x, y)
 
     def move(self, target: pygame.Vector2):
         """Move boss to the target point.
@@ -350,7 +350,11 @@ i dedicated more of our energy to this than any of the other companies in the ga
 """this was our roadmap to the future...
 seven years to prepare for...and this is how I'm rewarded?""",
 """HEY! WHA...?! WHO ARE YOU!""",
-"""Just stand still. I'll make this quick"""
+"""a spy...it must be...but it looks so weak""",
+"""perhaps this presents an opportunity to test my modifications...""",
+"""Underling, you must enjoy technology? Of course you do, how could you not!
+Would you like to see a demonstration of my latest product?
+Just stand still. I'll make this quick."""
             ],
             currentLine=0
         )
