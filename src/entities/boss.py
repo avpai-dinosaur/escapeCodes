@@ -217,6 +217,8 @@ class Boss(pygame.sprite.Sprite):
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
         self.showKeyPrompt = self.rect.inflate(50, 50).colliderect(player.rect)
+        if self.room.left < player.rect.left:
+            EventManager.emit(EcodeEvent.CLOSE_DOORS)
         
     def start_dialog_update(self, _):
         """Update function to run when in start dialog state."""

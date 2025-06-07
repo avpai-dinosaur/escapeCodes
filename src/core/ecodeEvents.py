@@ -44,6 +44,8 @@ class EcodeEvent(Enum):
     OPEN_KEY_PROMPT = 32
     OPEN_WASD = 33
 
+    CLOSE_DOORS = 34
+
 
 class ScheduledEvent:
     def __init__(self, event: EcodeEvent, triggerTime: int, kwargs):
