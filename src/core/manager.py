@@ -37,10 +37,17 @@ class TextSlideShow:
         """Constructor."""
         self.manager = manager
         self.lines = [
-            "2032\nFirst automated colony established on Mars by tech conglomerate WeX.",
-            "2035\nPrime real estate becomes available for purchase.",
-            "2040\nThe universe's most incredible travel destinations are unlocked; the Utopia, a one-of-a-kind vessel, announces its passage from Earth to Mars, hosting neo-settlers and start-ups alike.",
-            "2042\nNow...You are the latest recruit for the expedition, preparing for an unforgettable trip to the New World."
+"""2032:
+First permanent colony and fully-automated mining venture established on Mars by tech conglomerate WeX.
+A bidding war for prime real estate begins amongst the company's top executives.""",
+"""2035:
+The universe's most incredible travel destinations are unlocked.
+The Utopia, an one-of-a-kind vessel, announces its passage from Earth to Mars, intended to host neo-settlers and start-ups alike.""",
+"""2041:
+The Earth bleeds, wrought by man-made fires, crumbling infrastructure, and worn reserves of nearly everything needed to sustain human life.
+There are no more resources: a planet in revolt. It is time to go.""",
+"""2042 (Present):
+You are a technician tasked with checking the Utopia before the expedition, preparing for an unforgettable trip to the New World.""" 
         ]
         self.line = 0
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
