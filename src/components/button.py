@@ -103,7 +103,7 @@ class TextInput:
 			onSubmit: Callback function for when user presses Enter key.
 		"""
 		if font is None:
-			self.font = FontManager.get_font("SpaceMono/SpaceMono-Regular.ttf", 40)
+			self.font = FontManager.get_font("SpaceMono/SpaceMono-Regular.ttf", 30)
 		else:
 			self.font = font
 		self.inputTextColor = inputTextColor
