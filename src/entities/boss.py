@@ -167,6 +167,7 @@ class Boss(pygame.sprite.Sprite):
 
         # Attacking data
         self.nextPos = self.get_next_pos()
+        self.attackedOnce = False
 
         # Timers
         self.chargeStart = pygame.time.get_ticks()
@@ -199,13 +200,16 @@ class Boss(pygame.sprite.Sprite):
         self.chargeStart = pygame.time.get_ticks()
         self.action = "charge"
         self.currentFrame = 0
-        EventManager.emit(EcodeEvent.BOSS_CHARGE)
+        if self.attackedOnce:
+            # Allow one attack cycle to occur before player can hack
+            EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
         """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
         self.action = "attack"
         self.currentFrame = 0
+        self.attackedOnce = True
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
@@ -350,7 +354,7 @@ class Druck(Boss):
 i told them they'd need me for what comes next...
 i dedicated more of our energy to this than any of the other companies in the galaxy...""",
 """this was our roadmap to the future...
-seven years to prepare for...and this is how I'm rewarded?""",
+seven years of preparation...and this is how I'm rewarded?""",
 """HEY! WHA...?! WHO ARE YOU!""",
 """a spy...it must be...but it looks so weak""",
 """perhaps this presents an opportunity to test my modifications...""",
