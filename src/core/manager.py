@@ -2,6 +2,7 @@ import pygame
 from src.core.game import Game
 from src.core.leetcodeManager import LeetcodeManager
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
+from src.components.ui import KeyPromptUi
 import src.core.utils as utils
 import src.constants as c
 
@@ -66,29 +67,30 @@ You are a technician tasked with checking the Utopia before the expedition, prep
         self.textRect.centerx = c.SCREEN_WIDTH // 2
         self.textRect.centery = c.SCREEN_HEIGHT // 2
 
-        self.textImage2 = self.font2.render(
-            '\nPress Return to Continue',
-            True,
-            "white",
-            wraplength=c.SCREEN_WIDTH - 2 * self.margin
-        )
-        self.textRect2 = self.textImage2.get_rect()
-        self.textRect2.centerx = c.SCREEN_WIDTH // 2
-        self.textRect2.centery = c.SCREEN_HEIGHT // 2 + 150
+        self.nextKeyPromptUi = KeyPromptUi(pygame.K_n, "Keys/N-Key.png", caption="Next")
+        self.backKeyPromptUi = KeyPromptUi(pygame.K_b, "Keys/B-Key.png", caption="Back")
 
-    
+        self.nextKeyPromptUi.rect.bottom = c.SCREEN_HEIGHT - 10
+        self.nextKeyPromptUi.rect.right = c.SCREEN_WIDTH - 10
+        self.backKeyPromptUi.rect.bottom = self.nextKeyPromptUi.rect.bottom
+        self.backKeyPromptUi.rect.right = self.nextKeyPromptUi.rect.left - 10
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == self.nextKeyPromptUi.key:
                 self.line += 1
                 if self.line >= len(self.lines):
                     self.manager.set_state("world")
-                else:
-                    self.render_text()
+                    return
+            elif event.key == self.backKeyPromptUi.key:
+                self.line = max(0, self.line - 1)
+            self.render_text()
     
     def update(self):
-        pass
+        self.nextKeyPromptUi.update()
+        self.backKeyPromptUi.update()
 
     def draw(self, screen):
         screen.blit(self.textImage, self.textRect)
-        screen.blit(self.textImage2, self.textRect2)
+        self.nextKeyPromptUi.draw(screen)
+        self.backKeyPromptUi.draw(screen)
