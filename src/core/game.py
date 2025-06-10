@@ -7,6 +7,8 @@ import src.constants as c
 
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
+
+    currentLevelIdx = None
    
     def __init__(self, manager):
         self.manager = manager
@@ -18,7 +20,6 @@ class Game():
             "level2",
             "level3"
         ]
-        self.currentLevelIdx = -1
         self.isPaused = False
         self.next_level()
 
@@ -38,6 +39,7 @@ class Game():
     def on_death(self):
         self.camera.reset()
         self.currentLevel.reset(self.camera)
+        Game.currentLevelIdx -= 1 # Get back to the same level if player retries
         self.destroy()
         self.manager.set_state("died")
     
@@ -60,12 +62,15 @@ class Game():
     
     def next_level(self):
         self.camera.reset()
-        if self.currentLevelIdx == len(self.levels) - 1:
-            self.currentLevelIdx = -1
+        if Game.currentLevelIdx is None:
+            Game.currentLevelIdx = 0
+        elif Game.currentLevelIdx == len(self.levels) - 1:
+            Game.currentLevelIdx = None
             self.destroy()
             self.manager.set_state("menu")
+            return
         else:
-            self.currentLevelIdx += 1
+            Game.currentLevelIdx += 1
         self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])
         self.currentLevel.load_camera(self.camera)
 
