@@ -1,7 +1,7 @@
 import pygame
 from src.core.game import Game
 from src.core.leetcodeManager import LeetcodeManager
-from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu
+from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu, PauseMenu
 import src.core.utils as utils
 import src.constants as c
 
@@ -10,6 +10,7 @@ class GameManager:
         self.states = {
             "menu": MainMenu,
             "options": OptionsMenu,
+            "pause": PauseMenu,
             "login": LoginMenu,
             "intro": TextSlideShow,
             "world": Game,
