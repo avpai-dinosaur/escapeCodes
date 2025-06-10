@@ -572,9 +572,9 @@ class PinPad:
                 PinPad.KeyUi(pygame.K_9, "Keys/9-Key.png")
             ],
             [
-                PinPad.KeyUi(pygame.K_BACKSPACE, "Keys/Blank-Sm-Key.png"),
-                PinPad.KeyUi(pygame.K_0, "Keys/Blank-Sm-Key.png"),
-                PinPad.KeyUi(pygame.K_RETURN, "Keys/Blank-Sm-Key.png")
+                PinPad.KeyUi(pygame.K_BACKSPACE, "Keys/Del-Key.png"),
+                PinPad.KeyUi(pygame.K_0, "Keys/0-Key.png"),
+                PinPad.KeyUi(pygame.K_RETURN, "Keys/ArrowRet-Key.png")
             ]
         ]
 
