@@ -189,8 +189,6 @@ class PauseMenu(OptionsMenu):
         pausedRect = pausedText.get_rect(center=(1000, 100))
         surface.blit(pausedText, pausedRect)
 
-
-
 class LoginMenu(Menu):
     """Login menu."""
 

@@ -11,7 +11,7 @@ class Game():
     def __init__(self, manager):
         self.manager = manager
         self.camera = Camera()
-        self.uiManager = UiManager()
+        self.uiManager = UiManager(self.manager)
         self.levels: list[str] = [
             # "tutorial",
             "level1",

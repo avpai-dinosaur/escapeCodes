@@ -5,11 +5,12 @@ from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 
 class UiManager:
-    def __init__(self):
+    def __init__(self, manager):
+        self.manager = manager
         self.testCaseBattleUi = ui.TestCaseHackUi()
         self.movingBarUi = ui.MovingBarUi()
         self.pinUi = ui.PinPad()
-        self.orderUi = order.OrderUi(500)
+        self.orderUi = order.OrderUi(500, self.manager)
 
         self.activeUi = set()
 
