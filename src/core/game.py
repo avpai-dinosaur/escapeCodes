@@ -15,13 +15,12 @@ class Game():
         self.camera = Camera()
         self.uiManager = UiManager()
         self.levels: list[str] = [
-            "tutorial",
+            # "tutorial",
             "level1",
             "level2",
             "level3"
         ]
         self.isPaused = False
-        self.next_level()
 
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
@@ -29,6 +28,8 @@ class Game():
         EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
         EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.on_level_end)
         EventManager.subscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
+
+        self.next_level()
 
     def pause(self):
         self.isPaused = True
@@ -56,7 +57,7 @@ class Game():
     def update(self):
         if not self.isPaused:
             self.currentLevel.update()
-            self.camera.update()
+        self.camera.update()
         self.uiManager.update()
         EventManager.update()
     

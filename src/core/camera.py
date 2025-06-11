@@ -2,6 +2,7 @@ import pygame
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 import random
+import math
 
 
 class Camera(pygame.sprite.Group):
@@ -38,6 +39,10 @@ class Camera(pygame.sprite.Group):
         # Blackout effect
         self.blackoutDuration = None
         self.blackoutStart = None
+
+        # Alarm effect
+        self.alarmStart = None 
+        self.alarmColor = (255, 0, 0)
     
         # Lighting
         self.brightness = 0
@@ -46,6 +51,7 @@ class Camera(pygame.sprite.Group):
         EventManager.subscribe(EcodeEvent.PLAYER_MOVED, self.set_target)
         EventManager.subscribe(EcodeEvent.CAMERA_SHAKE, self.shake)
         EventManager.subscribe(EcodeEvent.CAMERA_BLACKOUT, self.blackout)
+        EventManager.subscribe(EcodeEvent.CAMERA_ALARM, self.alarm)
 
         self.foreground_objects = pygame.sprite.Group()
         self.background_objects = pygame.sprite.Group()
@@ -86,6 +92,9 @@ class Camera(pygame.sprite.Group):
         """Execute blackout followed by fade in effect."""
         self.blackoutDuration = duration
         self.blackoutStart = pygame.time.get_ticks()
+    
+    def alarm(self):
+        self.alarmStart = pygame.time.get_ticks()
 
     def update(self):
         """Update the camera."""
@@ -97,8 +106,11 @@ class Camera(pygame.sprite.Group):
         ):
             timePassed = pygame.time.get_ticks() - self.blackoutStart
             normalized = timePassed / self.blackoutDuration
-            blackoutIntensityScale = 1 if normalized < 0.4 else 1 - (normalized - 0.4) / 0.6
+            blackoutIntensityScale = 1 if normalized < 0.3 else 1 - (normalized - 0.3) / 0.7
             self.brightness = 0 + 255 * blackoutIntensityScale
+        elif self.alarmStart:
+            timePassed = (pygame.time.get_ticks() - self.alarmStart) / 1000
+            self.brightness = (26 + 24 * math.sin(2 * math.pi * timePassed * 0.5)) # 1 oscillations every 2 seconds between [2, 50]
 
     def handle_event(self, event):
         """Handle an event off the event queue."""
@@ -131,5 +143,6 @@ class Camera(pygame.sprite.Group):
 
         # Tweak lighting
         dim_surface = pygame.Surface((c.SCREEN_WIDTH, c.SCREEN_HEIGHT), pygame.SRCALPHA).convert_alpha()
-        dim_surface.fill((0, 0, 0, self.brightness)) 
+        dimColor = self.alarmColor if self.alarmStart else (0, 0, 0)
+        dim_surface.fill((dimColor[0], dimColor[1], dimColor[2], self.brightness)) 
         surface.blit(dim_surface, (0, 0))

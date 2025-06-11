@@ -237,13 +237,17 @@ Desperation levels: high."""
         )
     
     def start_level(self):
-        blackoutDuration = 10000
+        blackoutDuration = 10000 
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
         EventManager.emit(EcodeEvent.CAMERA_BLACKOUT, duration=blackoutDuration)
+        EventManager.emit(EcodeEvent.CAMERA_ALARM, delay=blackoutDuration)
+        EventManager.emit(EcodeEvent.UNPAUSE_GAME, delay=blackoutDuration)
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
             delay=blackoutDuration,
             text="ERR: Unable To Find Objective"
         )
+        
 
 
 @LevelFactory.register_level("level2")
