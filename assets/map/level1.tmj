@@ -515,7 +515,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"Subject: First Week Magic! \n\tTo: Tobey, Rushabh, An\n\tFrom: Shawn\n\tTimestamp: Monday 9:12AM\n\tHey Team! \n\nI just wanted to say THANK YOU ALL for making my first week amazing! So far, I\u2019ve shadowed several different teams, sat in on a strategy call, and Rushabh even gave me a walkthrough of the amenities\/buffet system (legendary).\n\nAlso fun fact: Did you know that the floor we\u2019re on has 4 vending machines??? I\u2019ve tried snacks from most of them already! \n\nCan\u2019t wait to get my name on the employee leaderboard (currently sitting at...well, unranked). \n\n\u2014 Shawn\n"
+                         "value":"Subject: First Week Magic! \nTo: Tobey, Rushabh, An\nFrom: Shawn\nTimestamp: Monday 9:12AM\nHey Team! \n\nI just wanted to say THANK YOU ALL for making my first week amazing! So far, I\u2019ve shadowed several different teams, sat in on a strategy call, and Rushabh even gave me a walkthrough of the amenities\/buffet system (legendary).\n\nAlso fun fact: Did you know that the floor we\u2019re on has 4 vending machines??? I\u2019ve tried snacks from most of them already! \n\nCan\u2019t wait to get my name on the employee leaderboard (currently sitting at...well, unranked). \n\n\u2014 Shawn\n"
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -551,7 +551,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"Subject: Incident Report - Passive Aggression in Shared Communication Channels\nTo: HR Department (cc: Shawn, Tobey, Rushabh)\nFrom: An\n\nHello, \n\nPlease find below a minor behavioral concern for review:\n\nDuring today\u2019s afternoon synced work-time, a gif of a cat slapping a dog was posted in the #general channel by Tobey. This was followed by an ambiguous emoji reaction from Rushabh and a laughing emoji from Shawn. \n\nWhile I appreciate humor, we must always consider appropriateness and our company\u2019s anti-violence mission. This is the third message that I have personally flagged this week for tone. \n\nIn my role as supervisor, I\u2019ve reviewed Shawn\u2019s onboarding documentation, including his workplace readiness agreement with HR. (Which, he \u201caccidentally\u201d left unsigned for 2 days.) Understand that we value promptness at WeX. \n\nWarmly, \nAn"
+                         "value":"Subject: Incident Report - Passive Aggression in Shared Communication Channels\nTo: HR Department (cc: Shawn, Tobey, Rushabh)\nTimestamp: Wednesday 5:00PM\nFrom: An\n\nHello, \n\nPlease find below a minor behavioral concern for review:\n\nDuring today\u2019s afternoon synced work-time, a gif of a cat slapping a dog was posted in the #general channel by Tobey. This was followed by an ambiguous emoji reaction from Rushabh and a laughing emoji from Shawn. \n\nWhile I appreciate humor, we must always consider appropriateness and our company\u2019s anti-violence mission. This is the third message that I have personally flagged this week for tone. \n\nIn my role as supervisor, I\u2019ve reviewed Shawn\u2019s onboarding documentation, including his workplace readiness agreement with HR. (Which, he \u201caccidentally\u201d left unsigned for 2 days.) Understand that we value promptness at WeX. \n\nWarmly, \nAn"
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -569,7 +569,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"Sticky Note App - Draft Message\nTitle: \u201cThings to Remember\u201d\nUser: Rushabh\n\nBring an extra charger for Tobey (poor dude keeps forgetting, this is the fourth time!!)\nShow Shawn the \u201cbreak room\u201d (supply closet, we go there to cool off sometimes)\nAvoid siding with anyone in the An situation: stay neutral!!\nReminder, last but not least: all the pods look the exact same, please remember that mine is 9!!!!"
+                         "value":"Sticky Note App - Draft Message\nTitle: \u201cThings to Remember\u201d\nUser: Rushabh\nTimestamp: Wednesday 11:04PM\n\nBring an extra charger for Tobey (poor dude keeps forgetting, this is the fourth time!!)\nShow Shawn the \u201cbreak room\u201d (supply closet, we go there to cool off sometimes)\nAvoid siding with anyone in the An situation: stay neutral!!\nReminder, last but not least: all the pods look the exact same, please remember that mine is 9!!!!"
                         }],
                  "rotation":0,
                  "type":"Computer",
