@@ -67,8 +67,8 @@ You are a technician tasked with checking the Utopia before the expedition, prep
         self.textRect.centerx = c.SCREEN_WIDTH // 2
         self.textRect.centery = c.SCREEN_HEIGHT // 2
 
-        self.nextKeyPromptUi = KeyPromptUi(pygame.K_n, "Keys/N-Key.png", caption="Next")
-        self.backKeyPromptUi = KeyPromptUi(pygame.K_b, "Keys/B-Key.png", caption="Back")
+        self.nextKeyPromptUi = KeyPromptUi(pygame.K_d, "Keys/D-Key.png", caption="Next")
+        self.backKeyPromptUi = KeyPromptUi(pygame.K_a, "Keys/A-Key.png", caption="Back")
 
         self.nextKeyPromptUi.rect.bottom = c.SCREEN_HEIGHT - 10
         self.nextKeyPromptUi.rect.right = c.SCREEN_WIDTH - 10
