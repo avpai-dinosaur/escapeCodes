@@ -58,6 +58,25 @@ PLAYER_SHEET_METADATA = {
     "colorkey": (0, 0, 0)
 }
 
+U_SHEET_METADATA = {
+    "frame_width": 64,
+    "frame_height": 64,
+    "scale": 1.75,
+    "actions": {
+        "run" : {
+            "row": 0,
+            "num_frames": 8,
+            "cooldown": 50
+        },
+        "idle": {
+            "row": 1,
+            "num_frames": 2,
+            "cooldown": 500
+        },
+    },
+    "colorkey": (255, 255, 255) 
+}
+
 ENEMY_SHEET_METADATA = {
     "frame_width": 64,
     "frame_height": 64,
