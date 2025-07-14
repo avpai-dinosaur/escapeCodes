@@ -208,8 +208,10 @@ class Tutorial(Level):
                 
     def end_level(self):
         cameraShakeDuration = 5000
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
         EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)
         EventManager.emit(EcodeEvent.NEXT_LEVEL, delay=cameraShakeDuration)
+        EventManager.emit(EcodeEvent.UNPAUSE_GAME, delay=cameraShakeDuration)
 
 
 @LevelFactory.register_level("level1")
