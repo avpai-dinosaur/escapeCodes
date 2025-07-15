@@ -1,5 +1,10 @@
 from enum import Enum
 
+GREEN_START = "\033[92m"
+RED_START = "\033[31m"
+BLUE_START = "\033[34m"
+END_COLOR = "\033[0m" 
+
 class Pseudocode:
     def __init__(self, lines, missingLines):
         self.lines = lines
@@ -82,7 +87,7 @@ class DownloadableText:
         for line in self.lines:
             line_display = []
             for word in line:
-                line_display.append(f"{word}({idx})")
+                line_display.append(f"{word}{BLUE_START}({idx}){END_COLOR}")
                 idx += 1
             print(" ".join(line_display))
         print()
@@ -114,7 +119,7 @@ class Problem:
             self.get_input_terminal_view()
 
     def draw_problem_view(self):
-        print("---DIRECTIONS---")
+        print("\n---DIRECTIONS---")
         print(f"Complete the pseudocode for ({self.name}) by looking through the terminals for missing snippets")
         print(f"View problem description at {self.url}")
         self.pseudocode.print_code()
@@ -128,7 +133,7 @@ class Problem:
 
     def draw_terminal_view(self):
         self.terminals[self.active_terminal].print_text()
-        print("Options:")
+        print("\nOptions:")
         print("1. Toggle view")
         print("2. Probe a word from terminal by index")
     
@@ -142,13 +147,13 @@ class Problem:
                 wordIdx = int(input("Enter word index to probe: ").strip())
                 self.try_reveal_from_word(wordIdx)
             except ValueError:
-                print("Invalid index. Please enter a number.")
+                print(f"{RED_START}Invalid index. Please enter a number.{END_COLOR}")
 
     def isSolved(self):
         return len(self.pseudocode.missingLines) == 0
 
     def toggle_view(self):
-        print("Choose view:")
+        print("\nChoose view:")
         for i in range(len(self.terminals)):
             print(f"{i + 1}. Terminal {i + 1}")
         print(f"{len(self.terminals) + 1}. Pseudocode")
@@ -160,17 +165,17 @@ class Problem:
             else:
                 self.viewState = Problem.ViewState.Pseudocode
         except ValueError:
-            print("Invalid terminal. Please enter a number.")
+            print(f"{RED_START}Invalid terminal. Please enter a number.{END_COLOR}")
 
     def try_reveal_from_word(self, wordIdx):
         terminal = self.terminals[self.active_terminal]
         phrase = terminal.try_probe(wordIdx)
         if phrase:
-            print(f"\nPhrase found: \"{phrase}\"")
+            print(f"{GREEN_START}Phrase found! \"{phrase}\"{END_COLOR}")
             self.pseudocode.reveal_line(phrase)
             self.viewState = Problem.ViewState.Pseudocode
         else:
-            print("\nNo phrase associated with this word.")
+            print(f"{RED_START}Word at index ({wordIdx}) is not part of a phrase{END_COLOR}")
 
 
 if __name__ == "__main__":
