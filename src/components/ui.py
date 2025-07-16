@@ -43,7 +43,7 @@ class WasdUi:
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key in [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d]:
-                self.on_close(self)
+                self.on_close(WasdUi)
 
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
@@ -137,7 +137,7 @@ class StandAloneKeyPromptUi(KeyPromptUi):
     def handle_event(self, event: pygame.Event):
         if event.type == pygame.KEYDOWN:
             if event.key == self.key:
-                self.on_close(self)
+                self.on_close(StandAloneKeyPromptUi)
 
 
 class ParameterInputUi:
@@ -496,7 +496,7 @@ class DialogUi:
         if self.currentLine >= len(self.lines):
             EventManager.emit(EcodeEvent.UNPAUSE_GAME)
             EventManager.emit(EcodeEvent.FINISHED_DIALOG)
-            self.on_close(self)
+            self.on_close(DialogUi)
         else:
             self.set_dialog(self.lines[self.currentLine])
     
