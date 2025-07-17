@@ -1,6 +1,7 @@
 from enum import Enum
 
 GREEN_START = "\033[92m"
+YELLOW_START = "\033[33m"
 RED_START = "\033[31m"
 BLUE_START = "\033[34m"
 END_COLOR = "\033[0m" 
@@ -9,6 +10,7 @@ class Pseudocode:
     def __init__(self, lines, missingLines):
         self.lines = lines
         self.missingLines = set(missingLines)
+        self.ogMissingLines = self.missingLines.copy()
         for line in missingLines:
             assert line < len(self.lines)
 
@@ -30,7 +32,10 @@ class Pseudocode:
     def print_code(self):
         embellishedLines = self.lines.copy()
         for line in self.missingLines:
-            embellishedLines[line] = Pseudocode.anonymize_line(self.lines[line])
+            embellishedLines[line] = YELLOW_START + Pseudocode.anonymize_line(self.lines[line]) + END_COLOR
+        for line in self.ogMissingLines.difference(self.missingLines):
+            embellishedLines[line] = GREEN_START + self.lines[line] + END_COLOR
+
         print("\n--- PSEUDOCODE ---")
         print("\n".join(embellishedLines))
         print()
@@ -150,7 +155,11 @@ class Problem:
                 print(f"{RED_START}Invalid index. Please enter a number.{END_COLOR}")
 
     def isSolved(self):
-        return len(self.pseudocode.missingLines) == 0
+        if len(self.pseudocode.missingLines) == 0:
+            print(f"\n---SOLVED {self.name}---")
+            self.pseudocode.print_code()
+            return True
+        return False
 
     def toggle_view(self):
         print("\nChoose view:")
@@ -262,7 +271,7 @@ survive upcoming performance review with Druck (if still alive after liftoff)"""
                     "I keep a wish list of things I'm waiting for",
                     "Each day, someone hands me an object",
                     "\tIf it's on my wish list:",
-                    "\t\tI return both - the one I just got, and the one I was waiting for.",
+                    "\t\tI return both - the one I just got and the one I was waiting for.",
                     "\tOtherwise:",
                     "\t\tI wrote down what I would have needed for this object to complete a pair"
                 ],
@@ -274,7 +283,7 @@ From: Rushabh
 To: Team
 
 Every time I think I'm done, someone else tosses a last-minute item on my backlog.
-So now STARTPHRASE I keep a wish list of what I'm waiting for ENDPHRASE , and cross it off if it shows up."""
+So now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up."""
             ),
             DownloadableText(
 """Subject: Post-Sprint Reflection
@@ -283,7 +292,7 @@ To: Team
 
 Pro-tip to get free stuff from the commissary. Order an item for delivery. When the order arrives report it as stolen. Wait for a second order.
 
-To be safe, If I'm ever questioned STARTPHRASE I return both-the one I just got and the one I was waiting for. ENDPHRASE"""
+To be safe, If I'm ever questioned STARTPHRASE I return both - the one I just got and the one I was waiting for. ENDPHRASE"""
             ),
             DownloadableText(
 """Subject: Kitchen Mystery
@@ -294,6 +303,65 @@ Found a random half of a coffee pod on the counter this morning.
 STARTPHRASE I wrote down what I would have needed for this object to complete a pair ENDPHRASE — just in case.
 This office is starting to feel like a logic puzzle."""
             )]
+        ),
+        Problem(
+            "217. Contains Duplicate",
+            "https://leetcode.com/problems/contains-duplicate",
+            Pseudocode(
+                [
+                    "(seen = ",
+                    "\tset())",
+                    "Iterate through nums",
+                    "\tif you've seen it:",
+                    "\t\treturn True",
+                    "\tmark it as seen",
+                    "return False"
+                ],
+                {1, 3, 5}
+            ),
+            [DownloadableText(
+"""Internal Chat - “Noob suggestions”
+Members: Shawn & Rushabh
+
+Shawn:
+Wow! I'm so excited about the read receipts project! Can I run an implementation plan by you real quick?
+
+Rushabh:
+yes...if you must
+
+Shawn:
+Whoopee! I think this is the perfect situation to use a data structure I learned about in my algorithms class. It's called a STARTPHRASE set() ENDPHRASE and acts as a container of unique elements. Have you heard of it?
+
+Rushabh:
+you know I have 25 years of experience right?
+
+Shawn:
+Woah...I'm like, not even 25 years old"""
+            ),
+            DownloadableText(
+"""Subject: Re: Incident Report - Passive Aggression
+To: HR Department
+From: An
+
+It has come to my attention that, in response to Tobey's gif of a cat slapping a dog, Shawn has posted a gif of a dog slapping a cat. The caption of this post: “NO YOU (dogz rule)”
+
+This gif is unacceptable and many times more violent than the original infraction. I'm wondering STARTPHRASE if you've seen it ENDPHRASE yet. I'm convinced you haven't because that would be the only reasonable explanation of why no action has been taken.  
+
+Humbly,
+- Ann"""
+            ),
+            DownloadableText(
+"""Subject: Another request of stupidity
+To: Engineering Team
+From: Rushabh
+
+It is my great NOT privilege to inform you of the project we will be tackling over the next quarter: implementing “read receipts” for space objects we pass by during our voyage to Mars.
+
+When we pass by an object, such as a comet or asteroid, we will STARTPHRASE mark it as seen ENDPHRASE . A projection of all the seen objects will then be displayed on spaceship windows.
+
+Is this feature useful? No. Was it requested by Druck himself? Yes. Will we, therefore, implement it like the loyal worker bees we are? Absolutely.
+
+- Rushabh""")]
         )
     ]
     
