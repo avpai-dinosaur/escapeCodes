@@ -6,22 +6,38 @@ from src.components.ui import KeyPromptUi
 import src.core.utils as utils
 import src.constants as c
 
+
+class GameStates:
+    Menu = "menu"
+    Options = "options"
+    Login = "login"
+    Intro = "intro"
+    World = "world"
+    Died = "died"
+
+
 class GameManager:
     def __init__(self):
         self.states = {
-            "menu": MainMenu,
-            "options": OptionsMenu,
-            "login": LoginMenu,
-            "intro": TextSlideShow,
-            "world": Game,
-            "died": YouDiedMenu
+            GameStates.Menu: MainMenu,
+            GameStates.Options: OptionsMenu,
+            GameStates.Login: LoginMenu,
+            GameStates.Intro: TextSlideShow,
+            GameStates.World: Game,
+            GameStates.Died: YouDiedMenu
         }
-        self.set_state("menu")
+        self.set_state(GameStates.Menu)
         self.leetcodeManager = LeetcodeManager()
+        self.gameInstance : Game = None
 
-    def set_state(self, state_name):
-        pygame.display.set_caption(state_name)
-        self.activeState = self.states[state_name](self) # Call the state's constructor
+    def set_state(self, stateName):
+        pygame.display.set_caption(stateName)
+        if stateName == GameStates.World:
+            if self.gameInstance is None:
+                self.gameInstance = self.states[GameStates.World](self)
+            self.activeState = self.gameInstance
+        else:
+            self.activeState = self.states[stateName](self) 
 
     def handle_event(self, event):
         self.activeState.handle_event(event)

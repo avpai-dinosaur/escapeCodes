@@ -5,8 +5,6 @@ from src.entities.player import Player
 from src.entities.roomba import Roomba
 from src.entities.boss import Druck
 from src.core.map import Map
-from src.components.ui import StandAloneKeyPromptUi
-import src.core.utils as utils
 import src.constants as c
 from src.core.ecodeEvents import EventManager, EcodeEvent
 
@@ -18,6 +16,8 @@ class Level():
         self.map = Map(imageFile, dataFile)
         self.load_entities()
         self.start_level()
+
+        EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
 
     def load_entities(self):
         self.objects = self.map.object_factory()
@@ -37,6 +37,9 @@ class Level():
             roomba = Roomba("roomba.png", self.map.roombaPath)
             self.set_roomba_dialog(roomba)
             self.entities.add(roomba)
+
+    def destroy(self):
+        EventManager.unsubscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
     
     def set_roomba_dialog(self, roomba):
         pass
@@ -59,12 +62,8 @@ class Level():
         self.load_entities()
         self.load_camera(camera)
 
-    def end_level(self):
+    def on_level_ended(self):
         EventManager.emit(EcodeEvent.NEXT_LEVEL)
-    
-    def player_died(self):
-        # TODO: the player should probably post this event
-        pygame.event.post(pygame.event.Event(c.PLAYER_DIED))
 
     def update(self):
         self.player.update(self.walls, self.doors)
@@ -92,13 +91,6 @@ class Level():
                 handleEventOp(event)
 
         [d.handle_event(event) for d in self.doors]
-
-        if event.type == pygame.KEYDOWN:
-            # if event.key == pygame.K_ESCAPE:
-            #     self.end_level()
-            # TODO: This is just for testing purposes
-            if event.key == pygame.K_v:
-                self.player_died()
     
     def draw_ui(self, surface):
         """Draw any ui specific to the level."""
@@ -206,7 +198,7 @@ class Tutorial(Level):
             if self.currentKeys and event.key in self.currentKeys:
                 self.next_key_prompt()
                 
-    def end_level(self):
+    def on_level_ended(self):
         cameraShakeDuration = 5000
         EventManager.emit(EcodeEvent.PAUSE_GAME)
         EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)

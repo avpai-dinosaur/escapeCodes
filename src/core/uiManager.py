@@ -1,12 +1,12 @@
 import pygame
 from src.components import ui
-from src.components import order, note
+from src.components import order, note, hack
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 
 class UiManager:
     def __init__(self):
-        self.testCaseBattleUi = ui.TestCaseHackUi()
+        # TODO: Move these into activeUi
         self.movingBarUi = ui.MovingBarUi()
         self.pinUi = ui.PinPad()
         self.orderUi = order.OrderUi(500)
@@ -18,6 +18,7 @@ class UiManager:
         EventManager.subscribe(EcodeEvent.OPEN_KEY_PROMPT, self.on_open_key_prompt)
         EventManager.subscribe(EcodeEvent.OPEN_WASD, self.on_open_wasd)
         EventManager.subscribe(EcodeEvent.OPEN_DIALOG, self.on_open_dialog)
+        EventManager.subscribe(EcodeEvent.BOSS_HACK, self.on_open_hack)
 
     def on_open_note(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         noteUi = note.NoteUi(self.deactivate_ui)
@@ -45,6 +46,10 @@ class UiManager:
         EventManager.emit(EcodeEvent.PAUSE_GAME)
         dialog = ui.DialogUi(self.deactivate_ui, lines, currentLine)
         self.uiMap[ui.DialogUi] = dialog
+    
+    def on_open_hack(self, problemSlug: str):
+        hackUi = hack.TestCaseHackUi(self.deactivate_ui, problemSlug)
+        self.uiMap[hack.TestCaseHackUi] = hackUi
         
     def deactivate_ui(self, uiType):
         if uiType in self.uiMap:
@@ -54,7 +59,6 @@ class UiManager:
         for ui in self.uiMap.copy().values():
             ui.handle_event(event)
         self.movingBarUi.handle_event(event)
-        self.testCaseBattleUi.handle_event(event)
         self.pinUi.handle_event(event)
         self.orderUi.handle_event(event)
 
@@ -62,7 +66,6 @@ class UiManager:
         for ui in self.uiMap.copy().values():
             ui.update()
         self.movingBarUi.update()
-        self.testCaseBattleUi.update()
         self.pinUi.update()
         self.orderUi.update()
 
@@ -70,6 +73,5 @@ class UiManager:
         for ui in self.uiMap.copy().values():
             ui.draw(surface)
         self.movingBarUi.draw(surface)
-        self.testCaseBattleUi.draw(surface)
         self.pinUi.draw(surface)
         self.orderUi.draw(surface)
