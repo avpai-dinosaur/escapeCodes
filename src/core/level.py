@@ -40,6 +40,11 @@ class Level():
 
     def destroy(self):
         EventManager.unsubscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
+        # TODO: Another hacky solution
+        for entity in self.entities:
+            destroyOp = getattr(entity, "destroy", None)
+            if callable(destroyOp):
+                destroyOp()
     
     def set_roomba_dialog(self, roomba):
         pass
