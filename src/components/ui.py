@@ -444,6 +444,16 @@ class PinPad:
         # Event subscribers
         EventManager.subscribe(EcodeEvent.OPEN_PIN, self.open)
 
+        #ESC
+        self.ESC = KeyPromptControlBarUi()
+        self.ESC.controls.clear()
+        self.ESC.add_control(KeyPromptUi(pygame.K_q, "Keys/Esc-Key.png", caption=" to exit"))
+        self.ESC.build()
+        self.ESC.rect.center = (
+            self.backgroundRect.centerx, self.keyGridRect.bottom + 50
+        )
+
+
     def render_input_screen(self):
         self.inputDigitImages = [self.font.render(digit, True, "white") for digit in self.inputBuffer]
         self.inputDigitRects = [image.get_rect() for image in self.inputDigitImages]
@@ -467,6 +477,7 @@ class PinPad:
         for keyRow in self.keys:
             for key in keyRow:
                 key.update(pressedKeys)    
+        self.ESC.update()
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible: 
@@ -506,3 +517,5 @@ class PinPad:
                 for key in keyRow:
                     key.draw(self.keyGridInternalSurface)
             surface.blit(self.keyGridInternalSurface, self.keyGridRect)
+            self.ESC.draw(surface)
+            
