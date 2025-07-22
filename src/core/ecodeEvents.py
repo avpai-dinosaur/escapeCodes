@@ -38,11 +38,14 @@ class EcodeEvent(Enum):
     GIVE_ORDER = 28
     CAMERA_SHAKE = 29
     CAMERA_BLACKOUT = 30
+    CAMERA_ALARM = 31
 
-    NEXT_LEVEL = 31
+    NEXT_LEVEL = 32
 
-    OPEN_KEY_PROMPT = 32
-    OPEN_WASD = 33
+    OPEN_KEY_PROMPT = 33
+    OPEN_WASD = 34
+
+    CLOSE_DOORS = 35
 
 
 class ScheduledEvent:

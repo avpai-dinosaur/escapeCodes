@@ -139,6 +139,7 @@ class OptionsMenu(Menu):
         self.backgroundRect.centerx = self.WASDControls.rect.centerx + 20
 
     def update(self):
+        super().update()
         self.WASDControls.update()
         self.QEPControls.update()
         self.SpaceControls.update()

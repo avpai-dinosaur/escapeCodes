@@ -82,18 +82,18 @@ class NoteUi:
                 if event.key == pygame.K_ESCAPE:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                    self.on_close(self)
-                elif event.key == pygame.K_o:
+                    self.on_close(NoteUi)
+                elif self.url and event.key == pygame.K_o:
                     # TODO: probably don't want the LeetCodeManager to add the
                     # problem as an in progress problem if it was already
                     # solved
                     EventManager.emit(EcodeEvent.OPEN_PROBLEM, url=self.url)
-                elif event.key == pygame.K_s:
+                elif self.url and event.key == pygame.K_s:
                     EventManager.emit(
                         EcodeEvent.PROBLEM_SOLVED,
                         problemSlug=utils.get_problem_slug(self.url)
                     )
-                elif event.key == pygame.K_r:
+                elif self.url and event.key == pygame.K_r:
                     EventManager.emit(EcodeEvent.CHECK_PROBLEMS)
 
     def update(self):

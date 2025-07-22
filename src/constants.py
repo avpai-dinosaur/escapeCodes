@@ -18,7 +18,6 @@ WALKABLE_TILES = [12, 31, 32, 33]
 LEVEL_ENDED = pygame.USEREVENT + 2
 ENTERED_DANCE_FLOOR = pygame.USEREVENT + 3
 LEFT_DANCE_FLOOR = pygame.USEREVENT + 4
-PLAYER_DIED = pygame.USEREVENT + 5
 
 OPEN_PROBLEM = pygame.USEREVENT + 6
 PROBLEM_SOLVED = pygame.USEREVENT + 7
@@ -56,6 +55,25 @@ PLAYER_SHEET_METADATA = {
         }
     },
     "colorkey": (0, 0, 0)
+}
+
+U_SHEET_METADATA = {
+    "frame_width": 64,
+    "frame_height": 64,
+    "scale": 1.75,
+    "actions": {
+        "run" : {
+            "row": 0,
+            "num_frames": 8,
+            "cooldown": 50
+        },
+        "idle": {
+            "row": 1,
+            "num_frames": 2,
+            "cooldown": 500
+        },
+    },
+    "colorkey": (255, 255, 255) 
 }
 
 ENEMY_SHEET_METADATA = {

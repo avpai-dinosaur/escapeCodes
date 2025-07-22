@@ -139,8 +139,8 @@ class Player(pygame.sprite.Sprite):
             #     self.footstepRightSound.play()
             self.lastFootStepFrame = self.current_frame
 
-        # if self.health.hp <= 0:
-        #     EventManager.emit(EcodeEvent.PLAYER_DIED)
+        if self.health.hp <= 0:
+            EventManager.emit(EcodeEvent.PLAYER_DIED)
 
     def draw(self, surface, offset):
         self.health.draw(surface, offset)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="122">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="123">
  <editorsettings>
   <export target="level1.tmj" format="json"/>
  </editorsettings>
@@ -94,13 +94,14 @@
   <object id="29" x="1024" y="960" width="64" height="64"/>
   <object id="30" x="1984" y="960" width="64" height="64"/>
   <object id="71" x="576" y="128" width="256" height="512"/>
-  <object id="80" x="64" y="512" width="64" height="512"/>
-  <object id="81" x="512" y="512" width="64" height="192"/>
-  <object id="83" x="512" y="832" width="64" height="192"/>
+  <object id="80" x="64" y="512" width="64" height="448"/>
+  <object id="81" x="512" y="512" width="64" height="128"/>
+  <object id="83" x="512" y="832" width="64" height="128"/>
   <object id="113" x="0" y="512" width="64" height="576"/>
   <object id="119" x="2240" y="128" width="512" height="512"/>
   <object id="120" x="2240" y="832" width="512" height="384"/>
   <object id="121" x="2688" y="640" width="64" height="192"/>
+  <object id="122" x="1408" y="256" width="192" height="320"/>
  </objectgroup>
  <objectgroup id="21" name="rooms" visible="0">
   <object id="84" x="832" y="128" width="1408" height="1088"/>
@@ -127,16 +128,16 @@
   <object id="58" type="Computer" gid="21" x="1088" y="896" width="64" height="64">
    <properties>
     <property name="note">Subject: First Week Magic! 
-	To: Tobey, Rushabh, An
-	From: Shawn
-	Timestamp: Monday 9:12AM
-	Hey Team! 
+To: Tobey, Rushabh, An
+From: Shawn
+Timestamp: Monday 9:12AM
+Hey Team! 
 
-I just wanted to say THANK YOU ALL for making my first week amazing! So far, I’ve shadowed several different teams, sat in on a strategy call, and Rushabh even gave me a walkthrough of the amenities/buffet system (legendary 🍪).
+I just wanted to say THANK YOU ALL for making my first week amazing! So far, I’ve shadowed several different teams, sat in on a strategy call, and Rushabh even gave me a walkthrough of the amenities/buffet system (legendary).
 
 Also fun fact: Did you know that the floor we’re on has 4 vending machines??? I’ve tried snacks from most of them already! 
 
-Can’t wait to get my name on the employee leaderboard (currently sitting at...well, unranked 😂). 
+Can’t wait to get my name on the employee leaderboard (currently sitting at...well, unranked). 
 
 — Shawn
 </property>
@@ -152,7 +153,7 @@ Tobey:
 Rushabh, I swear if one more exec pings me about those Q2 deliverables, I might move my desk into the supply closet permanently. 
 
 Rushabh:
-Hang in there, man. Remember what HR said during orientation: “Mental clarity comes whenever you least expect it.” 😂 As if that’s helpful.
+Hang in there, man. Remember what HR said during orientation: “Mental clarity comes whenever you least expect it.” As if that’s helpful.
 
 Tobey:
 I haven’t had mental clarity since 2030. 
@@ -171,14 +172,14 @@ Thanks :/
    <properties>
     <property name="note">Subject: Incident Report - Passive Aggression in Shared Communication Channels
 To: HR Department (cc: Shawn, Tobey, Rushabh)
+Timestamp: Wednesday 5:00PM
 From: An
-Timestamp: T̴̛͙͇͛̿̍͋͊̾͊͆̂̌̕ų̶͎̠̻̜̬̱̟͍̅̍̓̆̀͝ē̸̢̙̬͓͇̙̟̯̞̫͈̽̍͂͗̒͗̋̈́̍̂̑͘ͅs̶̨̨̫̖͓͔͕͙͇͎̅͌͜d̴̛̼̱̥̎̌͊̿͊͛̂a̸̡̢̱̼̣̹̲͈̜͙̼͋͊̋͑̈́̓̒͘̚y̷̖̪͊́,̶̱̻̠̱̲̗͚̜̚͜ ̵̨̢̢̛̛̬̯͔̰͓͉̩͓̻͇̰͌̀̈͑̑̏̓͠3̵̨̢̲̯͇̯̝̑̒̎̈́̾͗́̂̆̇̚:̸̡̰͔̥̲̲̰͉̝̱̺̻͈́́̂̈͑͐͛̇̍̐̈́̈̚̚͠ͅ0̸̛̜̞̬͈̜̥̖̖̖̮̖͒̆̚͝4̴̨̻̟̼͚̩̪̼͔̱̭̈͐̃́̔̆̃͜͠P̵̲͍͙͇̝͇̭̈́̈́̅̓̔̈́̍͠Ḿ̸̫̩̗̜̽̊̉̑̾
 
 Hello, 
 
 Please find below a minor behavioral concern for review:
 
-During today’s afternoon synced work-time, a gif of a cat slapping a dog was posted in the #general channel by Tobey. This was followed by an ambiguous emoji reaction (“🥴”) from Rushabh and a laughing emoji from Shawn. 
+During today’s afternoon synced work-time, a gif of a cat slapping a dog was posted in the #general channel by Tobey. This was followed by an ambiguous emoji reaction from Rushabh and a laughing emoji from Shawn. 
 
 While I appreciate humor, we must always consider appropriateness and our company’s anti-violence mission. This is the third message that I have personally flagged this week for tone. 
 
@@ -193,11 +194,11 @@ An</property>
     <property name="note">Sticky Note App - Draft Message
 Title: “Things to Remember”
 User: Rushabh
-Date: T̴͔͓͇̦̼͆̏̒̓ḣ̴̨͎̥̙̋͊͠ŭ̶̫̖́ͅř̸̳̟͔̺͚̏̓͝s̶̫͐́͋̚͠d̵̜͕̤͒̈̓̋́ą̶̪̣̲̤̀̑̊͝y̶͍͍̌͆͋̃͘,̴̖̿͆̍̕ ̶̤̠̥̙͝8̴̨̺͛:̸͔̏̀4̵̨͉̳̳̪̈5̷̢̻̣̱̅͒̈́Ȁ̷̧̮͕̥͑̆M̷̦̭͂͐͒̈́̚
+Timestamp: Wednesday 11:04PM
 
 Bring an extra charger for Tobey (poor dude keeps forgetting, this is the fourth time!!)
 Show Shawn the “break room” (supply closet, we go there to cool off sometimes)
-Avoid siding with anyone in the An situation: stay neutral!! 😬
+Avoid siding with anyone in the An situation: stay neutral!!
 Reminder, last but not least: all the pods look the exact same, please remember that mine is 9!!!!</property>
    </properties>
   </object>
@@ -209,13 +210,18 @@ Title: &quot;Silicon Spat Slam Poetry Competition Submission&quot;
 User: Chuck
 
 Image AI powered governments
-	nobody telling me what to do
+nobody telling me what to do
+
 Things are so easy, robots wash my pants
-	code runs like water through my veins
+code runs like water through my veins
+
 But what to do
-	for the man who sits alone in the corner
+for the man who sits alone in the corner
+
 Incomprehensible
-	to the artificial mind</property>
+to the artificial mind
+
+P.S. I hate everyone I work with so I hacked their computer and used numbers from their messages to create the PIN for the Laser Door.</property>
    </properties>
   </object>
   <object id="66" type="DanceFloor" gid="42" x="1728" y="576" width="464" height="336"/>

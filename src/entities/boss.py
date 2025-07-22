@@ -7,6 +7,7 @@ import pygame
 from enum import Enum
 from random import randint
 from src import constants as c
+from src.components.ui import KeyPromptUi
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.entities.player import Player
@@ -159,9 +160,14 @@ class Boss(pygame.sprite.Sprite):
         self.image = self.spritesheet.get_image(self.action, self.currentFrame)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
+        self.showKeyPrompt = False
+        self.keyPromptUi = KeyPromptUi(pygame.K_t, "Keys/T-Key.png")
+        self.keyPromptUi.rect.bottom = self.rect.top - 10
+        self.keyPromptUi.rect.centerx = self.rect.centerx
 
         # Attacking data
         self.nextPos = self.get_next_pos()
+        self.attackedOnce = False
 
         # Timers
         self.chargeStart = pygame.time.get_ticks()
@@ -194,13 +200,16 @@ class Boss(pygame.sprite.Sprite):
         self.chargeStart = pygame.time.get_ticks()
         self.action = "charge"
         self.currentFrame = 0
-        EventManager.emit(EcodeEvent.BOSS_CHARGE)
+        if self.attackedOnce:
+            # Allow one attack cycle to occur before player can hack
+            EventManager.emit(EcodeEvent.BOSS_CHARGE)
 
     def attack_enter(self):
         """Execute once upon entering attack state."""
         self.attackStart = pygame.time.get_ticks()
         self.action = "attack"
         self.currentFrame = 0
+        self.attackedOnce = True
         EventManager.emit(EcodeEvent.BOSS_ATTACK)
 
     def dying_enter(self):
@@ -211,9 +220,10 @@ class Boss(pygame.sprite.Sprite):
 
     def waiting_update(self, player: Player):
         """Update function to run when in waiting state."""
-        if self.room.colliderect(player.rect):
-            self.fsm.set_state(Boss.BossState.START_DIALOG)
-
+        self.showKeyPrompt = self.rect.inflate(50, 50).colliderect(player.rect)
+        if self.room.left + c.TILE_SIZE < player.rect.left:
+            EventManager.emit(EcodeEvent.CLOSE_DOORS)
+        
     def start_dialog_update(self, _):
         """Update function to run when in start dialog state."""
         pass
@@ -243,7 +253,10 @@ class Boss(pygame.sprite.Sprite):
 
     def waiting_handle_event(self, event: pygame.Event):
         """Event handler to run when in waiting state."""
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == self.keyPromptUi.key and self.showKeyPrompt:
+                self.fsm.set_state(Boss.BossState.START_DIALOG)
+                self.showKeyPrompt = False
 
     def start_dialog_handle_event(self, event: pygame.Event):
         """Event handler to run when in the start dialog state."""
@@ -270,9 +283,9 @@ class Boss(pygame.sprite.Sprite):
         EventManager.emit(EcodeEvent.BOSS_HACK, problemSlug=self.problemSlug)
 
     def get_next_pos(self):
-        x = randint(39, 49 - 3)
-        y = randint(3, 18 - 3)
-        return pygame.Vector2(x * c.TILE_SIZE, y * c.TILE_SIZE)
+        x = randint(self.room.left, self.room.right)
+        y = randint(self.room.top, self.room.bottom)
+        return pygame.Vector2(x, y)
 
     def move(self, target: pygame.Vector2):
         """Move boss to the target point.
@@ -325,14 +338,41 @@ class Boss(pygame.sprite.Sprite):
         self.update_animation()
 
     def draw(self, surface: pygame.Surface, offset):
+        if self.showKeyPrompt:
+            self.keyPromptUi.draw(surface, offset)
         surface.blit(self.image, self.rect.move(offset[0], offset[1]))
 
 
 class Druck(Boss):
+    """Class representing boss player encounters at end of level 3."""
 
     def start_dialog_enter(self):
-        """Execute once upon entering dialog state."""
-        EventManager.emit(EcodeEvent.OPEN_DIALOG, lines=["hmmm... chocolate", "ok time to fight"], currentLine=0)
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+"""i told them...
+i told them they'd need me for what comes next...
+i dedicated more of our energy to this than any of the other companies in the galaxy...""",
+"""this was our roadmap to the future...
+seven years of preparation...and this is how I'm rewarded?""",
+"""HEY! WHA...?! WHO ARE YOU!""",
+"""a spy...it must be...but it looks so weak""",
+"""perhaps this presents an opportunity to test my modifications...""",
+"""Underling, you must enjoy technology? Of course you do, how could you not!
+Would you like to see a demonstration of my latest product?
+Just stand still. I'll make this quick."""
+            ],
+            currentLine=0
+        )
+        self.showKeyPrompt = False
+
+    def dying_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=["""I am overruling you! I am overruling..."""],
+            currentLine=0
+        )
+        super().dying_enter()
 
     def attack_update(self, player: Player):
         """Update function to run when in attack state."""

@@ -90,16 +90,29 @@ class Door(pygame.sprite.Sprite):
         self.open_button = pygame.K_m
         self.toggle = True
         self.present_button = False
+        self.canOpen = True
         self.keyPromptUi = KeyPromptUi(self.open_button, "Keys/M-Key.png", c.SM_KEY_SHEET_METADATA)
         self.keyPromptUi.rect.bottom = self.rect.top - 10
         self.keyPromptUi.rect.centerx = self.rect.centerx
+
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.CLOSE_DOORS, self.on_boss_attack)
+        EventManager.subscribe(EcodeEvent.KILL_BOSS, self.on_boss_death)
+
+    def on_boss_attack(self):
+        self.toggle = True
+        self.canOpen = False
+    
+    def on_boss_death(self):
+        self.canOpen = True
     
     def door_action(self):
         """Runs the action specific to the door.
         
         Default is to turn self.toggle to False.
         """
-        self.toggle = False
+        if self.canOpen:
+            self.toggle = False
 
     def draw_door(self, surface, offset):
         """Logic to draw the door image.
@@ -112,7 +125,7 @@ class Door(pygame.sprite.Sprite):
     def handle_event(self, event: pygame.Event):
         """Handle an event off the event queue."""
         if event.type == pygame.KEYDOWN:
-            if self.present_button and event.key == self.open_button:
+            if self.present_button and event.key == self.open_button and self.canOpen:
                 self.door_action()
     
     def update(self, player):
@@ -133,7 +146,7 @@ class Door(pygame.sprite.Sprite):
     
     def draw(self, surface, offset):
         """Draw the door to the surface."""
-        if self.present_button:
+        if self.present_button and self.canOpen:
             self.keyPromptUi.draw(surface, offset)
         self.draw_door(surface, offset)
 
@@ -150,6 +163,7 @@ class LaserDoor(Door):
         """
         super().__init__(rect)
         
+        self.ogRect = pygame.Rect(rect)
         self.receding = False
         self.last_recede = pygame.time.get_ticks()
         self.recede_cooldown = 200
@@ -168,15 +182,25 @@ class LaserDoor(Door):
         )
         
         # Lasers
+        self.build_lasers()
+        
+        # Event Subscribers
+        EventManager.subscribe(EcodeEvent.OPEN_DOOR, self.on_open_door)
+        
+    def build_lasers(self):
+        self.rect.left = self.ogRect.left
+        self.rect.top = self.ogRect.top
+        self.rect.width = self.ogRect.width
+        self.rect.height = self.ogRect.height
         self.lasers = []
         self.inner_lasers = []
         laser_width = 4
         inner_laser_width = 2
         num_lasers = 10
-        air_gap = (rect.width - laser_width) // (num_lasers - 1) - laser_width
+        air_gap = (self.rect.width - laser_width) // (num_lasers - 1) - laser_width
         inner_laser_x_offset = (laser_width - inner_laser_width) / 2
         self.laser_and_air_width = laser_width + air_gap
-        
+
         # Add the laser at the left edge and all lasers in middle
         for i in range(num_lasers - 1):
             left_pos = self.rect.left + i * (laser_width + air_gap)
@@ -216,9 +240,10 @@ class LaserDoor(Door):
             )
         )
 
-        # Event Subscribers
-        EventManager.subscribe(EcodeEvent.OPEN_DOOR, self.on_open_door)
-
+    def on_boss_attack(self):
+        self.build_lasers()
+        super().on_boss_attack()
+        
     def on_open_door(self, id):
         if id == self.id:
             self.receding = True

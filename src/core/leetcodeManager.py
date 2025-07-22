@@ -20,6 +20,7 @@ class LeetcodeManager:
         self.username = None
         self.stats = None
         self.inProgressProblems = set()
+        self.solvedProblems = set()
 
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.OPEN_PROBLEM, self.on_open_problem)
@@ -35,7 +36,8 @@ class LeetcodeManager:
     def on_open_problem(self, url):
         utils.open_url(url)
         problemSlug = utils.get_problem_slug(url)
-        self.inProgressProblems.add(problemSlug)
+        if problemSlug not in self.solvedProblems:
+            self.inProgressProblems.add(problemSlug)
     
     def on_get_problem_description(problemSlug):
         t = threading.Thread(
