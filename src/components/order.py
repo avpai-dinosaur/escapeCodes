@@ -56,6 +56,7 @@ class OrderUi:
                     self.startVisibility = pygame.time.get_ticks()
                 self.isVisible = not self.isVisible
             if utils.is_mouse_in_rect(self.settingIconRect):
+                #EventManager.emit(EcodeEvent.PAUSE_GAME)
                 self.manager.set_state("pause")
 
     def draw(self, surface: pygame.Surface):
