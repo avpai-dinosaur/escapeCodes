@@ -10,6 +10,7 @@ import src.constants as c
 class GameStates:
     Menu = "menu"
     Options = "options"
+    Pause = "pause"
     Login = "login"
     Intro = "intro"
     World = "world"
@@ -21,6 +22,7 @@ class GameManager:
         self.states = {
             GameStates.Menu: MainMenu,
             GameStates.Options: OptionsMenu,
+            GameStates.Pause: PauseMenu,
             GameStates.Login: LoginMenu,
             GameStates.Intro: TextSlideShow,
             GameStates.World: Game,

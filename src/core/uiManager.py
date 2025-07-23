@@ -1,6 +1,6 @@
 import pygame
 from src.components import ui
-from src.components import order, note, hack
+from src.components import order, note, hack, pause
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 
@@ -10,7 +10,7 @@ class UiManager:
         self.movingBarUi = ui.MovingBarUi()
         self.pinUi = ui.PinPad()
         self.orderUi = order.OrderUi(500)
-
+        self.pauseUi = pause.PauseUi()
         self.activeUi = set()
         self.uiMap = dict()
 
@@ -61,6 +61,7 @@ class UiManager:
         self.movingBarUi.handle_event(event)
         self.pinUi.handle_event(event)
         self.orderUi.handle_event(event)
+        self.pauseUi.handle_event(event)
 
     def update(self):
         for ui in self.uiMap.copy().values():
@@ -75,3 +76,4 @@ class UiManager:
         self.movingBarUi.draw(surface)
         self.pinUi.draw(surface)
         self.orderUi.draw(surface)
+        self.pauseUi.draw(surface)

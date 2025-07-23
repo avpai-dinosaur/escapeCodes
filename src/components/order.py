@@ -8,7 +8,7 @@ import src.constants as c
 from src.core.ecodeEvents import EventManager, EcodeEvent
 
 class OrderUi:
-    def __init__(self, width, manager):
+    def __init__(self, width):
         self.width = width
         self.textMargin = 10
         self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 20)
@@ -17,13 +17,6 @@ class OrderUi:
         self.on_give_order("")
         self.isVisible = False
         
-        #pause menu setup
-        self.settingIcon, _ = utils.load_png("settingsIcon.png")
-        self.settingIcon = pygame.transform.scale(self.settingIcon, (24, 24))
-        settingWidth, settingHeight = self.settingIcon.get_size()
-        self.settingRect = pygame.Rect(0,0, settingWidth, settingHeight)
-        self.settingIconRect = self.settingIcon.get_rect(topleft=(5,5))
-        self.manager = manager
         # Event Subscribers
         EventManager.subscribe(EcodeEvent.GIVE_ORDER, self.on_give_order)
 
@@ -55,16 +48,12 @@ class OrderUi:
                 if not self.isVisible:
                     self.startVisibility = pygame.time.get_ticks()
                 self.isVisible = not self.isVisible
-            if utils.is_mouse_in_rect(self.settingIconRect):
-                #EventManager.emit(EcodeEvent.PAUSE_GAME)
-                self.manager.set_state("pause")
-
+                
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, "dimgrey", self.rect, border_radius=5)
             surface.blit(self.textImage, self.textRect)
         surface.blit(self.infoIcon, self.infoIconRect)
-        surface.blit(self.settingIcon, self.settingIconRect)
 
 if __name__ == "__main__":
     pygame.init()
