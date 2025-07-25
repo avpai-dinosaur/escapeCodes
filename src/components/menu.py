@@ -292,4 +292,5 @@ class YouDiedMenu(Menu):
         self.manager.set_state("world")
     
     def onQuit(self):
+        self.manager.quit_game()
         self.manager.set_state("menu")

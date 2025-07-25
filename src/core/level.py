@@ -45,6 +45,7 @@ class Level():
             destroyOp = getattr(entity, "destroy", None)
             if callable(destroyOp):
                 destroyOp()
+        self.entities.empty()
     
     def set_roomba_dialog(self, roomba):
         pass
