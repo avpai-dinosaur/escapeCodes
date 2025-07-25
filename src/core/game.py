@@ -53,12 +53,13 @@ class Game():
         self.currentLevel.load_camera(self.camera)
 
     def end_current_level(self):
-        self.camera.destroy()
+        self.camera.reset()
         self.currentLevel.destroy()
         self.currentLevel = None
     
     def quit(self):
         self.end_current_level()
+        self.camera.destroy()
         EventManager.unsubscribe(EcodeEvent.PAUSE_GAME, self.pause)
         EventManager.unsubscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
         EventManager.unsubscribe(EcodeEvent.PLAYER_DIED, self.on_death)
