@@ -40,6 +40,11 @@ class GameManager:
             self.activeState = self.gameInstance
         else:
             self.activeState = self.states[stateName](self) 
+    
+    def quit_game(self):
+        if self.gameInstance:
+            self.gameInstance.quit()
+            self.gameInstance = None
 
     def handle_event(self, event):
         self.activeState.handle_event(event)

@@ -64,6 +64,13 @@ class Camera(pygame.sprite.Group):
         self.empty()
         self.foreground_objects.empty()
         self.background_objects.empty()
+    
+    def destroy(self):
+        self.reset()
+        EventManager.unsubscribe(EcodeEvent.PLAYER_MOVED, self.set_target)
+        EventManager.unsubscribe(EcodeEvent.CAMERA_SHAKE, self.shake)
+        EventManager.unsubscribe(EcodeEvent.CAMERA_BLACKOUT, self.blackout)
+        EventManager.unsubscribe(EcodeEvent.CAMERA_ALARM, self.alarm)
 
     def center_camera(self):
         """Centers the camera onto stored target."""

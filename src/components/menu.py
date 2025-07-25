@@ -160,6 +160,7 @@ class OptionsMenu(Menu):
         self.QEPControls.draw(surface)
         self.SpaceControls.draw(surface)
 
+
 class PauseMenu(OptionsMenu):
     """Pause menu, extends OptionsMenu with resume and custom back button."""
 
@@ -180,6 +181,11 @@ class PauseMenu(OptionsMenu):
     def onResume(self):
         """Handles resuming the game."""
         self.manager.set_state("world")  # Adjust to the correct in-game state name
+    
+    def onBack(self):
+        """Handles quitting game and returning to main menu."""
+        self.manager.quit_game()
+        super().onBack()
 
     def draw(self, surface: pygame.Surface):
         """Draw pause menu including resume and back buttons."""
@@ -189,6 +195,7 @@ class PauseMenu(OptionsMenu):
         pausedText = pausedFont.render("Paused", True, "white")
         pausedRect = pausedText.get_rect(center=(1000, 100))
         surface.blit(pausedText, pausedRect)
+
 
 class LoginMenu(Menu):
     """Login menu."""
