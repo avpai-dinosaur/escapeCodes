@@ -2,8 +2,7 @@
 
 import pygame
 import unittest
-from unittest.mock import patch
-from src.entities.pseudocode import PseudocodeComputer
+from src.entities.computer import PseudocodeComputer
 
 class TestParsing(unittest.TestCase):
     """Test the parsing of text into the computer."""
