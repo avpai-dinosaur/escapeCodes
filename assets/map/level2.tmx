@@ -110,25 +110,10 @@
   <object id="31" type="ExitDoor" gid="19" x="1408" y="960" width="64" height="64"/>
   <object id="33" type="Computer" gid="17" x="896" y="448" width="64" height="64">
    <properties>
-    <property name="note">Sticky Note App - Draft Message
-Title: &quot;JOE SUCKSSS&quot;
-User: Meena
-
-4/1: farted and denied it even though it was stinky
-
-4/3: ate my food from the fridge. denied eating it
-
-4/3: tried to tell me I looked good and smelled nice. ugh. what a creep
-
-4/4: i dont think he showered today
-
-4/5: day 2 of no shower
-
-4/6: day 3 of no shower
-
-4/7: day FOUR of NO SHOWER! also took my food from the fridge again
-
-4/8: can't take it anymore, I'm moving my desk to the other corner of the room</property>
+    <property name="hasPseudocode" type="bool" value="true"/>
+    <property name="note">L1
+HIDDENLINE L2
+    L3</property>
    </properties>
   </object>
   <object id="34" type="Computer" gid="22" x="256" y="960" width="64" height="64">
@@ -193,6 +178,7 @@ ahh thats evil...i like how u think my friend
   <object id="35" type="Computer" gid="17" x="960" y="896" width="64" height="64">
    <properties>
     <property name="hasProblem" type="bool" value="true"/>
+    <property name="hasPseudocode" type="bool" value="false"/>
     <property name="note">From: Melon Husk
 To: All
 Subject: Bumping up efficiency.

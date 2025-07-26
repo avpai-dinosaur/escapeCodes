@@ -168,6 +168,16 @@ class Map():
                 computer["problemUrl"],
                 computer["pinText"]
             ) 
+        elif "hasPseudocode" in computer.keys() and computer["hasPseudocode"]:
+            generatedComputer = comp.PseudocodeComputer(
+                pygame.Rect(
+                    startX + computer["x"],
+                    startY + computer["y"] - computer["height"],
+                    computer["width"],
+                    computer["height"]
+                ),
+                computer["note"]
+            )
         else:
             generatedComputer = comp.Computer(
                 pygame.Rect(

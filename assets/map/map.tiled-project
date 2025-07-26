@@ -21,6 +21,11 @@
                     "value": false
                 },
                 {
+                    "name": "hasPseudocode",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "note",
                     "type": "string",
                     "value": "TODO: this computer needs a note"

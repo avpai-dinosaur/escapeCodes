@@ -49,11 +49,11 @@
         },
         "level0.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
-                6,
+                7,
                 5,
-                7
+                6,
+                2
             ],
             "scale": 0.75,
             "selectedLayer": 6,
@@ -64,32 +64,32 @@
         },
         "level1.tmx": {
             "expandedObjectLayers": [
-                21,
-                10,
+                19,
                 4,
-                19
+                10,
+                21
             ],
             "scale": 0.75,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 990.6666666666666,
-                "y": 896.6666666666666
+                "x": 1241.3333333333335,
+                "y": 541.3333333333333
             }
         },
         "level2.tmx": {
             "expandedObjectLayers": [
-                8,
-                9,
                 4,
-                6,
                 5,
-                3
+                3,
+                9,
+                6,
+                8
             ],
             "scale": 0.75,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 718.6666666666666,
-                "y": 1172.6666666666665
+                "x": 800.6666666666666,
+                "y": 745.3333333333333
             }
         },
         "level3.tmx": {
@@ -141,7 +141,7 @@
         "level0.tmx"
     ],
     "project": "map.tiled-project",
-    "property.type": "string",
+    "property.type": "bool",
     "recentFiles": [
         "atticusWalls.tsx",
         "level2.tmx",

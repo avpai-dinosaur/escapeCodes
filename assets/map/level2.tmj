@@ -320,9 +320,14 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"hasPseudocode",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"note",
                          "type":"string",
-                         "value":"Sticky Note App - Draft Message\nTitle: \"JOE SUCKSSS\"\nUser: Meena\n\n4\/1: farted and denied it even though it was stinky\n\n4\/3: ate my food from the fridge. denied eating it\n\n4\/3: tried to tell me I looked good and smelled nice. ugh. what a creep\n\n4\/4: i dont think he showered today\n\n4\/5: day 2 of no shower\n\n4\/6: day 3 of no shower\n\n4\/7: day FOUR of NO SHOWER! also took my food from the fridge again\n\n4\/8: can't take it anymore, I'm moving my desk to the other corner of the room"
+                         "value":"L1\nHIDDENLINE L2\n    L3"
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -364,6 +369,11 @@
                          "name":"hasProblem",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"hasPseudocode",
+                         "type":"bool",
+                         "value":false
                         }, 
                         {
                          "name":"note",

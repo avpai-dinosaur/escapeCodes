@@ -118,3 +118,7 @@ class PseudocodeComputer(Computer):
         for line in self.missingLines:
             embellishedLines[line] = PseudocodeComputer.anonymize_line(self.lines[line])
         return "\n".join(embellishedLines)
+
+    def computer_action(self):
+        self.present_button = False
+        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.get_text())
