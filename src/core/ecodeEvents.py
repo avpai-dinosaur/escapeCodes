@@ -1,6 +1,8 @@
 import pygame
+import weakref
 from collections import defaultdict, deque
 from enum import Enum
+from typing import Callable, Any
 
 class EcodeEvent(Enum):
     PLAYER_MOVED = 1
@@ -59,25 +61,58 @@ class ScheduledEvent:
 class EventManager:
     """Class to represent an event subscription system."""
 
+    # Maps an event to a list of weak references to callback functions
     listeners = defaultdict(list)
     scheduled = deque()
 
+    @staticmethod
+    def _make_weakref(callback: Callable):
+        """Return a weak reference to the callback."""
+        if hasattr(callback, "__self__") and callback.__self__ is not None:
+            return weakref.WeakMethod(callback)
+        else:
+            return weakref.ref(callback)
+    
+    @staticmethod
+    def _get_bound_identity(callback: Callable):
+        """Return (object, function) tuple for a bound method, or (None, function) for free function."""
+        if hasattr(callback, "__self__") and callback.__self__ is not None:
+            return (callback.__self__, callback.__func__)
+        return (None, callback)
+    
+    @staticmethod
+    def _is_same_callback(ref, callback: Callable):
+        """Return if the callback is the same as the one referenced by ref."""
+        targetObj, targetFunc = EventManager._get_bound_identity(callback)
+        func = ref()
+        if not func:
+            return False
+        refObj, refFunc = EventManager._get_bound_identity(func)
+        return refObj == targetObj and targetFunc == refFunc 
+
+    @staticmethod
     def subscribe(event: EcodeEvent, callback):
         """Subscribe to an event.
         
             event: Event to subscribe to
             callback: Subscriber function
         """
-        EventManager.listeners[event].append(callback)
+        ref = EventManager._make_weakref(callback)
+        EventManager.listeners[event].append(ref)
     
+    @staticmethod
     def unsubscribe(event: EcodeEvent, callback):
         """Unsubscribe from an event.
         
             event: Event to unsubscribe from
             callback: Function to unsubscribe
         """
-        EventManager.listeners[event].remove(callback)
+        EventManager.listeners[event] = [
+            ref for ref in EventManager.listeners[event]
+            if not EventManager._is_same_callback(ref, callback)
+        ]
 
+    @staticmethod
     def emit(event: EcodeEvent, delay: int=0, **kwargs):
         """Emit an event.
         
@@ -86,16 +121,27 @@ class EventManager:
             **kwargs: Keyword arguments to pass to subscriber callbacks.
         """
         if delay == 0:
-            for func in EventManager.listeners[event]:
-                func(**kwargs)
+            newList = []
+            for ref in EventManager.listeners[event]:
+                func = ref()
+                if func:
+                    func(**kwargs)
+                    newList.append(ref)
+            EventManager.listeners[event] = newList # Remove dead references
         else:
             triggerTime = pygame.time.get_ticks() + delay
             EventManager.scheduled.append(ScheduledEvent(event, triggerTime, kwargs))
     
+    @staticmethod
     def update():
         """Emit scheduled events."""
         now = pygame.time.get_ticks()
         while len(EventManager.scheduled) > 0 and EventManager.scheduled[0].triggerTime <= now:
             scheduledEvent = EventManager.scheduled.popleft()
-            for func in EventManager.listeners[scheduledEvent.event]:
-                func(**scheduledEvent.kwargs) 
+            newList = []
+            for ref in EventManager.listeners[scheduledEvent.event]:
+                func = ref()
+                if func:
+                    func(**scheduledEvent.kwargs) 
+                    newList.append(ref)
+            EventManager.listeners[scheduledEvent.event] = newList # Remove dead references
