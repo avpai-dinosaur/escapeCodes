@@ -144,7 +144,7 @@ class SnippableComputer(Computer):
 
         for line in text.split("\n"):
             self.lines.append([])
-            for word in line.split():
+            for word in line.split(" "):
                 if word == SnippableComputer.PhraseStartWord:
                     if currentPhrase is not None:
                         raise ValueError("Attempted to start new phrase before closing current one")

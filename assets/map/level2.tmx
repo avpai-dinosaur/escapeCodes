@@ -118,61 +118,10 @@ HIDDENLINE L2
   </object>
   <object id="34" type="Computer" gid="22" x="256" y="960" width="64" height="64">
    <properties>
-    <property name="note">Internal Chat
-Members: Joe &amp; Rushabh
-Timestamp: Tuesday 2:03 PM
-
-Joe: 
-shit, i got tapped to conduct an interview
-
-Rushabh:
-Ok? And you're telling me this because...
-
-Joe:
-dude don't act dumb, everyone knows you got that question bank that u use every time u have to do one of these
-
-Joe:
-give me the good stuff. something nobody could answer and totaly unrelated to the job. i'm not tryn to see another fresh out of college shmuck hanging around here, its already too crowded as is
-
-Rushabh:
-Fine. But don't tell anyone else about this. I'm not trying to make this a whole thing.
-
-Joe:
-dude, I owe you one
-
-Rushabh:
-On a gameshow, the contestant is on the verge of winning a million dollars. But he is shown 3 boxes for his last question. 
-
-One has the number 51
-One has the number 72
-One has the number 94 
-
-But each box has a label printed on it. 
-
-Box A says “This box contains Number 72”
-
-Box B says “this box does not contain the number 51”
-
-Box C says “Box A is lying”
-
-Only one of the labels is stating the truth. Find the number in Box B.
-
-joe:
-and the answer to this is?
-
-Rushabh:
-You gotta be kidding me.
-
-joe:
-dude theyre asking for the booster control system to be done at the end of the week. i don't have time to think about this bs
-
-Rushabh:
-Don't even worry about the answer. People get so flustered with this one they just freeze up. And you can always just tell them their answer is wrong anyways.
-
-joe: 
-ahh thats evil...i like how u think my friend
-</property>
-    <property name="pinText" value="5 _ 1 _"/>
+    <property name="hasPhrases" type="bool" value="true"/>
+    <property name="note">L1
+STARTPHRASE L2 ENDPHRASE
+    L3</property>
    </properties>
   </object>
   <object id="35" type="Computer" gid="17" x="960" y="896" width="64" height="64">

@@ -343,14 +343,14 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"note",
-                         "type":"string",
-                         "value":"Internal Chat\nMembers: Joe & Rushabh\nTimestamp: Tuesday 2:03 PM\n\nJoe: \nshit, i got tapped to conduct an interview\n\nRushabh:\nOk? And you're telling me this because...\n\nJoe:\ndude don't act dumb, everyone knows you got that question bank that u use every time u have to do one of these\n\nJoe:\ngive me the good stuff. something nobody could answer and totaly unrelated to the job. i'm not tryn to see another fresh out of college shmuck hanging around here, its already too crowded as is\n\nRushabh:\nFine. But don't tell anyone else about this. I'm not trying to make this a whole thing.\n\nJoe:\ndude, I owe you one\n\nRushabh:\nOn a gameshow, the contestant is on the verge of winning a million dollars. But he is shown 3 boxes for his last question. \n\nOne has the number 51\nOne has the number 72\nOne has the number 94 \n\nBut each box has a label printed on it. \n\nBox A says \u201cThis box contains Number 72\u201d\n\nBox B says \u201cthis box does not contain the number 51\u201d\n\nBox C says \u201cBox A is lying\u201d\n\nOnly one of the labels is stating the truth. Find the number in Box B.\n\njoe:\nand the answer to this is?\n\nRushabh:\nYou gotta be kidding me.\n\njoe:\ndude theyre asking for the booster control system to be done at the end of the week. i don't have time to think about this bs\n\nRushabh:\nDon't even worry about the answer. People get so flustered with this one they just freeze up. And you can always just tell them their answer is wrong anyways.\n\njoe: \nahh thats evil...i like how u think my friend\n"
+                         "name":"hasPhrases",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
-                         "name":"pinText",
+                         "name":"note",
                          "type":"string",
-                         "value":"5 _ 1 _"
+                         "value":"L1\nSTARTPHRASE L2 ENDPHRASE\n    L3"
                         }],
                  "rotation":0,
                  "type":"Computer",
