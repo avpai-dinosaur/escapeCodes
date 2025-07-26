@@ -135,6 +135,10 @@ class SnippableComputer(Computer):
         self.phrases = []
         self.lines = []
         self.words = []
+        self.showIndices = False
+        self._parse_text(text)
+    
+    def _parse_text(self, text):
         wordIdx = 0
         currentPhrase = None
 
@@ -167,3 +171,24 @@ class SnippableComputer(Computer):
         if phrase is not None:
             return " ".join(self.words[phrase[0]:phrase[1]])
         return None
+
+    def get_text(self):
+        return "\n".join([" ".join(line) for line in self.lines])
+    
+    def get_text_with_indices(self):
+        idx = 0
+        modifiedLines = []
+        for line in self.lines:
+            modifiedLine = []
+            for word in line:
+                modifiedLine.append(f"{word}({idx})")
+                idx += 1
+            modifiedLines.append(" ".join(modifiedLine))
+        return "\n".join(modifiedLines)
+
+    def computer_action(self):
+        self.present_button = False
+        EventManager.emit(
+            EcodeEvent.OPEN_NOTE,
+            text=self.get_text_with_indices() if self.showIndices else self.get_text()
+        )

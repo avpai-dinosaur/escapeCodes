@@ -178,6 +178,16 @@ class Map():
                 ),
                 computer["note"]
             )
+        elif "hasPhrases" in computer.keys() and computer["hasPhrases"]:
+            generatedComputer = comp.SnippableComputer(
+                pygame.Rect(
+                    startX + computer["x"],
+                    startY + computer["y"] - computer["height"],
+                    computer["width"],
+                    computer["height"]
+                ),
+                computer["note"]
+            )
         else:
             generatedComputer = comp.Computer(
                 pygame.Rect(
