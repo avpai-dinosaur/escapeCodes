@@ -38,6 +38,7 @@ class Level():
             self.set_roomba_dialog(roomba)
             self.entities.add(roomba)
 
+    # TODO: I think we can get rid of all destroy methods now
     def destroy(self):
         EventManager.unsubscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
         # TODO: Another hacky solution
