@@ -189,6 +189,6 @@ class SnippableComputer(Computer):
     def computer_action(self):
         self.present_button = False
         EventManager.emit(
-            EcodeEvent.OPEN_NOTE,
+            EcodeEvent.OPEN_DOWNLOAD,
             text=self.get_text_with_indices() if self.showIndices else self.get_text()
         )

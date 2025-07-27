@@ -49,6 +49,8 @@ class EcodeEvent(Enum):
 
     CLOSE_DOORS = 35
     PAUSE_MENU = 36
+    
+    OPEN_DOWNLOAD = 37
 
 
 class ScheduledEvent:
