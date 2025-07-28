@@ -54,16 +54,21 @@ class MainMenu(Menu):
         self.playImage, _ = utils.load_png("Play.png")
         self.optionImage, _ = utils.load_png("Play.png")
         self.quitImage, _ = utils.load_png("Play.png")
+        self.backImage, _ = utils.load_png("Play.png")
         self.controls += [
-            Button(self.playImage, pos=(1000, 300), textInput="Play", onClick=self.onLogin),
+            Button(self.playImage, pos=(1000, 300), textInput="Levels", onClick=self.onLevels),
             Button(self.optionImage, pos=(1000, 420), textInput="Options", onClick=self.onOption),
-            Button(self.quitImage, pos=(1000, 540), textInput="Quit", onClick=self.onQuit)
+            Button(self.optionImage, pos=(1000, 540), textInput="Back", onClick=self.onBack),
+            Button(self.quitImage, pos=(1000, 660), textInput="Quit", onClick=self.onQuit)
         ]
     
     def onOption(self):
         self.manager.set_state("options")
     
-    def onLogin(self):
+    def onLevels(self):
+        self.manager.set_state("levels")
+
+    def onBack(self):
         self.manager.set_state("login")
     
     def onQuit(self):
@@ -203,19 +208,24 @@ class LoginMenu(Menu):
     def __init__(self, manager):
         super().__init__(manager)
         self.headingFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
+
+        self.titleFont = utils.load_font("Monoton/Monoton-Regular.ttf", 60)
+        self.titleTextImage = self.titleFont.render("EscapeCodes", True, "white")
+        self.titleRect = self.titleTextImage.get_rect(center=(1000, 150))
         self.headingTextImage = self.headingFont.render("Enter Your LeetCode Username", True, 'white')
         self.headingTextRect = self.headingTextImage.get_rect(center=(1000, 250))
         self.errorTextImage = self.headingFont.render("Error: not a valid username", True, 'red')
         self.errorTextRect = self.errorTextImage.get_rect(center=(1000, 450))
         self.showError = False
-        self.backImage, _ = utils.load_png("Play.png")
+        self.quitImage, _ = utils.load_png("Play.png")
         self.controls += [
             TextInput(pos=(1000, 370), width=200, height=45, onSubmit=self.onEnter),
-            Button(self.backImage, pos=(1000, 540), textInput="Back", onClick=self.onBack)
+            Button(self.quitImage, pos=(1000, 540), textInput="Quit", onClick=self.onQuit)
         ]
 
-    def onBack(self):
-        self.manager.set_state("menu")
+    def onQuit(self):
+        pygame.quit()
+        sys.exit()
     
     def onEnter(self, textInput):
         url = "https://leetcode.com/graphql"
@@ -264,7 +274,7 @@ class LoginMenu(Menu):
                 print(f"\tInvalid username: {textInput}")
                 self.showError = True
             else:
-                self.manager.set_state("intro")
+                self.manager.set_state("menu")
                 pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": json.loads(response.text)}))
         else:
             print(f"\tInvalid username: {textInput}")
@@ -272,6 +282,7 @@ class LoginMenu(Menu):
     
     def draw(self, surface):
         super().draw(surface)
+        surface.blit(self.titleTextImage, self.titleRect)
         surface.blit(self.headingTextImage, self.headingTextRect)
         if self.showError:
             surface.blit(self.errorTextImage, self.errorTextRect)

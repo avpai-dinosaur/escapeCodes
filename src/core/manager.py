@@ -2,6 +2,7 @@ import pygame
 from src.core.game import Game
 from src.core.leetcodeManager import LeetcodeManager
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu, PauseMenu
+from src.components.levelsMenu import LevelsMenu
 from src.components.ui import KeyPromptUi
 import src.core.utils as utils
 import src.constants as c
@@ -15,6 +16,7 @@ class GameStates:
     Intro = "intro"
     World = "world"
     Died = "died"
+    Levels = "levels"
 
 
 class GameManager:
@@ -26,9 +28,10 @@ class GameManager:
             GameStates.Login: LoginMenu,
             GameStates.Intro: TextSlideShow,
             GameStates.World: Game,
+            GameStates.Levels: LevelsMenu,
             GameStates.Died: YouDiedMenu
         }
-        self.set_state(GameStates.Menu)
+        self.set_state(GameStates.Login)
         self.leetcodeManager = LeetcodeManager()
         self.gameInstance : Game = None
 
