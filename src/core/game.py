@@ -28,6 +28,7 @@ class Game():
         EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
         EventManager.subscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
         EventManager.subscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
+        EventManager.subscribe(EcodeEvent.LOAD_LEVEL, self.load_level)
 
     def pause(self):
         self.isPaused = True
@@ -51,6 +52,11 @@ class Game():
     def load_current_level(self):
         self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])
         self.currentLevel.load_camera(self.camera)
+    
+    def load_level(self, idx):
+        print("here")
+        self.currentLevel = LevelFactory.create(self.levels[idx])
+        self.currentLevel.load_camera(self.camera)
 
     def end_current_level(self):
         self.camera.reset()
@@ -65,6 +71,7 @@ class Game():
         EventManager.unsubscribe(EcodeEvent.PLAYER_DIED, self.on_death)
         EventManager.unsubscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
         EventManager.unsubscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
+        EventManager.unsubscribe(EcodeEvent.LOAD_LEVEL, self.load_level)
     
     def pause_menu(self):
         self.manager.set_state("pause")

@@ -48,7 +48,9 @@ class EcodeEvent(Enum):
     OPEN_WASD = 34
 
     CLOSE_DOORS = 35
+
     PAUSE_MENU = 36
+    LOAD_LEVEL = 37
 
 
 class ScheduledEvent:

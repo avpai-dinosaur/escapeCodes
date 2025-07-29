@@ -207,3 +207,37 @@ class ToggleButton(Button):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(pygame.mouse.get_pos()):
                 self.toggle()
+
+
+"""Allows for the Triangles to be enabled as Buttons"""
+class TriangleButton:
+    def __init__(self, points, onClick):
+
+		
+        self.points = points
+        self.baseColor="red"
+        self.hoveringColor="white"
+        self.onClick = onClick
+        self.polygon = pygame.draw.polygon  # just for reference
+        self.hovered = False
+
+        # Create a bounding rect for quick collision check
+        x_coords = [p[0] for p in points]
+        y_coords = [p[1] for p in points]
+        self.rect = pygame.Rect(min(x_coords), min(y_coords),
+                                max(x_coords) - min(x_coords),
+                                max(y_coords) - min(y_coords))
+
+    def draw(self, surface):
+        color = self.baseColor if self.hovered else self.hoveringColor
+        pygame.draw.polygon(surface, color, self.points)
+    
+    def update(self, mousePosition):
+        pass
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.hovered = self.rect.collidepoint(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.onClick()
