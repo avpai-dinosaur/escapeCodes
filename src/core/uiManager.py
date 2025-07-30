@@ -1,6 +1,6 @@
 import pygame
 from src.components import ui
-from src.components import order, note, hack, pause
+from src.components import order, note, hack, pause, download, pseudocode
 from src.core.ecodeEvents import EventManager, EcodeEvent
 import src.constants as c
 
@@ -19,6 +19,8 @@ class UiManager:
         EventManager.subscribe(EcodeEvent.OPEN_WASD, self.on_open_wasd)
         EventManager.subscribe(EcodeEvent.OPEN_DIALOG, self.on_open_dialog)
         EventManager.subscribe(EcodeEvent.BOSS_HACK, self.on_open_hack)
+        EventManager.subscribe(EcodeEvent.OPEN_DOWNLOAD, self.on_open_download)
+        EventManager.subscribe(EcodeEvent.OPEN_PSEUDOCODE, self.on_open_pseudocode)
 
     def on_open_note(self, text: str, url: str=None, isSolved: bool=False, pinText: str=""):
         noteUi = note.NoteUi(self.deactivate_ui)
@@ -50,6 +52,16 @@ class UiManager:
     def on_open_hack(self, problemSlug: str):
         hackUi = hack.TestCaseHackUi(self.deactivate_ui, problemSlug)
         self.uiMap[hack.TestCaseHackUi] = hackUi
+    
+    def on_open_download(self, text):
+        downloadUi = download.DownloadUi(self.deactivate_ui)
+        downloadUi.set_text(text)
+        self.uiMap[download.DownloadUi] = downloadUi
+    
+    def on_open_pseudocode(self, text: str, problemSlug: str):
+        pseudocodeUi = pseudocode.PseudocodeUi(self.deactivate_ui)
+        pseudocodeUi.set_text(text, problemSlug)
+        self.uiMap[pseudocode.PseudocodeUi] = pseudocodeUi
         
     def deactivate_ui(self, uiType):
         if uiType in self.uiMap:

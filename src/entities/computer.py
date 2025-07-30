@@ -121,7 +121,7 @@ class PseudocodeComputer(Computer):
 
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.get_text())
+        EventManager.emit(EcodeEvent.OPEN_PSEUDOCODE, text=self.get_text(), problemSlug="two-sum")
 
 
 class SnippableComputer(Computer):
@@ -188,7 +188,7 @@ class SnippableComputer(Computer):
 
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(
-            EcodeEvent.OPEN_DOWNLOAD,
-            text=self.get_text_with_indices() if self.showIndices else self.get_text()
-        )
+        if self.showIndices:
+            EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.get_text_with_indices())
+        else:
+            EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.get_text())

@@ -51,6 +51,7 @@ class EcodeEvent(Enum):
     PAUSE_MENU = 36
     
     OPEN_DOWNLOAD = 37
+    OPEN_PSEUDOCODE = 38
 
 
 class ScheduledEvent:
