@@ -50,6 +50,7 @@ class DownloadUi:
             width=100,
             height=40,
             font=utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
+            onSubmit=self.on_probe_submit
         )
         self.probeUi.rect.bottomright = ( 
             self.backgroundRect.right - 10,
@@ -71,6 +72,13 @@ class DownloadUi:
         self.probeUiActive = isProbeActive
         self.isVisible = True
         EventManager.emit(EcodeEvent.PAUSE_GAME)
+ 
+    def on_probe_submit(self, textInput):
+        try:
+            wordIdx = int(textInput)
+            EventManager.emit(EcodeEvent.TRY_PROBE, wordIdx=wordIdx)
+        except ValueError:
+            pass
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:

@@ -92,6 +92,7 @@ class PseudocodeComputer(Computer):
         self.lines = []
         self.missingLines = set()
         self._parse_text(text)
+        EventManager.subscribe(EcodeEvent.SAVE_PHRASE, self.reveal_line)
 
     def _parse_text(self, text: str):
         for idx, line in enumerate(text.split("\n")):
@@ -112,6 +113,11 @@ class PseudocodeComputer(Computer):
             else:
                 res += "*"
         return res
+
+    def reveal_line(self, phrase):
+        for idx, line in enumerate(self.lines):
+            if phrase in line and idx in self.missingLines:
+                self.missingLines.remove(idx)
 
     def get_text(self):
         embellishedLines = self.lines.copy()
@@ -135,8 +141,9 @@ class SnippableComputer(Computer):
         self.phrases = []
         self.lines = []
         self.words = []
-        self.showIndices = False
+        self.showIndices = True
         self._parse_text(text)
+        EventManager.subscribe(EcodeEvent.TRY_PROBE, self.try_probe)
     
     def _parse_text(self, text):
         wordIdx = 0
@@ -169,7 +176,9 @@ class SnippableComputer(Computer):
     def try_probe(self, wordIdx):
         phrase = self.get_phrase(wordIdx)
         if phrase is not None:
-            return " ".join(self.words[phrase[0]:phrase[1]])
+            joinedPhrase = " ".join(self.words[phrase[0]:phrase[1]])
+            EventManager.emit(EcodeEvent.SAVE_PHRASE, phrase=joinedPhrase)
+            return joinedPhrase
         return None
 
     def get_text(self):

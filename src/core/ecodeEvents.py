@@ -52,6 +52,8 @@ class EcodeEvent(Enum):
     
     OPEN_DOWNLOAD = 37
     OPEN_PSEUDOCODE = 38
+    SAVE_PHRASE = 39
+    TRY_PROBE = 40
 
 
 class ScheduledEvent:
