@@ -87,8 +87,10 @@ class PseudocodeComputer(Computer):
 
     HiddenLineWord = "HIDDENLINE"
 
-    def __init__(self, rect, text: str):
+    def __init__(self, rect, text: str, url, pinText):
         super().__init__(rect, text)
+        self.problemSlug = utils.get_problem_slug(url)
+        self.pinText = pinText
         self.lines = []
         self.missingLines = set()
         self._parse_text(text)
@@ -127,14 +129,17 @@ class PseudocodeComputer(Computer):
 
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_PSEUDOCODE, text=self.get_text(), problemSlug="two-sum")
+        EventManager.emit(
+            EcodeEvent.OPEN_PSEUDOCODE,
+            text=self.get_text(),
+            problemSlug=self.problemSlug,
+            isSolved=len(self.missingLines) == 0,
+            pinText=self.pinText
+        )
 
 
 class SnippableComputer(Computer):
 
-    PhraseStartWord = "STARTPHRASE"
-    PhraseEndWord = "ENDPHRASE"
-    
     def computer_action(self):
         self.present_button = False
         EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.textInput)

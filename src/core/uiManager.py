@@ -58,9 +58,9 @@ class UiManager:
         downloadUi.set_text(text)
         self.uiMap[download.DownloadUi] = downloadUi
     
-    def on_open_pseudocode(self, text: str, problemSlug: str):
+    def on_open_pseudocode(self, text: str, problemSlug: str, isSolved: bool, pinText: str):
         pseudocodeUi = pseudocode.PseudocodeUi(self.deactivate_ui)
-        pseudocodeUi.set_text(text, problemSlug)
+        pseudocodeUi.set_text(text, problemSlug, isSolved, pinText)
         self.uiMap[pseudocode.PseudocodeUi] = pseudocodeUi
         
     def deactivate_ui(self, uiType):

@@ -66,6 +66,11 @@ class PseudocodeUi:
             utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         )
 
+        # PIN Text
+        self.solvedFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)
+        self.solvedTextImage = None
+        self.solvedTextRect = None
+
         self.isVisible = False
         self.on_close = on_close
 
@@ -78,8 +83,17 @@ which complete the pseudocode solution for the given problem."""
             )
             PseudocodeUi.showTutorial = False
 
-    def set_text(self, text: str, problemSlug: str):
+    def set_text(self, text: str, problemSlug: str, isSolved: bool, pinText: str):
         self.pseudocodeUi.set_text(text)
+        self.solvedTextImage = (
+            self.solvedFont.render(f"{pinText}", True, 'green')
+        )
+        self.solvedTextRect = self.solvedTextImage.get_rect()
+        self.solvedTextRect.bottomright = (
+            self.backgroundRect.right - 10,
+            self.backgroundRect.bottom
+        )
+        self.isSolved = isSolved
         EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
         EventManager.emit(EcodeEvent.PAUSE_GAME)
 
@@ -113,6 +127,8 @@ which complete the pseudocode solution for the given problem."""
             self.pseudocodeUi.draw(surface)
             surface.blit(self.leftTextImage, self.leftTextRect)
             surface.blit(self.rightTextImage, self.rightTextRect)
+            if self.isSolved:
+                surface.blit(self.solvedTextImage, self.solvedTextRect)
 
 
 if __name__ == "__main__":

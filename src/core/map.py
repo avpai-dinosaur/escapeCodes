@@ -176,7 +176,9 @@ class Map():
                     computer["width"],
                     computer["height"]
                 ),
-                computer["note"]
+                computer["note"],
+                computer["problemUrl"],
+                computer["pinText"]
             )
         elif "hasPhrases" in computer.keys() and computer["hasPhrases"]:
             generatedComputer = comp.SnippableComputer(

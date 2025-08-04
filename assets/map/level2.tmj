@@ -328,6 +328,16 @@
                          "name":"note",
                          "type":"string",
                          "value":"L1\nHIDDENLINE L2\n    L3"
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"5189"
+                        }, 
+                        {
+                         "name":"problemUrl",
+                         "type":"string",
+                         "value":"https:\/\/leetcode.com\/problems\/two-sum\/description\/"
                         }],
                  "rotation":0,
                  "type":"Computer",

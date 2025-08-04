@@ -114,6 +114,8 @@
     <property name="note">L1
 HIDDENLINE L2
     L3</property>
+    <property name="pinText" value="5189"/>
+    <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
    </properties>
   </object>
   <object id="34" type="Computer" gid="22" x="256" y="960" width="64" height="64">
