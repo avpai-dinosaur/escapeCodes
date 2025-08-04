@@ -7,7 +7,10 @@ from src.components.button import TextInput
 
 
 class DownloadUi:
-    """Class representing ui for reading a note."""
+    """Class representing ui for a note with downloadable snippets."""
+
+    PhraseStartWord = "STARTPHRASE"
+    PhraseEndWord = "ENDPHRASE"
 
     def __init__(self, on_close):
         """Constructor.
@@ -60,6 +63,14 @@ class DownloadUi:
         self.probePromptRect.right = self.probeUi.rect.left - 10
         self.probeUiActive = False
 
+        # Parsing Errors
+        self.errorTextFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=30)
+        self.set_error_text("")
+
+        # Success Message
+        self.successTextFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=30)
+        self.set_success_text("")
+
         self.solvedTextImage = None
         self.solvedTextRect = None
 
@@ -67,18 +78,89 @@ class DownloadUi:
         self.isSolved = False
         self.on_close = on_close
     
-    def set_text(self, text: str, isProbeActive: bool=False):
-        self.textUi.set_text(text)
+    def set_text(self, text: str, isProbeActive: bool=True):
         self.probeUiActive = isProbeActive
+        self.parse_text(text)
+        self.textUi.set_text(
+            self.get_text_with_indices() if self.probeUiActive else self.get_text()
+        )
         self.isVisible = True
         EventManager.emit(EcodeEvent.PAUSE_GAME)
- 
+
+    def set_error_text(self, text: str):
+        self.errorTextImage = self.errorTextFont.render(text, True, "red")
+        self.errorTextRect = self.errorTextImage.get_rect()
+        self.errorTextRect.bottomright = self.probeUi.rect.topright
+    
+    def set_success_text(self, text: str):
+        self.successTextImage = self.successTextFont.render(text, True, "green")
+        self.successTextRect = self.successTextImage.get_rect()
+        self.successTextRect.bottomright = self.probeUi.rect.topright
+
+    def parse_text(self, text: str):
+        self.phrases = []
+        self.lines = []
+        self.words = []
+        wordIdx = 0
+        currentPhrase = None
+        for line in text.split("\n"):
+            self.lines.append([])
+            for word in line.split(" "):
+                if word == DownloadUi.PhraseStartWord:
+                    if currentPhrase is not None:
+                        raise ValueError("Attempted to start new phrase before closing current one")
+                    currentPhrase = [wordIdx]
+                elif word == DownloadUi.PhraseEndWord:
+                    if currentPhrase is None:
+                        raise ValueError("Attempted to close phrase before starting one")
+                    currentPhrase.append(wordIdx)
+                    self.phrases.append(currentPhrase.copy())
+                    currentPhrase = None
+                else:
+                    self.lines[-1].append(word)
+                    self.words.append(word)
+                    wordIdx += 1
+
+    def get_text(self):
+        return "\n".join([" ".join(line) for line in self.lines])
+    
+    def get_text_with_indices(self):
+        idx = 0
+        modifiedLines = []
+        for line in self.lines:
+            modifiedLine = []
+            for word in line:
+                modifiedLine.append(f"{word}({idx})")
+                idx += 1
+            modifiedLines.append(" ".join(modifiedLine))
+        return "\n".join(modifiedLines)
+
+    def get_phrase(self, wordIdx):
+        for phrase in self.phrases:
+            if phrase[0] <= wordIdx < phrase[1]:
+                return phrase
+        return None
+
+    def try_probe(self, wordIdx):
+        phrase = self.get_phrase(wordIdx)
+        if phrase is not None:
+            joinedPhrase = " ".join(self.words[phrase[0]:phrase[1]])
+            self.set_success_text(f"Found phrase '{joinedPhrase}'")
+            EventManager.emit(EcodeEvent.SAVE_PHRASE, phrase=joinedPhrase)
+        else:
+            if wordIdx < len(self.words) or wordIdx < 0:
+                self.set_error_text(f"'{self.words[wordIdx]}' is not part of a phrase")
+            else:
+                self.set_error_text(f"Index {wordIdx} is out of bounds")
+    
     def on_probe_submit(self, textInput):
+        self.set_error_text("")
+        self.set_success_text("")
         try:
             wordIdx = int(textInput)
-            EventManager.emit(EcodeEvent.TRY_PROBE, wordIdx=wordIdx)
+            self.try_probe(wordIdx)
         except ValueError:
-            pass
+            self.set_error_text(f"'{textInput}' is not a valid index")
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
@@ -100,8 +182,11 @@ class DownloadUi:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
-            surface.blit(self.probePromptImage, self.probePromptRect)
-            self.probeUi.draw(surface)
+            surface.blit(self.errorTextImage, self.errorTextRect)
+            surface.blit(self.successTextImage, self.successTextRect)
+            if self.probeUiActive:
+                surface.blit(self.probePromptImage, self.probePromptRect)
+                self.probeUi.draw(surface)
             
 
 if __name__ == "__main__":

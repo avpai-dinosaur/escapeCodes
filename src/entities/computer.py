@@ -134,70 +134,7 @@ class SnippableComputer(Computer):
 
     PhraseStartWord = "STARTPHRASE"
     PhraseEndWord = "ENDPHRASE"
-
-    def __init__(self, rect, text):
-        super().__init__(rect, text)
     
-        self.phrases = []
-        self.lines = []
-        self.words = []
-        self.showIndices = True
-        self._parse_text(text)
-        EventManager.subscribe(EcodeEvent.TRY_PROBE, self.try_probe)
-    
-    def _parse_text(self, text):
-        wordIdx = 0
-        currentPhrase = None
-
-        for line in text.split("\n"):
-            self.lines.append([])
-            for word in line.split(" "):
-                if word == SnippableComputer.PhraseStartWord:
-                    if currentPhrase is not None:
-                        raise ValueError("Attempted to start new phrase before closing current one")
-                    currentPhrase = [wordIdx]
-                elif word == SnippableComputer.PhraseEndWord:
-                    if currentPhrase is None:
-                        raise ValueError("Attempted to close phrase before starting one")
-                    currentPhrase.append(wordIdx)
-                    self.phrases.append(currentPhrase.copy())
-                    currentPhrase = None
-                else:
-                    self.lines[-1].append(word)
-                    self.words.append(word)
-                    wordIdx += 1
-
-    def get_phrase(self, wordIdx):
-        for phrase in self.phrases:
-            if phrase[0] <= wordIdx < phrase[1]:
-                return phrase
-        return None
-
-    def try_probe(self, wordIdx):
-        phrase = self.get_phrase(wordIdx)
-        if phrase is not None:
-            joinedPhrase = " ".join(self.words[phrase[0]:phrase[1]])
-            EventManager.emit(EcodeEvent.SAVE_PHRASE, phrase=joinedPhrase)
-            return joinedPhrase
-        return None
-
-    def get_text(self):
-        return "\n".join([" ".join(line) for line in self.lines])
-    
-    def get_text_with_indices(self):
-        idx = 0
-        modifiedLines = []
-        for line in self.lines:
-            modifiedLine = []
-            for word in line:
-                modifiedLine.append(f"{word}({idx})")
-                idx += 1
-            modifiedLines.append(" ".join(modifiedLine))
-        return "\n".join(modifiedLines)
-
     def computer_action(self):
         self.present_button = False
-        if self.showIndices:
-            EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.get_text_with_indices())
-        else:
-            EventManager.emit(EcodeEvent.OPEN_NOTE, text=self.get_text())
+        EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.textInput)
