@@ -17,8 +17,6 @@ class Level():
         self.load_entities()
         self.start_level()
 
-        EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
-
     def load_entities(self):
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
@@ -40,7 +38,6 @@ class Level():
 
     # TODO: I think we can get rid of all destroy methods now
     def destroy(self):
-        EventManager.unsubscribe(EcodeEvent.LEVEL_ENDED, self.on_level_ended)
         # TODO: Another hacky solution
         for entity in self.entities:
             destroyOp = getattr(entity, "destroy", None)
@@ -68,9 +65,6 @@ class Level():
     def reset(self, camera):
         self.load_entities()
         self.load_camera(camera)
-
-    def on_level_ended(self):
-        EventManager.emit(EcodeEvent.NEXT_LEVEL)
 
     def update(self):
         self.player.update(self.walls, self.doors)
@@ -204,13 +198,6 @@ class Tutorial(Level):
         if event.type == pygame.KEYDOWN:
             if self.currentKeys and event.key in self.currentKeys:
                 self.next_key_prompt()
-                
-    def on_level_ended(self):
-        cameraShakeDuration = 5000
-        EventManager.emit(EcodeEvent.PAUSE_GAME)
-        EventManager.emit(EcodeEvent.CAMERA_SHAKE, duration=cameraShakeDuration, maxIntensity=10)
-        EventManager.emit(EcodeEvent.NEXT_LEVEL, delay=cameraShakeDuration)
-        EventManager.emit(EcodeEvent.UNPAUSE_GAME, delay=cameraShakeDuration)
 
 
 @LevelFactory.register_level("level1")
@@ -238,14 +225,8 @@ Desperation levels: high."""
         )
     
     def start_level(self):
-        blackoutDuration = 10000 
-        EventManager.emit(EcodeEvent.PAUSE_GAME)
-        EventManager.emit(EcodeEvent.CAMERA_BLACKOUT, duration=blackoutDuration)
-        EventManager.emit(EcodeEvent.CAMERA_ALARM, delay=blackoutDuration)
-        EventManager.emit(EcodeEvent.UNPAUSE_GAME, delay=blackoutDuration)
         EventManager.emit(
             EcodeEvent.GIVE_ORDER,
-            delay=blackoutDuration,
             text="ERR: Unable To Find Objective"
         )
         

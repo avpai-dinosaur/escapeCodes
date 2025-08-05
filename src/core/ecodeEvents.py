@@ -149,3 +149,12 @@ class EventManager:
                     func(**scheduledEvent.kwargs) 
                     newList.append(ref)
             EventManager.listeners[scheduledEvent.event] = newList # Remove dead references
+    
+    @staticmethod
+    def _log_listeners(caller, event):
+        print(f"EventManager.DEBUG: Executed {caller}")
+        print(f"EventManager.DEBUG: {len(EventManager.listeners[event])} listeners for event {event}")
+        for idx, ref in enumerate(EventManager.listeners[event]):
+            print("\tListener", idx)
+            print("\t\tref is", ref)
+            print("\t\tref() is", ref())
