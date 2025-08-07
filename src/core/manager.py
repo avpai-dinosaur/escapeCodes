@@ -31,10 +31,13 @@ class GameManager:
             GameStates.Levels: LevelsMenu,
             GameStates.Died: YouDiedMenu
         }
-        self.set_state(GameStates.Login)
         self.leetcodeManager = LeetcodeManager()
         self.level_idx = 0
         self.gameInstance : Game = None
+        self.num_unlocked = 0
+
+        self.set_state(GameStates.Login)
+       
         
     def get_current_level(self):
         return Game(self, level_index=self.level_idx)
@@ -61,6 +64,9 @@ class GameManager:
 
     def draw(self, screen):
         self.activeState.draw(screen)
+
+    def unlocked(self, unlocked_idx):
+        self.num_unlocked = unlocked_idx
 
 class TextSlideShow:
     def __init__(self, manager):

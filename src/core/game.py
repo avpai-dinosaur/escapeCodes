@@ -42,11 +42,10 @@ class Game():
     
     def next_level(self):
         self.end_current_level()
-        self.currentLevelIdx += 1
-        if self.currentLevelIdx == len(self.levels):
-            self.currentLevelIdx = 0
-            self.manager.set_state("menu")
-        self.load_current_level()
+        if self.currentLevelIdx != len(self.levels):
+            self.currentLevelIdx += 1
+        self.manager.unlocked(self.currentLevelIdx)
+        self.manager.set_state("levels")
 
     def load_current_level(self):
         self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])

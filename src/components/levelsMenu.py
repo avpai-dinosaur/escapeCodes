@@ -2,7 +2,6 @@ import pygame
 from pprint import pprint
 import src.core.utils as utils
 from src.components.button import Button, TriangleButton
-from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.components.menu import Menu
 
 class LevelsMenu(Menu):
@@ -19,12 +18,12 @@ class LevelsMenu(Menu):
         self.errorFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
 
         self.levels = [
-            SelectLevel("Tutorial", "Keys/0-Key.png", False),
-            SelectLevel("Caves", "Keys/1-Key.png", False),
-            SelectLevel("Lab", "Keys/2-Key.png", False),
-            SelectLevel("Lab", "Keys/3-Key.png", False),
-            SelectLevel("Locked Test", "Keys/4-Key.png", True)
+            SelectLevel("Tutorial", 0, "Keys/0-Key.png", False),
+            SelectLevel("Caves", 1, "Keys/1-Key.png", True),
+            SelectLevel("Lab", 2, "Keys/2-Key.png", True),
+            SelectLevel("Boss", 3, "Keys/3-Key.png", True),
         ]
+
         self.currentIdx = 0
         self.errorTextImage = self.errorFont.render("The level is currently locked!", True, 'red')
         self.errorTextRect = self.errorTextImage.get_rect(center=(640, 600))
@@ -42,6 +41,8 @@ class LevelsMenu(Menu):
             Button(self.playImage, pos=(280, 700), textInput="Play", onClick=self.onPlay),
             Button(self.backImage, pos=(1000, 700), textInput="Back", onClick=self.onBack)
         ]
+        for i in (0, self.manager.num_unlocked):
+            self.levels[i].locked = False
    
     def update(self):
         super().update()
@@ -111,8 +112,9 @@ class LevelsMenu(Menu):
         return [p1, p2, p3]
 
 class SelectLevel:
-    def __init__(self, name: str, image_path: str, locked: bool, description: str = "", difficulty: str = ""):
+    def __init__(self, name: str, idx: int, image_path: str, locked: bool, description: str = "", difficulty: str = ""):
         self.name = name
+        self.idx = idx
         self.description = description
         self.difficulty = difficulty
         self.image, _ = utils.load_png(image_path)
