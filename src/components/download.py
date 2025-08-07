@@ -26,6 +26,7 @@ class DownloadUi:
 
         self.keyControls = KeyPromptControlBarUi()
         self.keyControls.add_control(KeyPromptUi(pygame.K_ESCAPE, "Keys/Esc-Key.png", caption="Close Note"))
+        self.keyControls.add_control(KeyPromptUi(pygame.K_t, "Keys/T-Key.png", caption="Toggle View"))
         self.keyControls.build()
         self.keyControls.rect.bottomleft = (
             self.backgroundRect.left + 10,
@@ -88,10 +89,11 @@ class DownloadUi:
             ),
             self.backgroundRect.width / 2 - 2 * self.textUiMargin,
             self.backgroundRect.height - self.keyControls.rect.height - self.foundPhrasesHeadingRect.height - 2 * self.textUiMargin,
-            utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
+            utils.load_font("SpaceMono/SpaceMono-Regular.ttf"),
             "green"
         )
 
+        self.showIndices = False
         self.isVisible = False
         self.isSolved = False
         self.on_close = on_close
@@ -99,14 +101,19 @@ class DownloadUi:
     def set_text(self, text: str, computer, isProbeActive: bool=True):
         self.computer = computer
         self.probeUiActive = isProbeActive
+        self.set_textui_text()
         self.set_found_phrases()
-        self.textUi.set_text(text)
         self.isVisible = True
         EventManager.emit(EcodeEvent.PAUSE_GAME)
     
+    def set_textui_text(self):
+        self.textUi.set_text(
+            self.computer.get_text() if not self.showIndices else self.computer.get_text_with_indices()
+        )
+
     def set_found_phrases(self):
         self.foundPhrasesTextUi.set_text(
-            "\n".join([p for p in self.computer.foundPhrases]) +
+            "\n".join([f"'{p}'" for p in self.computer.foundPhrases]) +
             f"\nHidden Phrases Left: {self.computer.get_num_phrases_left()}"
         )
 
@@ -130,7 +137,7 @@ class DownloadUi:
             return
         phrase = self.computer.try_probe(wordIdx)
         if phrase is not None:
-            self.set_success_text(f"Found phrase '{phrase}'")
+            self.set_success_text(f"Found phrase")
             self.set_found_phrases()
         else:
             if wordIdx < len(self.computer.words) or wordIdx < 0:
@@ -148,6 +155,9 @@ class DownloadUi:
                     self.isVisible = False
                     EventManager.emit(EcodeEvent.UNPAUSE_GAME)
                     self.on_close(DownloadUi)
+                if event.key == pygame.K_t:
+                    self.showIndices = not self.showIndices
+                    self.set_textui_text()
 
     def update(self):
         self.textUi.update()

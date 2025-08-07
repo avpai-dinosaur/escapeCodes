@@ -327,7 +327,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"L1\nHIDDENLINE L2\n    L3"
+                         "value":"HIDDENLINE I keep a wish list of things I'm waiting for\nEach day, someone hands me an object\n   If it's on my wish list:\n      HIDDENLINE I return both - the ony I just got and the one I was waiting for\n   Otherwise:\n      HIDDENLINE I wrote down what I would have needed for this object to complete a pair"
                         }, 
                         {
                          "name":"pinText",
@@ -360,7 +360,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"L1\nSTARTPHRASE L2 ENDPHRASE\n    L3"
+                         "value":"Subject: Post-Sprint Reflection\nFrom: Rushabh\nTo: Team\n\nEvery time I think I'm done, someone else tosses a last-minute item on my backlog.\nSo now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up."
                         }],
                  "rotation":0,
                  "type":"Computer",

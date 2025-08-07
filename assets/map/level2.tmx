@@ -111,9 +111,12 @@
   <object id="33" type="Computer" gid="17" x="896" y="448" width="64" height="64">
    <properties>
     <property name="hasPseudocode" type="bool" value="true"/>
-    <property name="note">L1
-HIDDENLINE L2
-    L3</property>
+    <property name="note">HIDDENLINE I keep a wish list of things I'm waiting for
+Each day, someone hands me an object
+   If it's on my wish list:
+      HIDDENLINE I return both - the ony I just got and the one I was waiting for
+   Otherwise:
+      HIDDENLINE I wrote down what I would have needed for this object to complete a pair</property>
     <property name="pinText" value="5189"/>
     <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
    </properties>
@@ -121,9 +124,12 @@ HIDDENLINE L2
   <object id="34" type="Computer" gid="22" x="256" y="960" width="64" height="64">
    <properties>
     <property name="hasPhrases" type="bool" value="true"/>
-    <property name="note">L1
-STARTPHRASE L2 ENDPHRASE
-    L3</property>
+    <property name="note">Subject: Post-Sprint Reflection
+From: Rushabh
+To: Team
+
+Every time I think I'm done, someone else tosses a last-minute item on my backlog.
+So now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up.</property>
    </properties>
   </object>
   <object id="35" type="Computer" gid="17" x="960" y="896" width="64" height="64">
