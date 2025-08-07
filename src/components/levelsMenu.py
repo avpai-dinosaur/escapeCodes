@@ -49,6 +49,7 @@ class LevelsMenu(Menu):
     def onPlay(self):
         current_level = self.levels[self.currentIdx]
         if(current_level.locked == False):
+            self.manager.level_idx = self.currentIdx
             self.manager.set_state("world")
         else:
             self.showError = True

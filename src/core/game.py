@@ -7,7 +7,7 @@ from src.core.level import LevelFactory, Level
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
    
-    def __init__(self, manager):
+    def __init__(self, manager, level_index):
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
@@ -18,7 +18,7 @@ class Game():
             "level3"
         ]
         self.isPaused = False
-        self.currentLevelIdx = 0
+        self.currentLevelIdx = level_index
         self.currentLevel: Level = LevelFactory.create(self.levels[self.currentLevelIdx])
         self.currentLevel.load_camera(self.camera)
 
@@ -65,7 +65,6 @@ class Game():
         EventManager.unsubscribe(EcodeEvent.PLAYER_DIED, self.on_death)
         EventManager.unsubscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
         EventManager.unsubscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
-        EventManager.unsubscribe(EcodeEvent.LOAD_LEVEL, self.load_level)
     
     def pause_menu(self):
         self.manager.set_state("pause")
