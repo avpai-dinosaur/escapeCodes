@@ -53,9 +53,9 @@ class UiManager:
         hackUi = hack.TestCaseHackUi(self.deactivate_ui, problemSlug)
         self.uiMap[hack.TestCaseHackUi] = hackUi
     
-    def on_open_download(self, text):
+    def on_open_download(self, text, computer):
         downloadUi = download.DownloadUi(self.deactivate_ui)
-        downloadUi.set_text(text)
+        downloadUi.set_text(text, computer)
         self.uiMap[download.DownloadUi] = downloadUi
     
     def on_open_pseudocode(self, text: str, problemSlug: str, isSolved: bool, pinText: str):

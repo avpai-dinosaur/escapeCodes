@@ -140,6 +140,70 @@ class PseudocodeComputer(Computer):
 
 class SnippableComputer(Computer):
 
+    PhraseStartWord = "STARTPHRASE"
+    PhraseEndWord = "ENDPHRASE"
+
+    def __init__(self, rect, textInput):
+        super().__init__(rect, textInput)
+        self.phrases = []
+        self.lines = []
+        self.words = []
+        self.foundPhrases = set()
+        self.parse_text(textInput)
+
     def computer_action(self):
         self.present_button = False
-        EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.textInput)
+        EventManager.emit(EcodeEvent.OPEN_DOWNLOAD, text=self.get_text_with_indices(), computer=self)
+
+    def parse_text(self, text: str):
+        wordIdx = 0
+        currentPhrase = None
+        for line in text.split("\n"):
+            self.lines.append([])
+            for word in line.split(" "):
+                if word == SnippableComputer.PhraseStartWord:
+                    if currentPhrase is not None:
+                        raise ValueError("Attempted to start new phrase before closing current one")
+                    currentPhrase = [wordIdx]
+                elif word == SnippableComputer.PhraseEndWord:
+                    if currentPhrase is None:
+                        raise ValueError("Attempted to close phrase before starting one")
+                    currentPhrase.append(wordIdx)
+                    self.phrases.append(currentPhrase.copy())
+                    currentPhrase = None
+                else:
+                    self.lines[-1].append(word)
+                    self.words.append(word)
+                    wordIdx += 1
+
+    def get_text(self):
+        return "\n".join([" ".join(line) for line in self.lines])
+    
+    def get_text_with_indices(self):
+        idx = 0
+        modifiedLines = []
+        for line in self.lines:
+            modifiedLine = []
+            for word in line:
+                modifiedLine.append(f"{word}({idx})")
+                idx += 1
+            modifiedLines.append(" ".join(modifiedLine))
+        return "\n".join(modifiedLines)
+
+    def get_phrase(self, wordIdx):
+        for phrase in self.phrases:
+            if phrase[0] <= wordIdx < phrase[1]:
+                return phrase
+        return None
+
+    def try_probe(self, wordIdx):
+        phrase = self.get_phrase(wordIdx)
+        if phrase is not None:
+            joinedPhrase = " ".join(self.words[phrase[0]:phrase[1]])
+            EventManager.emit(EcodeEvent.SAVE_PHRASE, phrase=joinedPhrase)
+            self.foundPhrases.add(joinedPhrase)
+            return joinedPhrase
+        return None
+    
+    def get_num_phrases_left(self):
+        return len(self.phrases) - len(self.foundPhrases)

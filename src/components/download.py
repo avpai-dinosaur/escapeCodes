@@ -16,6 +16,7 @@ class DownloadUi:
         """Constructor.
 
             on_close: Callback function provided by UiManager
+            computer: Reference to computer this ui belongs to
         """
         self.noteMargin = 40
         self.backgroundRect = pygame.Rect()
@@ -37,12 +38,11 @@ class DownloadUi:
                 self.backgroundRect.left + self.textUiMargin,
                 self.backgroundRect.top + self.textUiMargin
             ),
-            self.backgroundRect.width - 2 * self.textUiMargin,
+            self.backgroundRect.width / 2 - 2 * self.textUiMargin,
             self.backgroundRect.height - self.keyControls.rect.height - 2 * self.textUiMargin,
             utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         )
         self.solvedFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 50)
-        self.set_text("")
 
         # Probe word text input 
         self.probePromptFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
@@ -71,21 +71,44 @@ class DownloadUi:
         self.successTextFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", size=30)
         self.set_success_text("")
 
-        self.solvedTextImage = None
-        self.solvedTextRect = None
+        # Headings
+        self.headingMargin = 10
+        self.headingFont = utils.load_font("SpaceMono/SpaceMono-Bold.ttf", 30)
+
+        self.foundPhrasesHeadingImage = self.headingFont.render("Found Phrases", True, "white")
+        self.foundPhrasesHeadingRect = self.foundPhrasesHeadingImage.get_rect()
+        self.foundPhrasesHeadingRect.top = self.backgroundRect.top + self.headingMargin
+        self.foundPhrasesHeadingRect.left = self.backgroundRect.left + self.backgroundRect.width / 2 + self.headingMargin
+
+        # Found Phrases List
+        self.foundPhrasesTextUi = ScrollableTextUi(
+            pygame.Vector2(
+                self.textUi.scrollableContainer.rect.right + self.textUiMargin,
+                self.foundPhrasesHeadingRect.bottom + self.textUiMargin
+            ),
+            self.backgroundRect.width / 2 - 2 * self.textUiMargin,
+            self.backgroundRect.height - self.keyControls.rect.height - self.foundPhrasesHeadingRect.height - 2 * self.textUiMargin,
+            utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30),
+            "green"
+        )
 
         self.isVisible = False
         self.isSolved = False
         self.on_close = on_close
     
-    def set_text(self, text: str, isProbeActive: bool=True):
+    def set_text(self, text: str, computer, isProbeActive: bool=True):
+        self.computer = computer
         self.probeUiActive = isProbeActive
-        self.parse_text(text)
-        self.textUi.set_text(
-            self.get_text_with_indices() if self.probeUiActive else self.get_text()
-        )
+        self.set_found_phrases()
+        self.textUi.set_text(text)
         self.isVisible = True
         EventManager.emit(EcodeEvent.PAUSE_GAME)
+    
+    def set_found_phrases(self):
+        self.foundPhrasesTextUi.set_text(
+            "\n".join([p for p in self.computer.foundPhrases]) +
+            f"\nHidden Phrases Left: {self.computer.get_num_phrases_left()}"
+        )
 
     def set_error_text(self, text: str):
         self.errorTextImage = self.errorTextFont.render(text, True, "red")
@@ -97,74 +120,28 @@ class DownloadUi:
         self.successTextRect = self.successTextImage.get_rect()
         self.successTextRect.bottomright = self.probeUi.rect.topright
 
-    def parse_text(self, text: str):
-        self.phrases = []
-        self.lines = []
-        self.words = []
-        wordIdx = 0
-        currentPhrase = None
-        for line in text.split("\n"):
-            self.lines.append([])
-            for word in line.split(" "):
-                if word == DownloadUi.PhraseStartWord:
-                    if currentPhrase is not None:
-                        raise ValueError("Attempted to start new phrase before closing current one")
-                    currentPhrase = [wordIdx]
-                elif word == DownloadUi.PhraseEndWord:
-                    if currentPhrase is None:
-                        raise ValueError("Attempted to close phrase before starting one")
-                    currentPhrase.append(wordIdx)
-                    self.phrases.append(currentPhrase.copy())
-                    currentPhrase = None
-                else:
-                    self.lines[-1].append(word)
-                    self.words.append(word)
-                    wordIdx += 1
-
-    def get_text(self):
-        return "\n".join([" ".join(line) for line in self.lines])
-    
-    def get_text_with_indices(self):
-        idx = 0
-        modifiedLines = []
-        for line in self.lines:
-            modifiedLine = []
-            for word in line:
-                modifiedLine.append(f"{word}({idx})")
-                idx += 1
-            modifiedLines.append(" ".join(modifiedLine))
-        return "\n".join(modifiedLines)
-
-    def get_phrase(self, wordIdx):
-        for phrase in self.phrases:
-            if phrase[0] <= wordIdx < phrase[1]:
-                return phrase
-        return None
-
-    def try_probe(self, wordIdx):
-        phrase = self.get_phrase(wordIdx)
-        if phrase is not None:
-            joinedPhrase = " ".join(self.words[phrase[0]:phrase[1]])
-            self.set_success_text(f"Found phrase '{joinedPhrase}'")
-            EventManager.emit(EcodeEvent.SAVE_PHRASE, phrase=joinedPhrase)
-        else:
-            if wordIdx < len(self.words) or wordIdx < 0:
-                self.set_error_text(f"'{self.words[wordIdx]}' is not part of a phrase")
-            else:
-                self.set_error_text(f"Index {wordIdx} is out of bounds")
-    
     def on_probe_submit(self, textInput):
         self.set_error_text("")
         self.set_success_text("")
         try:
             wordIdx = int(textInput)
-            self.try_probe(wordIdx)
         except ValueError:
             self.set_error_text(f"'{textInput}' is not a valid index")
+            return
+        phrase = self.computer.try_probe(wordIdx)
+        if phrase is not None:
+            self.set_success_text(f"Found phrase '{phrase}'")
+            self.set_found_phrases()
+        else:
+            if wordIdx < len(self.computer.words) or wordIdx < 0:
+                self.set_error_text(f"'{self.computer.words[wordIdx]}' is not part of a phrase")
+            else:
+                self.set_error_text(f"Index {wordIdx} is out of bounds")
 
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
+            self.foundPhrasesTextUi.handle_event(event)
             self.probeUi.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -174,6 +151,7 @@ class DownloadUi:
 
     def update(self):
         self.textUi.update()
+        self.foundPhrasesTextUi.update()
         self.probeUi.update(pygame.mouse.get_pos())
         self.keyControls.update()
 
@@ -182,8 +160,10 @@ class DownloadUi:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
             self.keyControls.draw(surface)
             self.textUi.draw(surface)
+            self.foundPhrasesTextUi.draw(surface)
             surface.blit(self.errorTextImage, self.errorTextRect)
             surface.blit(self.successTextImage, self.successTextRect)
+            surface.blit(self.foundPhrasesHeadingImage, self.foundPhrasesHeadingRect)
             if self.probeUiActive:
                 surface.blit(self.probePromptImage, self.probePromptRect)
                 self.probeUi.draw(surface)
@@ -202,7 +182,7 @@ if __name__ == "__main__":
     leetcodeManager.username = "escapeCodesTest"
     computer = SnippableComputer(
         pygame.Rect(400, 400, 1, 1),
-        "hello\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nthis is a note",
+        "hello bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nthis is a note",
     )
     mockPlayer = type('MockPlayer', (object,), {'rect': pygame.Rect(400, 400, 1, 1)})()
     downloadUi = DownloadUi(lambda x: None)
