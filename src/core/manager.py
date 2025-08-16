@@ -1,6 +1,7 @@
 import pygame
 from src.core.game import Game
 from src.core.leetcodeManager import LeetcodeManager
+from src.core.level import LevelFactory
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu, PauseMenu
 from src.components.levelsMenu import LevelsMenu
 from src.components.ui import KeyPromptUi
@@ -22,15 +23,13 @@ class GameManager:
             GameStates.Died: YouDiedMenu
         }
         self.leetcodeManager = LeetcodeManager()
-        self.level_idx = 0
+        self.currentLevel = None
+        self.currentLevelIdx = None
         self.gameInstance : Game = None
-        self.num_unlocked = 0
-
+        self.unlockedLevels = set()
+        self.unlockedLevels.add(0)
         self.set_state(GameStates.Login)
        
-    def get_current_level(self):
-        return Game(self, levelIndex=self.level_idx)
-
     def set_state(self, stateName):
         pygame.display.set_caption(stateName)
         if stateName == GameStates.Game:
@@ -38,11 +37,14 @@ class GameManager:
             # This allows us to preserve game state when the player exits the game to
             # pause, change options, etc.
             if type(self.activeState) is LevelsMenu:
-                self.gameInstance = self.states[GameStates.Game](self, self.level_idx)
+                self.gameInstance = self.states[GameStates.Game](self, self.currentLevel)
             self.activeState = self.gameInstance
         else:
             self.activeState = self.states[stateName](self) 
-    
+
+    def unlock_level(self):
+        self.unlockedLevels.add(self.currentLevelIdx + 1)
+
     def quit_game(self):
         if self.gameInstance:
             self.gameInstance.quit()
@@ -58,8 +60,6 @@ class GameManager:
     def draw(self, screen):
         self.activeState.draw(screen)
 
-    def unlocked(self, unlocked_idx):
-        self.num_unlocked = unlocked_idx
 
 class TextSlideShow:
     def __init__(self, manager):

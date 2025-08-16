@@ -3,6 +3,7 @@ import src.core.utils as utils
 from src.components.button import Button
 from src.components.menu import Menu
 from src.core.gameStates import GameStates
+from src.core.level import LevelFactory
 
 class LevelsMenu(Menu):
     """Levels Menu"""
@@ -18,10 +19,13 @@ class LevelsMenu(Menu):
         self.errorFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
 
         self.levels = [
-            SelectLevel("Tutorial", 0, "level0.png", False),
-            SelectLevel("Caves", 1, "level1.png", True),
-            SelectLevel("Lab", 2, "level2.png", True),
-            SelectLevel("Boss", 3, "level3.png", True)
+            SelectLevel(
+                level.name,
+                level.index,
+                level.imageFile,
+                level.index not in self.manager.unlockedLevels
+            )
+            for level in LevelFactory._metadata
         ]
 
         self.currentIdx = 0
@@ -45,13 +49,12 @@ class LevelsMenu(Menu):
             Button(self.playImage, pos=(280, 700), textInput="Play", onClick=self.onPlay),
             Button(self.backImage, pos=(1000, 700), textInput="Back", onClick=self.onBack)
         ]
-        for i in range(0, self.manager.num_unlocked + 1):
-            self.levels[i].locked = False
    
     def onPlay(self):
         current_level = self.levels[self.currentIdx]
         if(current_level.locked == False):
-            self.manager.level_idx = self.currentIdx
+            self.manager.currentLevelIdx = self.currentIdx
+            self.manager.currentLevel = current_level.name
             self.manager.set_state(GameStates.Game)
         else:
             self.showError = True
@@ -74,21 +77,9 @@ class LevelsMenu(Menu):
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
-
         surface.blit(self.titleTextImage, self.titleRect)
-
         current_level = self.levels[self.currentIdx]
-        surface.blit(current_level.image, current_level.image_rect)
-        level_name = self.levelFont.render(current_level.name, True, "white")
-        name_rect = level_name.get_rect(center=(640, 550))
-        surface.blit(level_name, name_rect)
-
-        if(current_level.locked):
-            lockedImage, _ = utils.load_png("locked.png")
-            self.scaled_image = pygame.transform.scale(lockedImage, (90, 128))
-            self.lockedImage_rect = self.scaled_image.get_rect(center=(640,400))
-            surface.blit(self.scaled_image, self.lockedImage_rect)
-
+        current_level.draw(surface)
         if(self.showError and self.error_start_time):
             elapsed = pygame.time.get_ticks() - self.error_start_time
             if elapsed < self.error_duration:
@@ -96,8 +87,17 @@ class LevelsMenu(Menu):
             else:
                 self.error_start_time = None
 
+
 class SelectLevel:
-    def __init__(self, name: str, idx: int, image_path: str, locked: bool, description: str = "", difficulty: str = ""):
+    def __init__(
+        self,
+        name: str,
+        idx: int,
+        image_path: str,
+        locked: bool,
+        description: str = "",
+        difficulty: str = ""
+    ):
         self.name = name
         self.idx = idx
         self.description = description
@@ -108,9 +108,16 @@ class SelectLevel:
         )
         self.image_rect = self.image.get_rect(center=(640, 400))
         self.locked = locked
+        self.font = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 40)
+        self.level_name = self.font.render(self.name, True, "white")
+        self.name_rect = self.level_name.get_rect(center=(640, 550))
+        lockedImage, _ = utils.load_png("locked.png")
+        self.scaled_image = pygame.transform.scale(lockedImage, (90, 128))
+        self.lockedImage_rect = self.scaled_image.get_rect(center=(640,400))
     
     def draw(self, surface: pygame.Surface):
-        super().draw(surface)
+        surface.blit(self.image, self.image_rect)
+        surface.blit(self.level_name, self.name_rect)
 
-
-        
+        if self.locked:
+            surface.blit(self.scaled_image, self.lockedImage_rect)

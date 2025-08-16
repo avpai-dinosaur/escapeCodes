@@ -8,19 +8,13 @@ from src.core.gameStates import GameStates
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
    
-    def __init__(self, manager, levelIndex):
+    def __init__(self, manager, levelName):
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
-        self.levels: list[str] = [
-            "tutorial",
-            "level1",
-            "level2",
-            "level3"
-        ]
         self.isPaused = False
-        self.currentLevelIdx = levelIndex
-        self.currentLevel: Level = LevelFactory.create(self.levels[self.currentLevelIdx])
+        self.levelName = levelName
+        self.currentLevel: Level = LevelFactory.create(levelName)
         self.currentLevel.load_camera(self.camera)
 
         # Event Subscribers
@@ -43,13 +37,11 @@ class Game():
     
     def next_level(self):
         self.end_current_level()
-        if self.currentLevelIdx != len(self.levels):
-            self.currentLevelIdx += 1
-        self.manager.unlocked(self.currentLevelIdx)
+        self.manager.unlock_level()
         self.manager.set_state(GameStates.Levels)
 
     def load_current_level(self):
-        self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])
+        self.currentLevel = LevelFactory.create(self.levelName)
         self.currentLevel.load_camera(self.camera)
 
     def end_current_level(self):

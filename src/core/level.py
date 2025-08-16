@@ -98,28 +98,38 @@ class Level():
         pass
 
 
+class LevelMetadata:
+    def __init__(self, name: str, index: int, imageFile: str, dataFile: str):
+        self.name = name
+        self.index = index
+        self.imageFile = imageFile
+        self.dataFile = dataFile
+
+
 class LevelFactory():
     """Maps level names to the level class."""
     _registry = {}
+    _metadata: list[LevelMetadata] = []
 
-    def register(levelName: str, levelClass) -> None:
-        if levelName in LevelFactory._registry:
-            raise ValueError(f"Level {levelName} already registered")
-        LevelFactory._registry[levelName] = levelClass
+    def register(levelData: LevelMetadata, levelClass) -> None:
+        if levelData.name in LevelFactory._registry:
+            raise ValueError(f"Level {levelData.name} already registered")
+        LevelFactory._registry[levelData.name] = levelClass
+        LevelFactory._metadata.append(levelData)
     
     def create(levelName: str) -> Level:
         if levelName not in LevelFactory._registry:
             raise ValueError(f"Level '{levelName}' not found")
         return LevelFactory._registry[levelName]()
     
-    def register_level(levelName):
+    def register_level(levelData: LevelMetadata):
         def decorator(levelClass):
-            LevelFactory.register(levelName, levelClass)
+            LevelFactory.register(levelData, levelClass)
             return levelClass
         return decorator
 
 
-@LevelFactory.register_level("tutorial")
+@LevelFactory.register_level(LevelMetadata("tutorial", 0, "level0.png", "level0.tmj"))
 class Tutorial(Level):
     def __init__(self):
         super().__init__("level0.png", "level0.tmj")
@@ -200,7 +210,7 @@ class Tutorial(Level):
                 self.next_key_prompt()
 
 
-@LevelFactory.register_level("level1")
+@LevelFactory.register_level(LevelMetadata("level1", 1, "level1.png", "level1.tmj"))
 class Level1(Level):
     def __init__(self):
         super().__init__("level1.png", "level1.tmj")
@@ -232,7 +242,7 @@ Desperation levels: high."""
         
 
 
-@LevelFactory.register_level("level2")
+@LevelFactory.register_level(LevelMetadata("level2", 2, "level2.png", "level2.tmj"))
 class Level2(Level):
     def __init__(self):
         super().__init__("level2.png", "level2.tmj")
@@ -244,7 +254,7 @@ class Level2(Level):
         )
 
 
-@LevelFactory.register_level("level3")
+@LevelFactory.register_level(LevelMetadata("level3", 3, "level3.png", "level3.tmj"))
 class Level3(Level):
     def __init__(self):
         super().__init__("level3.png", "level3.tmj")
