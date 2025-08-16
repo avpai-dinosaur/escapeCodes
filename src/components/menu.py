@@ -59,7 +59,6 @@ class MainMenu(Menu):
             Button(self.playImage, pos=(1000, 300), textInput="Levels", onClick=self.onLevels),
             Button(self.optionImage, pos=(1000, 420), textInput="Options", onClick=self.onOption),
             Button(self.optionImage, pos=(1000, 540), textInput="Back", onClick=self.onBack),
-            Button(self.quitImage, pos=(1000, 660), textInput="Quit", onClick=self.onQuit)
         ]
     
     def onOption(self):
@@ -71,10 +70,6 @@ class MainMenu(Menu):
     def onBack(self):
         self.manager.set_state(GameStates.Login)
     
-    def onQuit(self):
-        pygame.quit()
-        sys.exit()
-
     def draw(self, surface):
         """Draw main menu to the surface."""
         super().draw(surface)
