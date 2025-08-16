@@ -2,6 +2,7 @@ from src.core.camera import Camera
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.uiManager import UiManager
 from src.core.level import LevelFactory, Level 
+from src.core.gameStates import GameStates
 
 
 class Game():
@@ -12,8 +13,8 @@ class Game():
         self.camera = Camera()
         self.uiManager = UiManager()
         self.levels: list[str] = [
-            # "tutorial",
-            # "level1",
+            "tutorial",
+            "level1",
             "level2",
             "level3"
         ]
@@ -38,14 +39,14 @@ class Game():
     def on_death(self):
         self.end_current_level()
         self.load_current_level()
-        self.manager.set_state("died")
+        self.manager.set_state(GameStates.Died)
     
     def next_level(self):
         self.end_current_level()
         if self.currentLevelIdx != len(self.levels):
             self.currentLevelIdx += 1
         self.manager.unlocked(self.currentLevelIdx)
-        self.manager.set_state("levels")
+        self.manager.set_state(GameStates.Levels)
 
     def load_current_level(self):
         self.currentLevel = LevelFactory.create(self.levels[self.currentLevelIdx])
@@ -66,7 +67,7 @@ class Game():
         EventManager.unsubscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
     
     def pause_menu(self):
-        self.manager.set_state("pause")
+        self.manager.set_state(GameStates.Pause)
 
     def update(self):
         if not self.isPaused:

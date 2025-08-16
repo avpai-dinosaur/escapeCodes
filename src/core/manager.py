@@ -4,19 +4,9 @@ from src.core.leetcodeManager import LeetcodeManager
 from src.components.menu import MainMenu, OptionsMenu, LoginMenu, YouDiedMenu, PauseMenu
 from src.components.levelsMenu import LevelsMenu
 from src.components.ui import KeyPromptUi
+from src.core.gameStates import GameStates
 import src.core.utils as utils
 import src.constants as c
-
-
-class GameStates:
-    Menu = "menu"
-    Options = "options"
-    Pause = "pause"
-    Login = "login"
-    Intro = "intro"
-    Game = "game"
-    Died = "died"
-    Levels = "levels"
 
 
 class GameManager:
@@ -44,10 +34,10 @@ class GameManager:
     def set_state(self, stateName):
         pygame.display.set_caption(stateName)
         if stateName == GameStates.Game:
-            # Only construct the game the first time we switch to the game state
+            # Only construct the game when we are starting a new level
             # This allows us to preserve game state when the player exits the game to
             # pause, change options, etc.
-            if self.gameInstance is None:
+            if type(self.activeState) is LevelsMenu:
                 self.gameInstance = self.states[GameStates.Game](self, self.level_idx)
             self.activeState = self.gameInstance
         else:
@@ -118,7 +108,7 @@ You are a technician tasked with checking the Utopia before the expedition, prep
             if event.key == self.nextKeyPromptUi.key:
                 self.line += 1
                 if self.line >= len(self.lines):
-                    self.manager.set_state("world")
+                    self.manager.set_state(GameStates.Game)
                     return
             elif event.key == self.backKeyPromptUi.key:
                 self.line = max(0, self.line - 1)

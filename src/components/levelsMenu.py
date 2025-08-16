@@ -2,6 +2,7 @@ import pygame
 import src.core.utils as utils
 from src.components.button import Button
 from src.components.menu import Menu
+from src.core.gameStates import GameStates
 
 class LevelsMenu(Menu):
     """Levels Menu"""
@@ -20,8 +21,7 @@ class LevelsMenu(Menu):
             SelectLevel("Tutorial", 0, "level0.png", False),
             SelectLevel("Caves", 1, "level1.png", True),
             SelectLevel("Lab", 2, "level2.png", True),
-            SelectLevel("Boss", 3, "level3.png", True),
-            SelectLevel("Something", 4, "Keys/4-Key.png", True),
+            SelectLevel("Boss", 3, "level3.png", True)
         ]
 
         self.currentIdx = 0
@@ -52,13 +52,13 @@ class LevelsMenu(Menu):
         current_level = self.levels[self.currentIdx]
         if(current_level.locked == False):
             self.manager.level_idx = self.currentIdx
-            self.manager.set_state("world")
+            self.manager.set_state(GameStates.Game)
         else:
             self.showError = True
             self.error_start_time = pygame.time.get_ticks()
             
     def onBack(self):
-        self.manager.set_state("menu")
+        self.manager.set_state(GameStates.Menu)
     
     def onLeft(self):
         self.currentIdx = (self.currentIdx - 1) % len(self.levels)

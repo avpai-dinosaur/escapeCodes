@@ -4,10 +4,10 @@ import requests
 import json
 from pprint import pprint
 import src.core.utils as utils
-import src.config as config
 import src.constants as c
 from src.components.button import Button, TextInput, ToggleButton
 from src.components.ui import KeyPromptControlBarUi, KeyPromptUi
+from src.core.gameStates import GameStates
 
 class Menu:
     """Base class for all menus in the game."""
@@ -63,13 +63,13 @@ class MainMenu(Menu):
         ]
     
     def onOption(self):
-        self.manager.set_state("options")
+        self.manager.set_state(GameStates.Options)
     
     def onLevels(self):
-        self.manager.set_state("levels")
+        self.manager.set_state(GameStates.Levels)
 
     def onBack(self):
-        self.manager.set_state("login")
+        self.manager.set_state(GameStates.Login)
     
     def onQuit(self):
         pygame.quit()
@@ -150,7 +150,7 @@ class OptionsMenu(Menu):
         self.SpaceControls.update()
 
     def onBack(self):
-        self.manager.set_state("menu")
+        self.manager.set_state(GameStates.Menu)
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
@@ -185,7 +185,7 @@ class PauseMenu(OptionsMenu):
 
     def onResume(self):
         """Handles resuming the game."""
-        self.manager.set_state("world")  # Adjust to the correct in-game state name
+        self.manager.set_state(GameStates.Game)  # Adjust to the correct in-game state name
     
     def onBack(self):
         """Handles quitting game and returning to main menu."""
@@ -274,7 +274,7 @@ class LoginMenu(Menu):
                 print(f"\tInvalid username: {textInput}")
                 self.showError = True
             else:
-                self.manager.set_state("menu")
+                self.manager.set_state(GameStates.Menu)
                 pygame.event.post(pygame.Event(c.USER_LOGIN, {"username": textInput, "stats": json.loads(response.text)}))
         else:
             print(f"\tInvalid username: {textInput}")
@@ -300,8 +300,8 @@ class YouDiedMenu(Menu):
         }
     
     def onRetry(self):
-        self.manager.set_state("world")
+        self.manager.set_state(GameStates.Game)
     
     def onQuit(self):
         self.manager.quit_game()
-        self.manager.set_state("menu")
+        self.manager.set_state(GameStates.Menu)
