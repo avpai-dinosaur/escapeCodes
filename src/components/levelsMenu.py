@@ -41,7 +41,7 @@ class LevelsMenu(Menu):
             Button(self.playImage, pos=(280, 700), textInput="Play", onClick=self.onPlay),
             Button(self.backImage, pos=(1000, 700), textInput="Back", onClick=self.onBack)
         ]
-        for i in (0, self.manager.num_unlocked):
+        for i in range(0, self.manager.num_unlocked + 1):
             self.levels[i].locked = False
    
     def update(self):
