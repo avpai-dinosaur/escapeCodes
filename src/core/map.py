@@ -5,6 +5,7 @@ import queue
 import src.entities.objects as o
 import src.constants as c
 import src.config as config
+from src.entities import computer as comp
 
 class Edge():
     def __init__(self, id, weight):
@@ -156,7 +157,7 @@ class Map():
     def computer_factory(self, computer, startX, startY):
         """Generates a computer from an entry in the internal computer dict."""
         if "hasProblem" in computer.keys() and computer["hasProblem"]:
-            generatedComputer = o.ProblemComputer(
+            generatedComputer = comp.ProblemComputer(
                 pygame.Rect(
                     startX + computer["x"],
                     startY + computer["y"] - computer["height"],
@@ -167,8 +168,30 @@ class Map():
                 computer["problemUrl"],
                 computer["pinText"]
             ) 
+        elif "hasPseudocode" in computer.keys() and computer["hasPseudocode"]:
+            generatedComputer = comp.PseudocodeComputer(
+                pygame.Rect(
+                    startX + computer["x"],
+                    startY + computer["y"] - computer["height"],
+                    computer["width"],
+                    computer["height"]
+                ),
+                computer["note"],
+                computer["problemUrl"],
+                computer["pinText"]
+            )
+        elif "hasPhrases" in computer.keys() and computer["hasPhrases"]:
+            generatedComputer = comp.SnippableComputer(
+                pygame.Rect(
+                    startX + computer["x"],
+                    startY + computer["y"] - computer["height"],
+                    computer["width"],
+                    computer["height"]
+                ),
+                computer["note"]
+            )
         else:
-            generatedComputer = o.Computer(
+            generatedComputer = comp.Computer(
                 pygame.Rect(
                     startX + computer["x"],
                     startY + computer["y"] - computer["height"],

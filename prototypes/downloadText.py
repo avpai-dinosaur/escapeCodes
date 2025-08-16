@@ -32,9 +32,9 @@ class Pseudocode:
     def print_code(self):
         embellishedLines = self.lines.copy()
         for line in self.missingLines:
-            embellishedLines[line] = YELLOW_START + Pseudocode.anonymize_line(self.lines[line]) + END_COLOR
+            embellishedLines[line] = Pseudocode.anonymize_line(self.lines[line])
         for line in self.ogMissingLines.difference(self.missingLines):
-            embellishedLines[line] = GREEN_START + self.lines[line] + END_COLOR
+            embellishedLines[line] = self.lines[line]
 
         print("\n--- PSEUDOCODE ---")
         print("\n".join(embellishedLines))
@@ -92,7 +92,7 @@ class DownloadableText:
         for line in self.lines:
             line_display = []
             for word in line:
-                line_display.append(f"{word}{BLUE_START}({idx}){END_COLOR}")
+                line_display.append(f"{word}({idx})")
                 idx += 1
             print(" ".join(line_display))
         print()
@@ -152,7 +152,7 @@ class Problem:
                 wordIdx = int(input("Enter word index to probe: ").strip())
                 self.try_reveal_from_word(wordIdx)
             except ValueError:
-                print(f"{RED_START}Invalid index. Please enter a number.{END_COLOR}")
+                print(f"Invalid index. Please enter a number.")
 
     def isSolved(self):
         if len(self.pseudocode.missingLines) == 0:
@@ -174,17 +174,17 @@ class Problem:
             else:
                 self.viewState = Problem.ViewState.Pseudocode
         except ValueError:
-            print(f"{RED_START}Invalid terminal. Please enter a number.{END_COLOR}")
+            print(f"Invalid terminal. Please enter a number.")
 
     def try_reveal_from_word(self, wordIdx):
         terminal = self.terminals[self.active_terminal]
         phrase = terminal.try_probe(wordIdx)
         if phrase:
-            print(f"{GREEN_START}Phrase found! \"{phrase}\"{END_COLOR}")
+            print(f"Phrase found! \"{phrase}\"")
             self.pseudocode.reveal_line(phrase)
             self.viewState = Problem.ViewState.Pseudocode
         else:
-            print(f"{RED_START}Word at index ({wordIdx}) is not part of a phrase{END_COLOR}")
+            print(f"Word at index ({wordIdx}) is not part of a phrase")
 
 
 if __name__ == "__main__":

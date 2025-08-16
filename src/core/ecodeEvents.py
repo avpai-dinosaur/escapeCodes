@@ -50,7 +50,12 @@ class EcodeEvent(Enum):
     CLOSE_DOORS = 35
 
     PAUSE_MENU = 36
-    LOAD_LEVEL = 37
+    
+    OPEN_DOWNLOAD = 37
+    OPEN_PSEUDOCODE = 38
+    SAVE_PHRASE = 39
+
+    LOAD_LEVEL = 40
 
 
 class ScheduledEvent:
@@ -147,3 +152,12 @@ class EventManager:
                     func(**scheduledEvent.kwargs) 
                     newList.append(ref)
             EventManager.listeners[scheduledEvent.event] = newList # Remove dead references
+    
+    @staticmethod
+    def _log_listeners(caller, event):
+        print(f"EventManager.DEBUG: Executed {caller}")
+        print(f"EventManager.DEBUG: {len(EventManager.listeners[event])} listeners for event {event}")
+        for idx, ref in enumerate(EventManager.listeners[event]):
+            print("\tListener", idx)
+            print("\t\tref is", ref)
+            print("\t\tref() is", ref())

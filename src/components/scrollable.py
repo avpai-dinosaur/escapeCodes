@@ -69,7 +69,8 @@ class ScrollableTextUi:
         pos: pygame.Vector2,
         width: int,
         height: int,
-        font: pygame.Font   
+        font: pygame.Font,
+        color = "white"
     ):
         """Constructor.
         
@@ -77,8 +78,10 @@ class ScrollableTextUi:
             width: Width of the element.
             height: Height of the element.
             font: Font to render text with.
+            color: Color to render text in.
         """
         self.font = font
+        self.color = color
         self.scrollableContainer = ScrollableContainerUi(width, height, self.font.size("c")[1])
         self.scrollableContainer.rect.topleft = pos
         self.set_text("")
@@ -86,7 +89,7 @@ class ScrollableTextUi:
     def set_text(self, textInput: str):
         self.text = textInput
         self.textImage = self.font.render(
-            self.text, True, 'white',
+            self.text, True, self.color,
             wraplength=self.scrollableContainer.rect.width - self.scrollableContainer.scrollBarTrackWidth
         )
         self.scrollableContainer.set_content(self.textImage)

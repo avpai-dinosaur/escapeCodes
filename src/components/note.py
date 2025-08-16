@@ -111,7 +111,7 @@ class NoteUi:
 
 if __name__ == "__main__":
     from src.core.leetcodeManager import LeetcodeManager
-    from src.entities.objects import ProblemComputer
+    from src.entities.computer import ProblemComputer
 
     pygame.init()
     screen = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT))

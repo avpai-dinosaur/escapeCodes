@@ -40,7 +40,7 @@ class TestCaseHackUi:
         self.leftTextRect.left = self.backgroundRect.left + self.headingMargin
 
         self.rightTextImage = self.headingFont.render("Bug Injector", True, "white")
-        self.rightTextRect = self.leftTextImage.get_rect()
+        self.rightTextRect = self.rightTextImage.get_rect()
         self.rightTextRect.top = self.backgroundRect.top + self.headingMargin
         self.rightTextRect.left = self.backgroundRect.left + self.backgroundRect.width / 2 + self.headingMargin
 

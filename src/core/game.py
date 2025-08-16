@@ -12,8 +12,8 @@ class Game():
         self.camera = Camera()
         self.uiManager = UiManager()
         self.levels: list[str] = [
-            "tutorial",
-            "level1",
+            # "tutorial",
+            # "level1",
             "level2",
             "level3"
         ]
@@ -26,7 +26,7 @@ class Game():
         EventManager.subscribe(EcodeEvent.PAUSE_GAME, self.pause)
         EventManager.subscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
         EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
-        EventManager.subscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
+        EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.next_level)
         EventManager.subscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
 
     def pause(self):
@@ -62,7 +62,7 @@ class Game():
         EventManager.unsubscribe(EcodeEvent.PAUSE_GAME, self.pause)
         EventManager.unsubscribe(EcodeEvent.UNPAUSE_GAME, self.unpause)
         EventManager.unsubscribe(EcodeEvent.PLAYER_DIED, self.on_death)
-        EventManager.unsubscribe(EcodeEvent.NEXT_LEVEL, self.next_level)
+        EventManager.unsubscribe(EcodeEvent.LEVEL_ENDED, self.next_level)
         EventManager.unsubscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
     
     def pause_menu(self):

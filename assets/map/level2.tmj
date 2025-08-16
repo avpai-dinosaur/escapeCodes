@@ -320,9 +320,24 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"hasPseudocode",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"note",
                          "type":"string",
-                         "value":"Sticky Note App - Draft Message\nTitle: \"JOE SUCKSSS\"\nUser: Meena\n\n4\/1: farted and denied it even though it was stinky\n\n4\/3: ate my food from the fridge. denied eating it\n\n4\/3: tried to tell me I looked good and smelled nice. ugh. what a creep\n\n4\/4: i dont think he showered today\n\n4\/5: day 2 of no shower\n\n4\/6: day 3 of no shower\n\n4\/7: day FOUR of NO SHOWER! also took my food from the fridge again\n\n4\/8: can't take it anymore, I'm moving my desk to the other corner of the room"
+                         "value":"HIDDENLINE I keep a wish list of things I'm waiting for\nEach day, someone hands me an object\n   If it's on my wish list:\n      HIDDENLINE I return both - the ony I just got and the one I was waiting for\n   Otherwise:\n      HIDDENLINE I wrote down what I would have needed for this object to complete a pair"
+                        }, 
+                        {
+                         "name":"pinText",
+                         "type":"string",
+                         "value":"5189"
+                        }, 
+                        {
+                         "name":"problemUrl",
+                         "type":"string",
+                         "value":"https:\/\/leetcode.com\/problems\/two-sum\/description\/"
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -338,14 +353,14 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"note",
-                         "type":"string",
-                         "value":"Internal Chat\nMembers: Joe & Rushabh\nTimestamp: Tuesday 2:03 PM\n\nJoe: \nshit, i got tapped to conduct an interview\n\nRushabh:\nOk? And you're telling me this because...\n\nJoe:\ndude don't act dumb, everyone knows you got that question bank that u use every time u have to do one of these\n\nJoe:\ngive me the good stuff. something nobody could answer and totaly unrelated to the job. i'm not tryn to see another fresh out of college shmuck hanging around here, its already too crowded as is\n\nRushabh:\nFine. But don't tell anyone else about this. I'm not trying to make this a whole thing.\n\nJoe:\ndude, I owe you one\n\nRushabh:\nOn a gameshow, the contestant is on the verge of winning a million dollars. But he is shown 3 boxes for his last question. \n\nOne has the number 51\nOne has the number 72\nOne has the number 94 \n\nBut each box has a label printed on it. \n\nBox A says \u201cThis box contains Number 72\u201d\n\nBox B says \u201cthis box does not contain the number 51\u201d\n\nBox C says \u201cBox A is lying\u201d\n\nOnly one of the labels is stating the truth. Find the number in Box B.\n\njoe:\nand the answer to this is?\n\nRushabh:\nYou gotta be kidding me.\n\njoe:\ndude theyre asking for the booster control system to be done at the end of the week. i don't have time to think about this bs\n\nRushabh:\nDon't even worry about the answer. People get so flustered with this one they just freeze up. And you can always just tell them their answer is wrong anyways.\n\njoe: \nahh thats evil...i like how u think my friend\n"
+                         "name":"hasPhrases",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
-                         "name":"pinText",
+                         "name":"note",
                          "type":"string",
-                         "value":"5 _ 1 _"
+                         "value":"Subject: Post-Sprint Reflection\nFrom: Rushabh\nTo: Team\n\nEvery time I think I'm done, someone else tosses a last-minute item on my backlog.\nSo now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up."
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -364,6 +379,11 @@
                          "name":"hasProblem",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"hasPseudocode",
+                         "type":"bool",
+                         "value":false
                         }, 
                         {
                          "name":"note",

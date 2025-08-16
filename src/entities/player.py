@@ -40,10 +40,18 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = pos
         self.stats = stats
 
+        # Saved Phrases
+        self.phrases = set() 
+
         # Walking sounds
         # self.footstepLeftSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Left_Stone.ogg")
         # self.footstepRightSound = pygame.mixer.Sound(config.SOUND_DIR / "Footstep_Right_Stone.ogg")
         self.lastFootStepFrame = self.current_frame
+
+        EventManager.subscribe(EcodeEvent.SAVE_PHRASE, self.on_save_phrase)
+    
+    def on_save_phrase(self, phrase: str):
+        self.phrases.add(phrase)
     
     def update(self, walls: list[pygame.Rect], doors: pygame.sprite.Group):
         """Updates the player's position."""

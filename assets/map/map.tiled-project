@@ -16,7 +16,17 @@
             "id": 1,
             "members": [
                 {
+                    "name": "hasPhrases",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "hasProblem",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "hasPseudocode",
                     "type": "bool",
                     "value": false
                 },
