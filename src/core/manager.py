@@ -14,7 +14,7 @@ class GameStates:
     Pause = "pause"
     Login = "login"
     Intro = "intro"
-    World = "world"
+    Game = "game"
     Died = "died"
     Levels = "levels"
 
@@ -27,7 +27,7 @@ class GameManager:
             GameStates.Pause: PauseMenu,
             GameStates.Login: LoginMenu,
             GameStates.Intro: TextSlideShow,
-            GameStates.World: self.get_current_level,
+            GameStates.Game: Game,
             GameStates.Levels: LevelsMenu,
             GameStates.Died: YouDiedMenu
         }
@@ -38,14 +38,17 @@ class GameManager:
 
         self.set_state(GameStates.Login)
        
-        
     def get_current_level(self):
-        return Game(self, level_index=self.level_idx)
+        return Game(self, levelIndex=self.level_idx)
 
     def set_state(self, stateName):
         pygame.display.set_caption(stateName)
-        if stateName == GameStates.World:
-            self.gameInstance = self.states[GameStates.World]()
+        if stateName == GameStates.Game:
+            # Only construct the game the first time we switch to the game state
+            # This allows us to preserve game state when the player exits the game to
+            # pause, change options, etc.
+            if self.gameInstance is None:
+                self.gameInstance = self.states[GameStates.Game](self, self.level_idx)
             self.activeState = self.gameInstance
         else:
             self.activeState = self.states[stateName](self) 

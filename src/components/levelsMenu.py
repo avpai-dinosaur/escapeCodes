@@ -1,7 +1,6 @@
 import pygame
-from pprint import pprint
 import src.core.utils as utils
-from src.components.button import Button, TriangleButton
+from src.components.button import Button
 from src.components.menu import Menu
 
 class LevelsMenu(Menu):
@@ -18,10 +17,11 @@ class LevelsMenu(Menu):
         self.errorFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf", 30)
 
         self.levels = [
-            SelectLevel("Tutorial", 0, "Keys/0-Key.png", False),
-            SelectLevel("Caves", 1, "Keys/1-Key.png", True),
-            SelectLevel("Lab", 2, "Keys/2-Key.png", True),
-            SelectLevel("Boss", 3, "Keys/3-Key.png", True),
+            SelectLevel("Tutorial", 0, "level0.png", False),
+            SelectLevel("Caves", 1, "level1.png", True),
+            SelectLevel("Lab", 2, "level2.png", True),
+            SelectLevel("Boss", 3, "level3.png", True),
+            SelectLevel("Something", 4, "Keys/4-Key.png", True),
         ]
 
         self.currentIdx = 0
@@ -31,10 +31,12 @@ class LevelsMenu(Menu):
         self.error_start_time = None
         self.error_duration = 5000
 
-        self.rightArrow = pygame.transform.invert(pygame.transform.scale(
-            utils.load_png("rightArrow.png")[0],
-            (150, 150)
-        ))
+        self.rightArrow = pygame.transform.invert(
+            pygame.transform.scale(
+                utils.load_png("rightArrow.png")[0],
+                (150, 150)
+            )
+        )
         self.leftArrow = pygame.transform.flip(self.rightArrow, True, False)
 
         self.controls += [
@@ -60,9 +62,15 @@ class LevelsMenu(Menu):
     
     def onLeft(self):
         self.currentIdx = (self.currentIdx - 1) % len(self.levels)
+        self.reset_error()
 
     def onRight(self):
         self.currentIdx = (self.currentIdx + 1) % len(self.levels)
+        self.reset_error()
+
+    def reset_error(self):
+        self.showError = False
+        self.error_start_time = None 
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
@@ -94,7 +102,10 @@ class SelectLevel:
         self.idx = idx
         self.description = description
         self.difficulty = difficulty
-        self.image, _ = utils.load_png(image_path)
+        self.image = pygame.transform.scale(
+            utils.load_png(image_path)[0],
+            (500, 200)
+        )
         self.image_rect = self.image.get_rect(center=(640, 400))
         self.locked = locked
     

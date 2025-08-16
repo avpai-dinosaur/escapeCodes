@@ -7,7 +7,7 @@ from src.core.level import LevelFactory, Level
 class Game():
     """Manages high-level gameplay logic like switching between levels and camera functions."""
    
-    def __init__(self, manager, level_index):
+    def __init__(self, manager, levelIndex):
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
@@ -18,7 +18,7 @@ class Game():
             "level3"
         ]
         self.isPaused = False
-        self.currentLevelIdx = level_index
+        self.currentLevelIdx = levelIndex
         self.currentLevel: Level = LevelFactory.create(self.levels[self.currentLevelIdx])
         self.currentLevel.load_camera(self.camera)
 
