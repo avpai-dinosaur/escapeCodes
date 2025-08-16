@@ -31,22 +31,21 @@ class LevelsMenu(Menu):
         self.error_start_time = None
         self.error_duration = 5000
 
-        self.right_arrow = self.create_right_triangle(center=(1000, 400), width=50, height=100)
-        self.left_arrow = self.create_left_triangle(center=(280,400), width=50,height=100)
-        self.color = (255, 0, 0)
-        
+        self.rightArrow = pygame.transform.invert(pygame.transform.scale(
+            utils.load_png("rightArrow.png")[0],
+            (150, 150)
+        ))
+        self.leftArrow = pygame.transform.flip(self.rightArrow, True, False)
+
         self.controls += [
-            TriangleButton(self.right_arrow, onClick=self.onRight),
-            TriangleButton(self.left_arrow, onClick=self.onLeft),
+            Button(self.rightArrow, pos=(1000, 400), textInput="", onClick=self.onRight),
+            Button(self.leftArrow, pos=(280, 400), textInput="", onClick=self.onLeft),
             Button(self.playImage, pos=(280, 700), textInput="Play", onClick=self.onPlay),
             Button(self.backImage, pos=(1000, 700), textInput="Back", onClick=self.onBack)
         ]
         for i in range(0, self.manager.num_unlocked + 1):
             self.levels[i].locked = False
    
-    def update(self):
-        super().update()
-
     def onPlay(self):
         current_level = self.levels[self.currentIdx]
         if(current_level.locked == False):
@@ -56,7 +55,6 @@ class LevelsMenu(Menu):
             self.showError = True
             self.error_start_time = pygame.time.get_ticks()
             
-
     def onBack(self):
         self.manager.set_state("menu")
     
@@ -89,27 +87,6 @@ class LevelsMenu(Menu):
                 surface.blit(self.errorTextImage, self.errorTextRect)
             else:
                 self.error_start_time = None
-
-    """Triangle Creation Should I move this into Triangle Button?"""
-    def create_right_triangle(self, center: tuple[int, int], width: int, height: int) -> list[tuple[int, int]]:
-        cx, cy = center
-        half_height = height // 2
-
-        p1 = (cx - width // 2, cy - half_height)  # top-left
-        p2 = (cx - width // 2, cy + half_height)  # bottom-left
-        p3 = (cx + width // 2, cy)                # right tip
-
-        return [p1, p2, p3]
-    
-    def create_left_triangle(self, center: tuple[int, int], width: int, height: int) -> list[tuple[int, int]]:
-        cx, cy = center
-        half_height = height // 2
-
-        p1 = (cx + width // 2, cy - half_height)  # top-right
-        p2 = (cx + width // 2, cy + half_height)  # bottom-right
-        p3 = (cx - width // 2, cy)                # left tip
-
-        return [p1, p2, p3]
 
 class SelectLevel:
     def __init__(self, name: str, idx: int, image_path: str, locked: bool, description: str = "", difficulty: str = ""):
