@@ -140,7 +140,7 @@ class DownloadUi:
             self.set_success_text(f"Found phrase")
             self.set_found_phrases()
         else:
-            if wordIdx < len(self.computer.words) or wordIdx < 0:
+            if wordIdx < len(self.computer.words) and wordIdx >= 0:
                 self.set_error_text(f"'{self.computer.words[wordIdx]}' is not part of a phrase")
             else:
                 self.set_error_text(f"Index {wordIdx} is out of bounds")

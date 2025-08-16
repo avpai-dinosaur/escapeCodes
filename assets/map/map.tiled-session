@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level2.tmx",
+    "activeFile": "level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -49,10 +49,10 @@
         },
         "level0.tmx": {
             "expandedObjectLayers": [
-                5,
-                7,
                 2,
+                7,
                 4,
+                5,
                 6
             ],
             "scale": 0.75,
@@ -64,32 +64,32 @@
         },
         "level1.tmx": {
             "expandedObjectLayers": [
-                10,
                 19,
+                10,
                 21,
                 4
             ],
             "scale": 0.75,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 1376,
-                "y": 640
+                "x": 1144.6666666666667,
+                "y": 639.3333333333333
             }
         },
         "level2.tmx": {
             "expandedObjectLayers": [
-                5,
-                4,
-                9,
                 3,
-                6,
-                8
+                9,
+                8,
+                4,
+                5,
+                6
             ],
             "scale": 0.75,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 694,
-                "y": 620.6666666666667
+                "x": 950,
+                "y": 744.6666666666667
             }
         },
         "level3.tmx": {
@@ -144,9 +144,9 @@
     "property.type": "bool",
     "recentFiles": [
         "atticusWalls.tsx",
+        "level2.tmx",
         "level0.tmx",
         "level1.tmx",
-        "level2.tmx",
         "level3.tmx",
         "redSpace.tsx",
         "atticusMap.tmx",
