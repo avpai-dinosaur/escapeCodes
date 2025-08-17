@@ -143,7 +143,7 @@
   <image source="../images/mapTiles/wall asset, main_middle w_ neon shading.png" width="64" height="128"/>
  </tile>
  <tile id="48">
-  <image source="../images/mapTiles/wall asset, right corner w_ neon shading.png" width="64" height="128"/>
+  <image source="../images/mapTiles/wall asset, left corner w_ neon shading.png" width="64" height="128"/>
  </tile>
  <tile id="49">
   <image source="../images/objectTiles/exit door.png" width="64" height="112"/>
