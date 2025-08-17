@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="123">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="124">
  <editorsettings>
   <export target="level1.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="atticusWalls.tsx"/>
- <tileset firstgid="47" source="spaceship.tsx"/>
+ <tileset firstgid="53" source="spaceship.tsx"/>
  <layer id="1" name="Base" width="43" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,32,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,33,0,0,0,0,0,0,0,
@@ -224,7 +224,7 @@ to the artificial mind
 P.S. I hate everyone I work with so I hacked their computer and used numbers from their messages to create the PIN for the Laser Door.</property>
    </properties>
   </object>
-  <object id="66" type="DanceFloor" gid="42" x="1728" y="576" width="464" height="336"/>
   <object id="118" type="ExitDoor" gid="19" x="2560" y="640" width="64" height="64"/>
+  <object id="123" type="DanceFloor" gid="52" x="1728" y="576" width="448" height="320"/>
  </objectgroup>
 </map>

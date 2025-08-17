@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="atticusWalls" tilewidth="464" tileheight="336" tilecount="45" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="atticusWalls" tilewidth="464" tileheight="336" tilecount="56" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="../images/mapTiles/bttm L crnr.png" width="64" height="64"/>
@@ -135,5 +135,38 @@
  </tile>
  <tile id="45">
   <image source="../images/fullVat.png" width="64" height="128"/>
+ </tile>
+ <tile id="46">
+  <image source="../images/mapTiles/wall asset, right corner w_ neon shading.png" width="64" height="128"/>
+ </tile>
+ <tile id="47">
+  <image source="../images/mapTiles/wall asset, main_middle w_ neon shading.png" width="64" height="128"/>
+ </tile>
+ <tile id="48">
+  <image source="../images/mapTiles/wall asset, right corner w_ neon shading.png" width="64" height="128"/>
+ </tile>
+ <tile id="49">
+  <image source="../images/objectTiles/exit door.png" width="64" height="112"/>
+ </tile>
+ <tile id="50">
+  <image source="../images/mapTiles/unshaded floor tile (middle, not touching a wall).png" width="64" height="64"/>
+ </tile>
+ <tile id="51">
+  <image source="../images/objectTiles/dance floor (unanimated).png" width="448" height="320"/>
+ </tile>
+ <tile id="52">
+  <image source="../images/objectTiles/United in Space poster.png" width="128" height="64"/>
+ </tile>
+ <tile id="53">
+  <image source="../images/objectTiles/there's no running out of space poster.png" width="128" height="64"/>
+ </tile>
+ <tile id="54">
+  <image source="../images/objectTiles/The Next Frontier poster.png" width="64" height="96"/>
+ </tile>
+ <tile id="55">
+  <image source="../images/objectTiles/growth more poster.png" width="64" height="64"/>
+ </tile>
+ <tile id="56">
+  <image source="../images/objectTiles/exit sign.png" width="64" height="64"/>
  </tile>
 </tileset>
