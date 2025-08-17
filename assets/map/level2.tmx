@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="42">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="46">
  <editorsettings>
   <export target="level2.tmj" format="json"/>
  </editorsettings>
@@ -9,20 +9,20 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,32,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,33,0,0,0,0,0,0,0,
 0,31,11,6,6,6,6,6,6,6,6,6,6,6,6,6,12,28,0,0,0,0,0,0,0,
-0,31,4,8,8,8,8,8,8,8,8,8,8,8,8,8,9,28,0,0,0,0,0,0,0,
+0,31,49,48,48,48,48,48,48,48,48,48,48,48,48,48,47,28,0,0,0,0,0,0,0,
 0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,28,0,0,0,0,0,0,0,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,27,29,29,29,29,29,29,33,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,0,0,0,0,0,0,0,2147483679,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,10,8,8,8,8,8,8,9,2147483679,
-0,31,5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,3221225473,2147483679,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,28,0,0,0,0,0,0,0,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,10,27,29,29,29,29,29,29,33,
+0,31,5,51,7,51,51,51,51,51,51,51,51,51,51,51,10,0,0,0,0,0,0,0,2147483679,
+0,31,5,51,7,51,51,51,51,51,51,51,51,51,51,51,10,48,48,48,48,48,48,47,2147483679,
+0,31,5,51,51,51,51,51,51,51,51,51,51,51,51,51,7,6,6,6,6,6,6,3221225473,2147483679,
 0,31,1,2,2,2,2,2,2,2,2,2,2,2,2,2,3221225478,3221225478,3221225478,3221225478,3221225478,3221225478,1073741830,2147483649,2147483679,
 0,1073741856,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741853,1073741857,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -32,19 +32,19 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,25,0,0,25,0,0,25,0,0,25,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,
+0,0,0,53,0,0,0,0,0,54,0,0,0,56,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,55,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,14,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,37,37,37,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,37,37,37,0,0,57,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,
 0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -80,7 +80,7 @@
   <object id="3" x="1088" y="128" width="64" height="768"/>
   <object id="4" x="128" y="1152" width="1408" height="64"/>
   <object id="5" x="64" y="128" width="64" height="1024"/>
-  <object id="6" x="128" y="128" width="960" height="128"/>
+  <object id="6" x="128" y="128" width="960" height="64"/>
   <object id="25" x="1088" y="896" width="448" height="64"/>
   <object id="27" x="1536" y="960" width="64" height="192"/>
   <object id="38" x="896" y="320" width="128" height="192"/>
@@ -94,7 +94,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="5" name="doors">
+ <objectgroup id="5" name="doors" visible="0">
   <object id="29" type="LaserDoor" x="1088" y="960" width="256" height="192">
    <properties>
     <property name="pin" type="int" value="5189"/>
@@ -107,16 +107,18 @@
     <property name="path" type="object" value="17"/>
    </properties>
   </object>
-  <object id="31" type="ExitDoor" gid="19" x="1408" y="960" width="64" height="64"/>
   <object id="33" type="Computer" gid="17" x="896" y="448" width="64" height="64">
    <properties>
     <property name="hasPseudocode" type="bool" value="true"/>
-    <property name="note">HIDDENLINE I keep a wish list of things I'm waiting for
-Each day, someone hands me an object
-   If it's on my wish list:
-      HIDDENLINE I return both - the ony I just got and the one I was waiting for
-   Otherwise:
-      HIDDENLINE I wrote down what I would have needed for this object to complete a pair</property>
+    <property name="note">(complements = 
+    HIDDENLINE hashMap()
+)
+Iterate through nums:
+If num in complements:
+    HIDDENLINE return complements[num] and the currentIdx
+else:
+    HIDDENLINE insert the current idx into complements with key target - num
+</property>
     <property name="pinText" value="5189"/>
     <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
    </properties>
@@ -128,8 +130,9 @@ Each day, someone hands me an object
 From: Rushabh
 To: Team
 
-Every time I think I'm done, someone else tosses a last-minute item on my backlog.
-So now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up.</property>
+Every time I think I’m done, someone else tosses a last-minute item on my backlog.
+Sigh...I wish I had a STARTPHRASE hashMap() ENDPHRASE in my brain to keep track of all this stuff...
+</property>
    </properties>
   </object>
   <object id="35" type="Computer" gid="17" x="960" y="896" width="64" height="64">
@@ -152,6 +155,32 @@ Zlark</property>
     <property name="pinText" value=" _ _ 8 9"/>
     <property name="problemName" value="TwoSum"/>
     <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
+   </properties>
+  </object>
+  <object id="42" type="ExitDoor" gid="50" x="1408" y="1024" width="64" height="112"/>
+  <object id="44" type="Computer" gid="17" x="256" y="384" width="64" height="64">
+   <properties>
+    <property name="hasPhrases" type="bool" value="true"/>
+    <property name="note">Subject: Post-Sprint Reflection
+From: Tobey
+To: Team
+
+Pro-tip to get free stuff from the commissary. Order an item for delivery. When the order arrives report it as stolen. The order system will run &quot; STARTPHRASE insert the current idx into complements with key target - num ENDPHRASE &quot; The system overflows and gives you a second order for free!
+</property>
+   </properties>
+  </object>
+  <object id="45" type="Computer" gid="22" x="320" y="512" width="64" height="64">
+   <properties>
+    <property name="hasPhrases" type="bool" value="true"/>
+    <property name="note">Subject: Kitchen Mystery
+From: Shawn
+
+Found a random half of a coffee pod on the counter this morning.
+
+Someone scrawled &quot; STARTPHRASE return complements[num] and the currentIdx ENDPHRASE &quot; on the side.
+
+Can we be more mindful of where we are jotting down our pseudocode?
+</property>
    </properties>
   </object>
  </objectgroup>

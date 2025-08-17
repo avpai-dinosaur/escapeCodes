@@ -14,20 +14,20 @@
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 32, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 33, 0, 0, 0, 0, 0, 0, 0,
             0, 31, 11, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 49, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 47, 28, 0, 0, 0, 0, 0, 0, 0,
             0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 28, 0, 0, 0, 0, 0, 0, 0,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 27, 29, 29, 29, 29, 29, 29, 33,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 0, 0, 0, 0, 0, 0, 0, 2147483679,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 8, 8, 8, 8, 8, 8, 9, 2147483679,
-            0, 31, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 3221225473, 2147483679,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 28, 0, 0, 0, 0, 0, 0, 0,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 27, 29, 29, 29, 29, 29, 29, 33,
+            0, 31, 5, 51, 7, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 0, 0, 0, 0, 0, 0, 0, 2147483679,
+            0, 31, 5, 51, 7, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 10, 48, 48, 48, 48, 48, 48, 47, 2147483679,
+            0, 31, 5, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 7, 6, 6, 6, 6, 6, 6, 3221225473, 2147483679,
             0, 31, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3221225478, 3221225478, 3221225478, 3221225478, 3221225478, 3221225478, 1073741830, 2147483649, 2147483679,
             0, 1073741856, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741853, 1073741857,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -44,19 +44,19 @@
         {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 25, 0, 0, 25, 0, 0, 25, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 53, 0, 0, 0, 0, 0, 54, 0, 0, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 37, 37, 37, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 37, 37, 37, 0, 0, 57, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -142,7 +142,7 @@
                  "y":128
                 }, 
                 {
-                 "height":128,
+                 "height":64,
                  "id":6,
                  "name":"",
                  "rotation":0,
@@ -282,7 +282,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -310,18 +310,6 @@
                  "y":448
                 }, 
                 {
-                 "gid":19,
-                 "height":64,
-                 "id":31,
-                 "name":"",
-                 "rotation":0,
-                 "type":"ExitDoor",
-                 "visible":true,
-                 "width":64,
-                 "x":1408,
-                 "y":960
-                }, 
-                {
                  "gid":17,
                  "height":64,
                  "id":33,
@@ -335,7 +323,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"HIDDENLINE I keep a wish list of things I'm waiting for\nEach day, someone hands me an object\n   If it's on my wish list:\n      HIDDENLINE I return both - the ony I just got and the one I was waiting for\n   Otherwise:\n      HIDDENLINE I wrote down what I would have needed for this object to complete a pair"
+                         "value":"(complements = \n    HIDDENLINE hashMap()\n)\nIterate through nums:\nIf num in complements:\n    HIDDENLINE return complements[num] and the currentIdx\nelse:\n    HIDDENLINE insert the current idx into complements with key target - num\n"
                         }, 
                         {
                          "name":"pinText",
@@ -368,7 +356,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"Subject: Post-Sprint Reflection\nFrom: Rushabh\nTo: Team\n\nEvery time I think I'm done, someone else tosses a last-minute item on my backlog.\nSo now STARTPHRASE I keep a wish list of things I'm waiting for ENDPHRASE , and cross it off if it shows up."
+                         "value":"Subject: Post-Sprint Reflection\nFrom: Rushabh\nTo: Team\n\nEvery time I think I\u2019m done, someone else tosses a last-minute item on my backlog.\nSigh...I wish I had a STARTPHRASE hashMap() ENDPHRASE in my brain to keep track of all this stuff...\n"
                         }],
                  "rotation":0,
                  "type":"Computer",
@@ -419,6 +407,64 @@
                  "width":64,
                  "x":960,
                  "y":896
+                }, 
+                {
+                 "gid":50,
+                 "height":112,
+                 "id":42,
+                 "name":"",
+                 "rotation":0,
+                 "type":"ExitDoor",
+                 "visible":true,
+                 "width":64,
+                 "x":1408,
+                 "y":1024
+                }, 
+                {
+                 "gid":17,
+                 "height":64,
+                 "id":44,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"hasPhrases",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"note",
+                         "type":"string",
+                         "value":"Subject: Post-Sprint Reflection\nFrom: Tobey\nTo: Team\n\nPro-tip to get free stuff from the commissary. Order an item for delivery. When the order arrives report it as stolen. The order system will run \" STARTPHRASE insert the current idx into complements with key target - num ENDPHRASE \" The system overflows and gives you a second order for free!\n"
+                        }],
+                 "rotation":0,
+                 "type":"Computer",
+                 "visible":true,
+                 "width":64,
+                 "x":256,
+                 "y":384
+                }, 
+                {
+                 "gid":22,
+                 "height":64,
+                 "id":45,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"hasPhrases",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"note",
+                         "type":"string",
+                         "value":"Subject: Kitchen Mystery\nFrom: Shawn\n\nFound a random half of a coffee pod on the counter this morning.\n\nSomeone scrawled \" STARTPHRASE return complements[num] and the currentIdx ENDPHRASE \" on the side.\n\nCan we be more mindful of where we are jotting down our pseudocode?\n"
+                        }],
+                 "rotation":0,
+                 "type":"Computer",
+                 "visible":true,
+                 "width":64,
+                 "x":320,
+                 "y":512
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -478,7 +524,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":42,
+ "nextobjectid":46,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

@@ -49,47 +49,47 @@
         },
         "level0.tmx": {
             "expandedObjectLayers": [
-                2,
-                7,
                 4,
                 5,
+                2,
+                7,
                 6
             ],
             "scale": 0.75,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1600,
-                "y": 416
+                "x": 1673.9999999999998,
+                "y": 415.33333333333326
             }
         },
         "level1.tmx": {
             "expandedObjectLayers": [
-                19,
-                10,
                 21,
-                4
+                4,
+                19,
+                10
             ],
             "scale": 0.75,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 1144.6666666666667,
-                "y": 639.3333333333333
+                "x": 1391.3333333333335,
+                "y": 582
             }
         },
         "level2.tmx": {
             "expandedObjectLayers": [
-                3,
                 9,
-                8,
                 4,
                 5,
-                6
+                3,
+                6,
+                8
             ],
             "scale": 0.75,
-            "selectedLayer": 7,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 950,
-                "y": 744.6666666666667
+                "x": 743.3333333333335,
+                "y": 563.3333333333333
             }
         },
         "level3.tmx": {
@@ -127,7 +127,7 @@
         }
     },
     "last.exportedFilePath": "//wsl.localhost/Debian/home/avpai/escapeCodes/assets/map",
-    "last.imagePath": "//wsl.localhost/Debian/home/avpai/escapeCodes/assets/images",
+    "last.imagePath": "C:/Users/ashvi/Downloads",
     "map.height": 20,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -143,10 +143,10 @@
     "project": "map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "atticusWalls.tsx",
-        "level2.tmx",
         "level0.tmx",
         "level1.tmx",
+        "level2.tmx",
+        "atticusWalls.tsx",
         "level3.tmx",
         "redSpace.tsx",
         "atticusMap.tmx",
