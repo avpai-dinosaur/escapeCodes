@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"level2.tmj"
+        }
+    },
  "height":20,
  "infinite":false,
  "layers":[
@@ -388,7 +396,7 @@
                         {
                          "name":"note",
                          "type":"string",
-                         "value":"From: Melon Husk\nTo: All\nSubject: Bumping up efficiency.\n\nHello again Technicians,\nYou've probably realized what a great privilege it is to work for me by now. Being the humble man I am, I failed to recognize my own genius until well into my own life, 5 years old to be exact.\n\nAh, while the other children played games with balls and stick and tortured ants and snails I was poring over quantumn physics textbooks and confounding my parents with fluent Latin.\n\nSo yes, you are privileged to be working for me. And to keep that privilege you'll have to solve another problem now! (1. TwoSum) to be exact.\n\nToodaloo,\nMelon"
+                         "value":"From: Zlark Drsperberg\nTo: All\nSubject: Bumping up efficiency.\n\nHello again Technicians,\nYou've probably realized what a great privilege it is to work for me by now. Being the humble man I am, I failed to recognize my own genius until well into my own life, 5 years old to be exact.\n\nAh, while the other children played games with balls and stick and tortured ants and snails I was poring over quantumn physics textbooks and confounding my parents with fluent Latin.\n\nSo yes, you are privileged to be working for me. And to keep that privilege you'll have to solve another problem now! (1. TwoSum) to be exact.\n\nToodaloo,\nZlark"
                         }, 
                         {
                          "name":"pinText",
@@ -473,7 +481,7 @@
  "nextobjectid":42,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.11.2",
+ "tiledversion":"1.10.2",
  "tileheight":64,
  "tilesets":[
         {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="123">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="43" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="127">
  <editorsettings>
-  <export target="level1.tmj" format="json"/>
+  <export format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="atticusWalls.tsx"/>
  <tileset firstgid="47" source="spaceship.tsx"/>
@@ -44,16 +44,16 @@
 0,46,0,0,0,0,0,0,46,0,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,46,0,0,0,0,0,0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,46,0,0,0,0,0,0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,
+0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,2147483663,0,0,0,0,0,0,0,0,0,0,0,
+0,46,0,0,0,0,0,0,46,0,0,0,0,0,0,2147483663,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,46,0,0,0,0,0,0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,2147483663,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="Embellish2" width="43" height="20">
+ <layer id="3" name="Embellish2" width="43" height="20" opacity="0.98">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -68,16 +68,16 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,2147483663,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,2147483663,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="walls" visible="0">
+ <objectgroup id="4" name="walls">
   <object id="1" x="832" y="64" width="1408" height="64"/>
   <object id="4" x="64" y="448" width="512" height="64"/>
   <object id="9" x="64" y="1088" width="512" height="64"/>
@@ -85,14 +85,14 @@
   <object id="12" x="832" y="1216" width="1408" height="64"/>
   <object id="19" x="960" y="320" width="320" height="64"/>
   <object id="21" x="960" y="512" width="320" height="64"/>
-  <object id="22" x="1088" y="832" width="128" height="192"/>
-  <object id="23" x="1408" y="832" width="128" height="192"/>
-  <object id="25" x="2112" y="896" width="128" height="192"/>
-  <object id="26" x="1536" y="832" width="64" height="64"/>
-  <object id="27" x="1536" y="960" width="64" height="64"/>
-  <object id="28" x="1024" y="832" width="64" height="64"/>
-  <object id="29" x="1024" y="960" width="64" height="64"/>
-  <object id="30" x="1984" y="960" width="64" height="64"/>
+  <object id="22" x="1470" y="832" width="128" height="192"/>
+  <object id="23" x="1855" y="832" width="128" height="192"/>
+  <object id="25" x="835" y="835" width="128" height="192"/>
+  <object id="26" x="1985" y="832" width="64" height="64"/>
+  <object id="27" x="1405" y="960" width="64" height="64"/>
+  <object id="28" x="1405" y="832" width="64" height="64"/>
+  <object id="29" x="965" y="895" width="64" height="64"/>
+  <object id="30" x="1985" y="960" width="64" height="64"/>
   <object id="71" x="576" y="128" width="256" height="512"/>
   <object id="80" x="64" y="512" width="64" height="448"/>
   <object id="81" x="512" y="512" width="64" height="128"/>
@@ -119,13 +119,13 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="7" name="roombaPath" visible="0">
+ <objectgroup id="7" name="roombaPath">
   <object id="39" x="896" y="768">
    <polyline points="0,0 384,0 384,384 832,384 832,0 1280,0"/>
   </object>
  </objectgroup>
  <objectgroup id="10" name="objects">
-  <object id="58" type="Computer" gid="21" x="1088" y="896" width="64" height="64">
+  <object id="58" type="Computer" gid="2147483669" x="1925" y="896" width="64" height="64">
    <properties>
     <property name="note">Subject: First Week Magic! 
 To: Tobey, Rushabh, An
@@ -143,7 +143,7 @@ Can’t wait to get my name on the employee leaderboard (currently sitting at...
 </property>
    </properties>
   </object>
-  <object id="59" type="Computer" gid="17" x="1088" y="1024" width="64" height="64">
+  <object id="59" type="Computer" gid="17" x="1465" y="896" width="64" height="64">
    <properties>
     <property name="note">Internal Chat - “Overwhelmed Central”
 Members: Tobey &amp; Rushabh
@@ -168,7 +168,7 @@ Thanks :/
 </property>
    </properties>
   </object>
-  <object id="60" type="Computer" gid="18" x="1472" y="896" width="64" height="64">
+  <object id="60" type="Computer" gid="2147483666" x="1465" y="1024" width="64" height="64">
    <properties>
     <property name="note">Subject: Incident Report - Passive Aggression in Shared Communication Channels
 To: HR Department (cc: Shawn, Tobey, Rushabh)
@@ -189,7 +189,7 @@ Warmly,
 An</property>
    </properties>
   </object>
-  <object id="61" type="Computer" gid="22" x="1472" y="1024" width="64" height="64">
+  <object id="61" type="Computer" gid="22" x="1925" y="1024" width="64" height="64">
    <properties>
     <property name="note">Sticky Note App - Draft Message
 Title: “Things to Remember”
@@ -202,7 +202,7 @@ Avoid siding with anyone in the An situation: stay neutral!!
 Reminder, last but not least: all the pods look the exact same, please remember that mine is 9!!!!</property>
    </properties>
   </object>
-  <object id="62" type="Computer" gid="17" x="2112" y="1024" width="64" height="64">
+  <object id="62" type="Computer" gid="2147483665" x="900" y="948" width="64" height="64">
    <properties>
     <property name="hasProblem" type="bool" value="false"/>
     <property name="note">Sticky Note App - Draft Message
