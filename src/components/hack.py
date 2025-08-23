@@ -60,11 +60,9 @@ class TestCaseHackUi:
         self.textFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         self.set_error_text("")
 
-        # Success Message
-        self.set_success_message(True)
-
+        self.submitTime = None
         self.submitted = False
-        self.submittedTime = pygame.time.get_ticks()
+        self.solved = False
         self.isVisible = False
         self.on_close = on_close
 
@@ -108,34 +106,37 @@ Defeat the boss by providing a test input which exposes its buggy implementation
         self.errorTextRect.bottomright = self.backgroundRect.bottomright
     
     def set_success_message(self, isHacked: bool):
-        text = "Exposed bug :P" if isHacked else "Failed to expose bug :O"
+        text = f"Exposed bug :P\n{self.problem.get_bug_explanation()}" if isHacked else "Failed to expose bug :O"
         color = "green" if isHacked else "red"
-        self.successTextImage = self.headingFont.render(text, True, color)
+        self.successTextImage = self.textFont.render(text, True, color, wraplength=(self.backgroundRect.width // 2) - 2 * 10)
         self.successTextRect = self.successTextImage.get_rect()
-        self.successTextRect.bottom = self.backgroundRect.bottom - 100
-        self.successTextRect.right = self.backgroundRect.right - 100
+        self.successTextRect.bottom = self.backgroundRect.bottom - 10
+        self.successTextRect.left = self.textUi.scrollableContainer.rect.right + 10
     
+    def close(self):
+        self.isVisible = False
+        self.on_close(TestCaseHackUi)
+        EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+        if self.solved:
+            EventManager.emit(EcodeEvent.KILL_BOSS)
+
     def handle_event(self, event: pygame.Event):
         if self.isVisible:
             self.textUi.handle_event(event)
             self.parameterInput.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.isVisible = False
-                    self.on_close(TestCaseHackUi)
-                    EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-                if event.key == pygame.K_RETURN:
+                    self.close()
+                if event.key == pygame.K_RETURN and not self.submitted:
+                    self.submitted = True
+                    self.submitTime = pygame.time.get_ticks()
                     try: 
                         inputs = self.parameterInput.get_inputs()
                         if self.problem.check_input(**inputs):
-                            EventManager.emit(EcodeEvent.KILL_BOSS)
-                            self.isVisible = False
-                            EventManager.emit(EcodeEvent.UNPAUSE_GAME)
+                            self.solved = True
                             self.set_success_message(True)
                         else:
                             self.set_success_message(False)
-                        self.submitted = True
-                        self.submittedTime = pygame.time.get_ticks()
                     except ValueError as e:
                         self.set_error_text(f"Error: {str(e)}")
         elif event.type == c.PROBLEM_DESCRIPTION:
@@ -145,11 +146,12 @@ Defeat the boss by providing a test input which exposes its buggy implementation
         if self.isVisible:
             self.textUi.update()
             self.keyControls.update()
-            self.parameterInput.update()
-            if self.submitted and pygame.time.get_ticks() - self.submittedTime > 2000:
-                self.isVisible = False
-                EventManager.emit(EcodeEvent.UNPAUSE_GAME)
-
+            if not self.submitted:
+                self.parameterInput.update()
+            else:
+                if not self.solved and pygame.time.get_ticks() - self.submitTime > 2000:
+                    self.close()
+                    
     def draw(self, surface: pygame.Surface):
         if self.isVisible:
             pygame.draw.rect(surface, 'blue', self.backgroundRect, border_radius=5)
@@ -161,3 +163,4 @@ Defeat the boss by providing a test input which exposes its buggy implementation
             surface.blit(self.rightTextImage, self.rightTextRect)
             if self.submitted:
                 surface.blit(self.successTextImage, self.successTextRect)
+                

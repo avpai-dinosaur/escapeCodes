@@ -3,6 +3,7 @@ boss.py
 Boss that the player has to fight at end of level.
 """
 
+
 import pygame
 from enum import Enum
 from random import randint
@@ -11,6 +12,7 @@ from src.components.ui import KeyPromptUi
 from src.core.spritesheet import SpriteSheet
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.entities.player import Player
+
 
 class FiniteStateMachine():
     """Class to represent a simple finite state machine."""

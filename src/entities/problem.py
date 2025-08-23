@@ -3,9 +3,11 @@ problem.py
 Representations of LeetCode problems
 """
 
+
 import ast
 from abc import ABC, abstractmethod
 from typing import get_origin, get_args
+
 
 class Parameter:
     """Class representing parameter in a problem's input."""
@@ -114,6 +116,10 @@ class Problem(ABC):
     def correct_solution(self, **parsedInputs):
         pass
 
+    @abstractmethod
+    def get_bug_explanation(self):
+        pass
+
     def parse_inputs(self, **kwargs):
         """Parse and validate user supplied input parameters for this problem.
         
@@ -183,9 +189,74 @@ class TwoSum(Problem):
                 return [i, hashmap[complement]]
             hashmap[nums[i]] = i
         return []
+    
+    def get_bug_explanation(self):
+        return """The buggy solution violated the constaint that you cannot use the same element from 'nums' twice to form 'target'"""
 
     def check_input(self, **parsedInputs):
         """Check if an input exposes the buggy TwoSum solution."""
+        buggyRes = self.buggy_solution(**parsedInputs)
+        correctRes = self.correct_solution(**parsedInputs)
+        return sorted(buggyRes) != sorted(correctRes)
+
+
+@ProblemFactory.register_problem("fizz-buzz")
+class FizzBuzz(Problem):
+    """Class representing 412. FizzBuzz"""
+
+    def __init__(self):
+        super().__init__(
+            "fizz_buzz",
+            [
+                Parameter(
+                    "n", int,
+                    [
+                        (
+                            "n must be between 1 and 10^4",
+                            lambda v : v >= 1 and v <= 10000
+                        )
+                    ]
+                )
+            ]
+        )
+    
+    def buggy_solution(self, **parsedInputs):
+        """Buggy solution for FizzBuzz checks for divisibility
+        by 15 in the wrong order." 
+
+        Test Case:
+            n = 15
+        """
+        n = parsedInputs["n"]
+        res = []
+        for i in range(n):
+            if i % 5 == 0:
+                res.append("Buzz")
+            elif i % 3 == 0:
+                res.append("Fizz")
+            elif i % 15 == 0:
+                res.append("FizzBuzz")
+            else:
+                res.append(str(i))
+        return res
+        
+    def correct_solution(self, **parsedInputs):
+        """Correct solution for FizzBuzz."""
+        n = parsedInputs["n"]
+        res = []
+        for i in range(n):
+            if i % 15 == 0:
+                res.append("FizzBuzz")
+            elif i % 5 == 0:
+                res.append("Buzz")
+            elif i % 3 == 0:
+                res.append("Fizz")
+            else:
+                res.append(str(i))
+        return res
+        
+    def check_input(self, **parsedInputs):
+        """Check if an input exposes the buggy FizzBuzz solution."""
         buggyRes = self.buggy_solution(**parsedInputs)
         correctRes = self.correct_solution(**parsedInputs)
         return sorted(buggyRes) != sorted(correctRes)
