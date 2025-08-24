@@ -5,6 +5,7 @@ Boss that the player has to fight at end of level.
 
 
 import pygame
+import math
 from enum import Enum
 from random import randint
 from src import constants as c
@@ -168,7 +169,7 @@ class Boss(pygame.sprite.Sprite):
         self.keyPromptUi.rect.centerx = self.rect.centerx
 
         # Attacking data
-        self.nextPos = self.get_next_pos()
+        self.nextPos = None
         self.attackedOnce = False
 
         # Timers
@@ -241,8 +242,10 @@ class Boss(pygame.sprite.Sprite):
             player.health.lose(1)
         if pygame.time.get_ticks() - self.attackStart > 3000:
             self.fsm.set_state(Boss.BossState.CHARGE)
+        if not self.nextPos:
+            self.nextPos = self.get_next_pos(player)
         if self.move(self.nextPos):
-            self.nextPos = self.get_next_pos()
+            self.nextPos = self.get_next_pos(player)
 
     def dying_update(self, _):
         """Update function to run when in dying state."""
@@ -284,7 +287,7 @@ class Boss(pygame.sprite.Sprite):
         """Trigger an attempt to hack the boss."""
         EventManager.emit(EcodeEvent.BOSS_HACK, problemSlug=self.problemSlug)
 
-    def get_next_pos(self):
+    def get_next_pos(self, player):
         x = randint(self.room.left, self.room.right)
         y = randint(self.room.top, self.room.bottom)
         return pygame.Vector2(x, y)
@@ -376,14 +379,136 @@ Just stand still. I'll make this quick."""
         )
         super().dying_enter()
 
+    def get_next_pos(self, player):
+        return player.rect.topleft
+
+
+class Melon(Boss):
+    """Class representing a boss with a projectile-style attack pattern."""
+
+    def __init__(self, room: pygame.Rect, problemSlug: str):
+        super().__init__(room, problemSlug)
+        self.projectiles = []  # Holds active projectile positions
+        self.projectileCooldown = 500  # 1 second between projectiles
+        self.lastProjectile = pygame.time.get_ticks()
+        self.projectileRadius = 20
+        self.projectileColor = (255, 50, 50)  # Red-ish color
+
+    def start_dialog_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+                "Welcome to my launch pad.",
+                "Innovation is the name of the game, and you're in the way.",
+                "Let's see if you can dodge faster than a rocket can launch!"
+            ],
+            currentLine=0
+        )
+        self.showKeyPrompt = False
+
+    def dying_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+                "No... the launch failed...",
+                "Even visionaries crash sometimes."
+            ],
+            currentLine=0
+        )
+        super().dying_enter()
+
+    def charge_enter(self):
+        """Reset projectile state when entering charge."""
+        super().charge_enter()
+        self.projectiles.clear()
+
     def attack_update(self, player: Player):
-        """Update function to run when in attack state."""
+        """Projectile-based attack pattern."""
+        super().attack_update(player)
+        currentTime = pygame.time.get_ticks()
+
+        # Spawn projectiles every cooldown period
+        if currentTime - self.lastProjectile >= self.projectileCooldown:
+            projectile_pos = pygame.Vector2(
+                randint(self.room.left + self.projectileRadius, self.room.right - self.projectileRadius),
+                randint(self.room.top + self.projectileRadius, self.room.bottom - self.projectileRadius)
+            )
+            self.projectiles.append(projectile_pos)
+            self.lastProjectile = currentTime
+
+        # Check for collisions with projectiles
+        for proj in self.projectiles:
+            if player.rect.collidepoint(proj):
+                player.health.lose(1)
+
+        # Transition back to charge state after 5 seconds
+        if currentTime - self.attackStart > 5000:
+            self.fsm.set_state(Boss.BossState.CHARGE)
+
+    def draw(self, surface: pygame.Surface, offset):
+        """Draw boss using base logic, then add projectiles."""
+        # Draw everything the base Boss class normally draws
+        super().draw(surface, offset)
+
+        # Draw projectiles unique to Elon
+        for proj in self.projectiles:
+            draw_pos = (proj.x + offset[0], proj.y + offset[1])
+            pygame.draw.circle(surface, self.projectileColor, draw_pos, self.projectileRadius)
+
+
+class Salt(Boss):
+    """Class representing a boss with a sweeping attack pattern."""
+
+    def __init__(self, room: pygame.Rect, problemSlug: str):
+        super().__init__(room, problemSlug)
+        self.sweepSpeed = 5
+        self.sweepAmplitude = self.room.height / 2
+        self.sweepFrequency = 0.005
+        self.sweepStartTime = pygame.time.get_ticks()
+        self.sweepStartPos = pygame.Vector2(self.room.right - self.rect.width, self.room.centery)
+
+    def start_dialog_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+                "You think you can avoid me?",
+                "I'll sweep this room clean. No corner is safe!",
+                "Let's dance, side to side, until you fall."
+            ],
+            currentLine=0
+        )
+        self.showKeyPrompt = False
+
+    def dying_enter(self):
+        EventManager.emit(
+            EcodeEvent.OPEN_DIALOG,
+            lines=[
+                "Impossible... swept away... by a mere player?"
+            ],
+            currentLine=0
+        )
+        super().dying_enter()
+
+    def attack_enter(self):
+        """Set the boss starting position for the sweep."""
+        super().attack_enter()
+        self.sweepStartTime = self.attackStart
+        self.nextPos = self.sweepStartPos
+
+    def attack_update(self, player: Player):
+        """Sweep left while moving up and down."""
         if self.rect.colliderect(player.rect):
             player.health.lose(1)
-        if pygame.time.get_ticks() - self.attackStart > 3000:
-            self.fsm.set_state(Boss.BossState.CHARGE)
+        if not self.nextPos:
+            self.nextPos = self.get_next_pos(player)
         if self.move(self.nextPos):
-            if self.room.colliderect(player.rect):
-                self.nextPos = player.rect.topleft
-            else:
-                self.fsm.set_state(Boss.BossState.WAITING)
+            self.nextPos = self.get_next_pos(player)
+        if self.pos.x <= self.room.left:
+            self.fsm.set_state(Boss.BossState.CHARGE)
+
+    def get_next_pos(self, player):
+        step = 750
+        elapsed = ((pygame.time.get_ticks() - self.sweepStartTime) // step) * step 
+        yOffset = self.sweepAmplitude * math.sin(elapsed * self.sweepFrequency)
+        xOffset = elapsed * 0.05 
+        return pygame.Vector2(self.sweepStartPos.x - xOffset, self.sweepStartPos.y + yOffset)

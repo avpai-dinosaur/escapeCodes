@@ -254,6 +254,9 @@ class FizzBuzz(Problem):
             else:
                 res.append(str(i))
         return res
+
+    def get_bug_explanation(self):
+        return """The buggy solution checks for divisibility by 5 before divisibility by 15; it prints 'Buzz' when it should print 'FizzBuzz'"""
         
     def check_input(self, **parsedInputs):
         """Check if an input exposes the buggy FizzBuzz solution."""

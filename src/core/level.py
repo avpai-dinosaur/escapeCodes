@@ -3,7 +3,7 @@ from collections import deque
 from src.core.camera import Camera
 from src.entities.player import Player
 from src.entities.roomba import Roomba
-from src.entities.boss import Druck
+from src.entities.boss import Druck, Melon, Salt
 from src.core.map import Map
 import src.constants as c
 from src.core.ecodeEvents import EventManager, EcodeEvent
@@ -26,9 +26,9 @@ class Level():
         self.player = Player("Oldhero.png", self.map.playerSpawn, {})
         self.entities = pygame.sprite.Group()
         if self.bossRoom:
-            boss = Druck(
+            boss = Salt(
                 self.bossRoom,
-                "two-sum"
+                "fizz-buzz"
             )
             self.entities.add(boss)
         if self.map.roombaPath:
