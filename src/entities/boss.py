@@ -461,9 +461,10 @@ class Salt(Boss):
 
     def __init__(self, room: pygame.Rect, problemSlug: str):
         super().__init__(room, problemSlug)
+        self.speed = 25 
         self.sweepSpeed = 5
         self.sweepAmplitude = self.room.height / 2
-        self.sweepFrequency = 0.005
+        self.sweepFrequency = 1
         self.sweepStartTime = pygame.time.get_ticks()
         self.sweepStartPos = pygame.Vector2(self.room.right - self.rect.width, self.room.centery)
 
@@ -507,8 +508,8 @@ class Salt(Boss):
             self.fsm.set_state(Boss.BossState.CHARGE)
 
     def get_next_pos(self, player):
-        step = 750
+        step = 50 
         elapsed = ((pygame.time.get_ticks() - self.sweepStartTime) // step) * step 
         yOffset = self.sweepAmplitude * math.sin(elapsed * self.sweepFrequency)
-        xOffset = elapsed * 0.05 
+        xOffset = elapsed * 0.15 
         return pygame.Vector2(self.sweepStartPos.x - xOffset, self.sweepStartPos.y + yOffset)
