@@ -29,6 +29,7 @@ class GameManager:
         self.unlockedLevels = set()
         self.unlockedLevels.add(0)
         self.unlockedLevels.add(3)
+        self.unlockedLevels.add(4)
         self.set_state(GameStates.Login)
        
     def set_state(self, stateName):

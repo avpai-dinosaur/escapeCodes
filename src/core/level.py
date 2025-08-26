@@ -260,3 +260,8 @@ class Level3(Level):
             EcodeEvent.GIVE_ORDER,
             text="Turn back if you can here me. Do not go that way!"
         )
+
+@LevelFactory.register_level(LevelMetadata("level4", 4, "level4.png", "level4.tmj"))
+class Level4(Level):
+    def __init__(self):
+        super().__init__("level4.png", "level4.tmj")
