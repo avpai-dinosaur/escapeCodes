@@ -20,16 +20,12 @@ class Level():
     def load_entities(self):
         self.objects = self.map.object_factory()
         self.walls = self.map.walls_factory()
-        self.rooms, self.bossRoom = self.map.rooms_factory()
         self.doors = self.map.doors_factory()
 
         self.player = Player("Oldhero.png", self.map.playerSpawn, {})
         self.entities = pygame.sprite.Group()
-        if self.bossRoom:
-            boss = Salt(
-                self.bossRoom,
-                "fizz-buzz"
-            )
+        boss = self.map.boss_factory()
+        if boss:
             self.entities.add(boss)
         if self.map.roombaPath:
             roomba = Roomba("roomba.png", self.map.roombaPath)

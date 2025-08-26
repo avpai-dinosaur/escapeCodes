@@ -52,8 +52,13 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="rooms" visible="0">
-  <object id="3" name="bossRoom" x="448" y="128" width="640" height="832"/>
+ <objectgroup id="2" name="rooms">
+  <object id="3" name="bossRoom" type="BossRoom" x="448" y="128" width="640" height="832">
+   <properties>
+    <property name="bossType" value="melon"/>
+    <property name="problemSlug" value="two-sum"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="walls" visible="0">
   <object id="8" x="0" y="640" width="448" height="128"/>

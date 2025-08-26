@@ -348,6 +348,28 @@ class Boss(pygame.sprite.Sprite):
         surface.blit(self.image, self.rect.move(offset[0], offset[1]))
 
 
+class BossFactory:
+    """Maps boss names to the boss class."""
+    _registry = {}
+
+    def register(bossName, bossClass) -> None:
+        if bossName in BossFactory._registry:
+            raise ValueError(f"Boss {bossName} already registered")
+        BossFactory._registry[bossName] = bossClass
+    
+    def create(bossName: str, room: pygame.Rect, problemSlug: str) -> Boss:
+        if bossName not in BossFactory._registry:
+            raise ValueError(f"Boss '{bossName}' not found")
+        return BossFactory._registry[bossName](room, problemSlug)
+    
+    def register_boss(bossName: str):
+        def decorator(bossClass):
+            BossFactory.register(bossName, bossClass)
+            return bossClass
+        return decorator
+
+
+@BossFactory.register_boss("druck")
 class Druck(Boss):
     """Class representing boss player encounters at end of level 3."""
 
@@ -383,6 +405,7 @@ Just stand still. I'll make this quick."""
         return player.rect.topleft
 
 
+@BossFactory.register_boss("melon")
 class Melon(Boss):
     """Class representing a boss with a projectile-style attack pattern."""
 
@@ -456,6 +479,7 @@ class Melon(Boss):
             pygame.draw.circle(surface, self.projectileColor, draw_pos, self.projectileRadius)
 
 
+@BossFactory.register_boss("salt")
 class Salt(Boss):
     """Class representing a boss with a sweeping attack pattern."""
 

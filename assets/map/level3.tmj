@@ -31,7 +31,7 @@
         }, 
         {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 25, 0, 25, 0,
+            0, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -111,8 +111,19 @@
                  "height":832,
                  "id":3,
                  "name":"bossRoom",
+                 "properties":[
+                        {
+                         "name":"bossType",
+                         "type":"string",
+                         "value":"melon"
+                        }, 
+                        {
+                         "name":"problemSlug",
+                         "type":"string",
+                         "value":"two-sum"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"BossRoom",
                  "visible":true,
                  "width":640,
                  "x":448,
@@ -120,7 +131,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 

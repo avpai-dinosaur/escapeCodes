@@ -6,6 +6,7 @@ import src.entities.objects as o
 import src.constants as c
 import src.config as config
 from src.entities import computer as comp
+from src.entities.boss import BossFactory
 
 class Edge():
     def __init__(self, id, weight):
@@ -270,26 +271,31 @@ class Map():
             )
         return wallRects
 
-    def rooms_factory(self):
-        """Generates the rooms for this map as a list of rects."""
+    def boss_factory(self):
+        """Generates the boss for this map if it exists."""
         startX = self.rooms["x"]
         startY = self.rooms["y"]
-        roomRects = []
-        bossRoom = None
+        boss = None
+        bossType = None
+        problemSlug = None
         for room in self.rooms["objects"]:
-            roomRects.append(
-                pygame.Rect(
-                    (startX + room["x"], startY + room["y"]),
-                    (room["width"], room["height"])
-                )
-            )
             if room["name"] == "bossRoom":
-                bossRoom = pygame.Rect(
-                    (startX + room["x"], startY + room["y"]),
-                    (room["width"], room["height"])
+                for property in room["properties"]:
+                    name, _, value = property["name"], property["type"], property["value"] 
+                    if name == "bossType":
+                        bossType = value
+                    elif name == "problemSlug":
+                        problemSlug = value
+                boss = BossFactory.create(
+                    bossType,
+                    pygame.Rect(
+                        (startX + room["x"], startY + room["y"]),
+                        (room["width"], room["height"])
+                    ),
+                    problemSlug
                 )
-        return roomRects, bossRoom
-
+        return boss
+    
     def draw(self, surface, offset):
         """Draw map background to surface."""
         surface.blit(self.image, offset)

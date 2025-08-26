@@ -140,7 +140,7 @@
         "level2.tmx"
     ],
     "project": "map.tiled-project",
-    "property.type": "bool",
+    "property.type": "BossRoom",
     "recentFiles": [
         "atticusWalls.tsx",
         "level1.tmx",
