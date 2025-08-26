@@ -52,7 +52,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="rooms">
+ <objectgroup id="2" name="rooms" visible="0">
   <object id="3" name="bossRoom" type="BossRoom" x="448" y="128" width="640" height="832">
    <properties>
     <property name="bossType" value="melon"/>
@@ -68,7 +68,7 @@
   <object id="12" x="0" y="960" width="1088" height="64"/>
   <object id="14" x="0" y="768" width="64" height="192"/>
  </objectgroup>
- <objectgroup id="4" name="doors" visible="0">
+ <objectgroup id="4" name="doors">
   <object id="16" type="LaserDoor" x="192" y="768" width="256" height="192">
    <properties>
     <property name="pin" type="int" value="0"/>
