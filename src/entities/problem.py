@@ -7,6 +7,7 @@ Representations of LeetCode problems
 import ast
 from abc import ABC, abstractmethod
 from typing import get_origin, get_args
+from collections import deque
 
 
 class Parameter:
@@ -258,8 +259,152 @@ class FizzBuzz(Problem):
     def get_bug_explanation(self):
         return """The buggy solution checks for divisibility by 5 before divisibility by 15; it prints 'Buzz' when it should print 'FizzBuzz'"""
         
-    def check_input(self, **parsedInputs):
-        """Check if an input exposes the buggy FizzBuzz solution."""
-        buggyRes = self.buggy_solution(**parsedInputs)
-        correctRes = self.correct_solution(**parsedInputs)
-        return sorted(buggyRes) != sorted(correctRes)
+
+@ProblemFactory.register_problem("lowest-common-ancestor-of-a-binary-search-tree")
+class LowestCommonAncestorOfBinarySearchTree(Problem):
+    """Class representing 236. LowestCommonAncestorOfABinarySearchTree"""
+
+    class TreeNode:
+        def __init__(self, x):
+            self.val = x
+            self.left = None
+            self.right = None
+
+    def __init__(self):
+        super().__init__(
+            "lowest-common-ancestor-of-a-binary-search-tree",
+            [
+                Parameter(
+                    "root",
+                    list[int],
+                    [
+                        (
+                            "number of nodes must be between 2 and 10^5",
+                            lambda v : len(v) >= 2 and len(v) <= 100000
+                        ),
+                        (
+                            "all node values are unique",
+                            lambda v : len(set(v)) == len(v)
+                        )
+                    ]
+                ),
+                Parameter("p", int),
+                Parameter("q", int)
+            ]
+        )
+
+    def _construct_tree(root_vals: list[int], p_val: int, q_val: int) -> list[TreeNode, TreeNode, TreeNode]:
+        if len(root_vals) < 2:
+            raise ValueError("root list must have at least 2 elements")
+
+        nodes = []
+        for val in root_vals:
+            if val is not None:
+                treeNode = LowestCommonAncestorOfBinarySearchTree.TreeNode(val)
+                nodes.append(treeNode)
+            else:
+                nodes.append(None)
+
+        root = nodes[0]
+        p = None
+        q = None
+        for node in nodes:
+            if node:
+                if node.val == p_val:
+                    p = node
+                elif node.val == q_val:
+                    q = node
+        queue = deque([root])
+        idx = 1
+
+        while len(queue) > 0 and idx < len(nodes):
+            currentNode = queue.popleft()
+            
+            if currentNode is None:
+                idx += 1
+                continue
+
+            if idx < len(nodes):
+                currentNode.left = nodes[idx]
+                queue.append(currentNode.left)
+                idx += 1
+            
+            if idx < len(nodes):
+                currentNode.right = nodes[idx]
+                queue.append(currentNode.right)
+                idx += 1
+        
+        return [root, p, q]
+             
+    def buggy_solution(self, **parsedInputs):
+        """Buggy solution for LowestCommonAncestorOfBinarySearchTree
+        doesn't take into account case where p or q themselves are the LCA.
+        
+        Test Case:
+            root = [2, 1], p = 1, q = 2
+        """
+        rootVals = parsedInputs["root"]
+        pVal = parsedInputs["p"]
+        qVal = parsedInputs["q"]
+        
+        root, p, q = LowestCommonAncestorOfBinarySearchTree._construct_tree(rootVals, pVal, qVal)
+
+        if p.val > q.val:
+            p, q = q, p
+        lowestNode = root
+
+        def dfs(node, leftMin, rightMax):
+            nonlocal p, q, lowestNode
+
+            if node is None:
+                return
+            
+            if (
+                p.val < node.val and
+                p.val > leftMin and
+                q.val > node.val and
+                q.val < rightMax
+            ):
+                lowestNode = node
+            
+            dfs(node.left, leftMin, node.val)
+            dfs(node.right, node.val, rightMax)
+
+        dfs(root, float("-inf"), float("inf"))
+
+        return lowestNode
+
+    def correct_solution(self, **parsedInputs):
+        rootVals = parsedInputs["root"]
+        pVal = parsedInputs["p"]
+        qVal = parsedInputs["q"]
+        
+        root, p, q = LowestCommonAncestorOfBinarySearchTree._construct_tree(rootVals, pVal, qVal)
+
+        if p.val > q.val:
+            p, q = q, p
+        lowestNode = root
+
+        def dfs(node, leftMin, rightMax):
+            nonlocal p, q, lowestNode
+
+            if node is None:
+                return
+            
+            if (
+                p.val <= node.val and
+                p.val > leftMin and
+                q.val >= node.val and
+                q.val < rightMax
+            ):
+                lowestNode = node
+            
+            dfs(node.left, leftMin, node.val)
+            dfs(node.right, node.val, rightMax)
+
+        dfs(root, float("-inf"), float("inf"))
+
+        return lowestNode
+
+    def get_bug_explanation(self):
+        return """The buggy solution doesn't take into account when p or q themselves are the LCA"""

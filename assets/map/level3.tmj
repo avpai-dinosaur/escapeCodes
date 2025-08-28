@@ -120,7 +120,7 @@
                         {
                          "name":"problemSlug",
                          "type":"string",
-                         "value":"two-sum"
+                         "value":"lowest-common-ancestor-of-a-binary-search-tree"
                         }],
                  "rotation":0,
                  "type":"BossRoom",
@@ -236,7 +236,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }],

@@ -63,6 +63,7 @@ class TestCaseHackUi:
         self.submitTime = None
         self.submitted = False
         self.solved = False
+        self.errored = False
         self.isVisible = False
         self.on_close = on_close
 
@@ -137,8 +138,10 @@ Defeat the boss by providing a test input which exposes its buggy implementation
                             self.set_success_message(True)
                         else:
                             self.set_success_message(False)
+                        self.errored = False
                     except ValueError as e:
                         self.set_error_text(f"Error: {str(e)}")
+                        self.errored = True
         elif event.type == c.PROBLEM_DESCRIPTION:
             self.set_problem_description(BeautifulSoup(event.html, "html.parser").get_text())
     
@@ -149,7 +152,7 @@ Defeat the boss by providing a test input which exposes its buggy implementation
             if not self.submitted:
                 self.parameterInput.update()
             else:
-                if not self.solved and pygame.time.get_ticks() - self.submitTime > 2000:
+                if not self.solved and not self.errored and pygame.time.get_ticks() - self.submitTime > 2000:
                     self.close()
                     
     def draw(self, surface: pygame.Surface):
@@ -161,6 +164,6 @@ Defeat the boss by providing a test input which exposes its buggy implementation
             surface.blit(self.errorTextImage, self.errorTextRect)
             surface.blit(self.leftTextImage, self.leftTextRect)
             surface.blit(self.rightTextImage, self.rightTextRect)
-            if self.submitted:
+            if self.submitted and self.successTextImage:
                 surface.blit(self.successTextImage, self.successTextRect)
                 
