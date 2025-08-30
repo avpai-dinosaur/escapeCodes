@@ -6,7 +6,7 @@ Representations of LeetCode problems
 
 import ast
 from abc import ABC, abstractmethod
-from typing import get_origin, get_args
+from typing import get_origin, get_args, Optional, Union
 from collections import deque
 
 
@@ -68,6 +68,8 @@ class Parameter:
                 isinstance(value, dict)
                 and all(Parameter.validate_type(k, key_type) and Parameter.validate_type(v, val_type) for k, v in value.items())
             )
+        elif origin is Union:
+            return any(Parameter.validate_type(value, arg) for arg in args)
         else:
             return isinstance(value, origin)
 
@@ -276,7 +278,7 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
             [
                 Parameter(
                     "root",
-                    list[int],
+                    list[Optional[int]],
                     [
                         (
                             "number of nodes must be between 2 and 10^5",

@@ -131,6 +131,13 @@ class TestProblemParameter(unittest.TestCase):
             badDict
         )
     
+    def test_validation_with_optional(self):
+        listOfOptionalIntParameter = Parameter("listOfOptionalIntParameter", list[Optional[int]])
+        self.assertEqual(
+            [1, 2, None],
+            listOfOptionalIntParameter.validate([1, 2, None])
+        )
+    
     def test_validation_with_constraints(self):
         listOfIntParameter = Parameter(
             "listOfIntParameter",
