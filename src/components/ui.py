@@ -143,19 +143,17 @@ class StandAloneKeyPromptUi(KeyPromptUi):
 class ParameterInputUi:
     """Class representing ui component for inputing multiple parameters."""
 
-    def __init__(self, width, pos: pygame.Vector2):
+    def __init__(self, width, pos: pygame.Vector2, problem: Problem):
         """Constructor."""
         self.pos = pos
         self.width = width
         self.height = 0
-        self.parameters: list[Parameter] = []
+        self.problem = problem
         self.fieldMargin = 10
         self.fieldCaptionFont = utils.load_font("SpaceMono/SpaceMono-Italic.ttf")
+        self._build()
     
-    def add_parameter(self, parameter: Parameter) -> None:
-        self.parameters.append(parameter)
-    
-    def build(self) -> None:
+    def _build(self) -> None:
         """Build the ui element with all added parameters.
         
             Must be called before draw
@@ -163,7 +161,7 @@ class ParameterInputUi:
         # Generate all caption images, caption rects, and text input boxes
         self.fieldCaptionImages : list[pygame.Surface] = [
             self.fieldCaptionFont.render(f"{param.name}=", True, "white")
-            for param in self.parameters
+            for param in self.problem.parameters
         ]
         self.fieldCaptionRects = [
             caption.get_rect()
@@ -186,9 +184,9 @@ class ParameterInputUi:
 
     def get_inputs(self):
         inputs = {}
-        for i in range(len(self.parameters)):
-            inputs[self.parameters[i].name] = self.parameters[i].parse(self.fieldInputs[i].textBuffer)
-        return inputs
+        for i in range(len(self.problem.parameters)):
+            inputs[self.problem.parameters[i].name] = self.fieldInputs[i].textBuffer
+        return self.problem.parse_inputs(**inputs)
 
     def handle_event(self, event: pygame.Event):
         for fieldInput in self.fieldInputs:

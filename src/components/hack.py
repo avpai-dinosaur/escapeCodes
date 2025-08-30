@@ -59,6 +59,8 @@ class TestCaseHackUi:
         # Parsing Errors
         self.textFont = utils.load_font("SpaceMono/SpaceMono-Regular.ttf")
         self.set_error_text("")
+        self.successTextImage = None
+        self.successTextRect = None
 
         self.submitTime = None
         self.submitted = False
@@ -79,24 +81,19 @@ Defeat the boss by providing a test input which exposes its buggy implementation
         
         # Problem Information
         self.problem : Problem = ProblemFactory.create(problemSlug) 
-        self.build_parameter_input()
-
-        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
-        EventManager.emit(EcodeEvent.PAUSE_GAME)
-    
-    def build_parameter_input(self):
         parameterInputMargin = 10
         self.parameterInput = ui.ParameterInputUi(
             self.backgroundRect.width / 2 - 2 * parameterInputMargin,
             pygame.Vector2(
                 self.backgroundRect.left + self.backgroundRect.width / 2 + parameterInputMargin,
                 self.rightTextRect.bottom + parameterInputMargin
-            )
+            ),
+            self.problem
         )
-        for parameter in self.problem.parameters:
-            self.parameterInput.add_parameter(parameter)
-        self.parameterInput.build()
 
+        EventManager.emit(EcodeEvent.GET_PROBLEM_DESCRIPTION, problemSlug=problemSlug)
+        EventManager.emit(EcodeEvent.PAUSE_GAME)
+    
     def set_problem_description(self, text: str):
         self.textUi.set_text(text)
         self.isVisible = True
@@ -128,7 +125,7 @@ Defeat the boss by providing a test input which exposes its buggy implementation
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.close()
-                if event.key == pygame.K_RETURN and not self.submitted:
+                if event.key == pygame.K_RETURN and not (self.submitted and not self.errored):
                     self.submitted = True
                     self.submitTime = pygame.time.get_ticks()
                     try: 

@@ -295,12 +295,18 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
             ]
         )
 
-    def _construct_tree(root_vals: list[int], p_val: int, q_val: int) -> list[TreeNode, TreeNode, TreeNode]:
-        if len(root_vals) < 2:
+    def _construct_tree(rootVals: list[int], pVal: int, qVal: int) -> list[TreeNode, TreeNode, TreeNode]:
+        if len(rootVals) < 2:
             raise ValueError("root list must have at least 2 elements")
+        if pVal not in rootVals:
+            raise ValueError("p not present in BST")
+        if qVal not in rootVals:
+            raise ValueError("q not present in BST")
+        if pVal == qVal:
+            raise ValueError("p equals q")
 
         nodes = []
-        for val in root_vals:
+        for val in rootVals:
             if val is not None:
                 treeNode = LowestCommonAncestorOfBinarySearchTree.TreeNode(val)
                 nodes.append(treeNode)
@@ -312,9 +318,9 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
         q = None
         for node in nodes:
             if node:
-                if node.val == p_val:
+                if node.val == pVal:
                     p = node
-                elif node.val == q_val:
+                elif node.val == qVal:
                     q = node
         queue = deque([root])
         idx = 1
@@ -335,8 +341,14 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
                 currentNode.right = nodes[idx]
                 queue.append(currentNode.right)
                 idx += 1
-        
+       
         return [root, p, q]
+    
+    def parse_inputs(self, **kwargs):
+        """Preprocess the root input to convert 'null' into 'None'"""
+        if "root" in kwargs:
+            kwargs["root"] = kwargs["root"].replace("null", "None")
+        return super().parse_inputs(**kwargs)
              
     def buggy_solution(self, **parsedInputs):
         """Buggy solution for LowestCommonAncestorOfBinarySearchTree

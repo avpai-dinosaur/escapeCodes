@@ -11,6 +11,8 @@ graphqlTest.py
 htmlTest.py
 queryTest.py
 
+.vscode
+
 # Ignore macOS .DS_Store files
 .DS_Store
 **/.DS_Store

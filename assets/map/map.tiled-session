@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level2.tmx",
+    "activeFile": "level3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -165,18 +165,22 @@
     "map.tileWidth": 64,
     "map.width": 20,
     "openFiles": [
-        "atticusWalls.tsx",
         "level1.tmx",
-        "level2.tmx"
+        "level2.tmx",
+        "level3.tmx",
+        "level4.tmx",
+        "level5.tmx"
     ],
     "project": "map.tiled-project",
     "property.type": "BossRoom",
     "recentFiles": [
-        "atticusWalls.tsx",
         "level1.tmx",
         "level2.tmx",
-        "level0.tmx",
+        "level5.tmx",
+        "level4.tmx",
         "level3.tmx",
+        "atticusWalls.tsx",
+        "level0.tmx",
         "redSpace.tsx",
         "atticusMap.tmx",
         "map.tmx",
