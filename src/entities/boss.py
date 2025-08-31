@@ -371,7 +371,7 @@ class BossFactory:
 
 @BossFactory.register_boss("druck")
 class Druck(Boss):
-    """Class representing boss player encounters at end of level 3."""
+    """Class representing a boss with a rushing attack pattern."""
 
     def start_dialog_enter(self):
         EventManager.emit(
@@ -452,10 +452,17 @@ class Melon(Boss):
 
         # Spawn projectiles every cooldown period
         if currentTime - self.lastProjectile >= self.projectileCooldown:
+            # Pick a random angle and radius within 100px of the player
+            angle = math.radians(randint(0, 359))
+            radius = randint(0, 100)
+            offset_x = math.cos(angle) * radius
+            offset_y = math.sin(angle) * radius
+
             projectile_pos = pygame.Vector2(
-                randint(self.room.left + self.projectileRadius, self.room.right - self.projectileRadius),
-                randint(self.room.top + self.projectileRadius, self.room.bottom - self.projectileRadius)
+                player.rect.centerx + offset_x,
+                player.rect.centery + offset_y
             )
+
             self.projectiles.append(projectile_pos)
             self.lastProjectile = currentTime
 
@@ -496,9 +503,9 @@ class Salt(Boss):
         EventManager.emit(
             EcodeEvent.OPEN_DIALOG,
             lines=[
-                "You think you can avoid me?",
-                "I'll sweep this room clean. No corner is safe!",
-                "Let's dance, side to side, until you fall."
+                "Interesting move. You're taking a big risk."
+                "The future belongs to those who keep iterating."
+                "Let's see how you handle rapid change."
             ],
             currentLine=0
         )
@@ -508,7 +515,7 @@ class Salt(Boss):
         EventManager.emit(
             EcodeEvent.OPEN_DIALOG,
             lines=[
-                "Impossible... swept away... by a mere player?"
+                "That's the thing about progress... it comes faster than anyone expects."
             ],
             currentLine=0
         )
