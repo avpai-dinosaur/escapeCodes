@@ -17,16 +17,22 @@ class SoundManager:
             "menu": "assets/music/MenuMusic.mp3",
             "level1": "assets/music/level1_theme.mp3",
         }
+        #start with menu music
+        self.current_music = "menu"
+        self.play_music("menu")
         
 
-        '''
+        
          #music changes
-        EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.on_death)
+        EventManager.subscribe(EcodeEvent.PAUSE_MENU, self.menu_music)
+        EventManager.subscribe(EcodeEvent.PLAYER_DIED, self.menu_music)
+        '''
         EventManager.subscribe(EcodeEvent.LEVEL_ENDED, self.next_level)
-        EventManager.subscribe(EcodeEvent.PAUSE_MENU, self.pause_menu)
         EventManager.subscribe(EcodeEvent.ENTERED_DANCE_FLOOR, self.dance(True))
         EventManager.subscribe(EcodeEvent.LEFT_DANCE_FLOOR, self.dance(False))
         '''
+
+        
        
 
         #sound effects
@@ -51,13 +57,15 @@ class SoundManager:
             self.sounds[name].play()
 
     def play_music(self, name: str, loop=True):
-        if name in self.music_tracks:
-            if self.current_music != name:  # avoid reloading same track
-                pygame.mixer.music.stop()
-                pygame.mixer.music.load(self.music_tracks[name])
-                loops = -1 if loop else 0
-                pygame.mixer.music.play(loops=loops)
-                self.current_music = name
+        if name not in self.music_tracks:
+            return 
+
+        if self.current_music != name:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(self.music_tracks[name])
+            loops = -1 if loop else 0
+            pygame.mixer.music.play(loops=loops)
+            self.current_music = name
     
     def moved(self, target: pygame.Rect):
         now = pygame.time.get_ticks()
@@ -65,6 +73,9 @@ class SoundManager:
             if not self.walk_channel.get_busy():
                 self.walk_channel.play(self.sounds["walk"])
             self.last_step_time = now
+
+    def menu_music(self):
+        self.play_music("menu")
 
 
     def stop_music(self):

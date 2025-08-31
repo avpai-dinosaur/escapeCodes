@@ -1,5 +1,4 @@
 from src.core.camera import Camera
-from src.core.soundManager import SoundManager
 from src.core.ecodeEvents import EventManager, EcodeEvent
 from src.core.uiManager import UiManager
 from src.core.level import LevelFactory, Level 
@@ -13,7 +12,6 @@ class Game():
         self.manager = manager
         self.camera = Camera()
         self.uiManager = UiManager()
-        self.soundManager = SoundManager()
         self.isPaused = False
         self.levelName = levelName
         self.currentLevel: Level = LevelFactory.create(levelName)

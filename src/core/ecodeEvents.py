@@ -57,6 +57,9 @@ class EcodeEvent(Enum):
 
     LOAD_LEVEL = 40
 
+    #sound manager game states
+    
+
 
 class ScheduledEvent:
     def __init__(self, event: EcodeEvent, triggerTime: int, kwargs):

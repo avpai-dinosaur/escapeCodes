@@ -8,6 +8,7 @@ from src.components.ui import KeyPromptUi
 from src.core.gameStates import GameStates
 import src.core.utils as utils
 import src.constants as c
+from src.core.soundManager import SoundManager
 
 
 class GameManager:
@@ -29,6 +30,7 @@ class GameManager:
         self.unlockedLevels = set()
         self.unlockedLevels.add(0)
         self.set_state(GameStates.Login)
+        self.soundManager = SoundManager()
        
     def set_state(self, stateName):
         pygame.display.set_caption(stateName)
