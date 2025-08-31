@@ -271,6 +271,7 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
             self.val = x
             self.left = None
             self.right = None
+            self._visited = False
 
     def __init__(self):
         super().__init__(
@@ -286,7 +287,7 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
                         ),
                         (
                             "all node values are unique",
-                            lambda v : len(set(v)) == len(v)
+                            lambda v : len(set([e for e in v if e is not None])) == len([e for e in v if e is not None])
                         )
                     ]
                 ),
@@ -296,6 +297,7 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
         )
 
     def _construct_tree(rootVals: list[int], pVal: int, qVal: int) -> list[TreeNode, TreeNode, TreeNode]:
+        """Construct a BST of TreeNodes given a list of vals in level-order traversal."""
         if len(rootVals) < 2:
             raise ValueError("root list must have at least 2 elements")
         if pVal not in rootVals:
@@ -325,12 +327,12 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
         queue = deque([root])
         idx = 1
 
-        while len(queue) > 0 and idx < len(nodes):
+        while len(queue) > 0:
             currentNode = queue.popleft()
-            
             if currentNode is None:
-                idx += 1
                 continue
+
+            currentNode._visited = True
 
             if idx < len(nodes):
                 currentNode.left = nodes[idx]
@@ -341,8 +343,23 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
                 currentNode.right = nodes[idx]
                 queue.append(currentNode.right)
                 idx += 1
-       
+        
+        if not (
+            all(node._visited for node in nodes if node is not None)
+            and LowestCommonAncestorOfBinarySearchTree._check_valid_bst(root)
+        ):
+            raise ValueError("root is not a valid BST")
+
         return [root, p, q]
+    
+    def _check_valid_bst(root: TreeNode, low=float('-inf'), high=float('inf')) -> bool:
+        if root is None:
+            return True
+        return (
+            low < root.val and root.val < high
+            and LowestCommonAncestorOfBinarySearchTree._check_valid_bst(root.left, low, root.val)
+            and LowestCommonAncestorOfBinarySearchTree._check_valid_bst(root.right, root.val, high)
+        )
     
     def parse_inputs(self, **kwargs):
         """Preprocess the root input to convert 'null' into 'None'"""

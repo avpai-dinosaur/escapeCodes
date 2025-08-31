@@ -1,5 +1,6 @@
 import unittest
 from src.entities.problem import *
+from src.entities.problem import LowestCommonAncestorOfBinarySearchTree as Lca
 
 class TestProblemParameter(unittest.TestCase):
     """Test the ProblemParameter class."""
@@ -179,4 +180,46 @@ class TestProblemParameter(unittest.TestCase):
             ValueError,
             tupleParameter.parse,
             "(1, 2"
+        )
+
+
+class TestLowestCommonAncestorOfBinarySearchTree(unittest.TestCase):
+    """Test the LowestCommonAncestorOfBinarySearchTree class."""
+
+    def test_valid_bst(self):
+        Lca._construct_tree(
+            [6, 2, 8, 0, 4, 7, 9, None, None, 3, 5],
+            3,
+            5
+        )
+
+        Lca._construct_tree(
+            [1, None, 2, None, 3, None, 4, None, 5, None],
+            2,
+            3
+        )
+
+    def test_invalid_bst(self):
+        self.assertRaises(
+            ValueError,
+            Lca._construct_tree,
+            [1, None, None, 2],
+            1,
+            2
+        )
+
+        self.assertRaises(
+            ValueError,
+            Lca._construct_tree,
+            [1, 2, 0],
+            1, 
+            0
+        )
+
+        self.assertRaises(
+            ValueError,
+            Lca._construct_tree,
+            [5, 3, 7, None, None, 4],
+            5,
+            4
         )
