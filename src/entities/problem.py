@@ -439,3 +439,9 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
 
     def get_bug_explanation(self):
         return """The buggy solution doesn't take into account when p or q themselves are the LCA"""
+    
+    def check_input(self, **parsedInputs):
+        """Check if an input exposes the buggy TwoSum solution."""
+        buggyRes = self.buggy_solution(**parsedInputs)
+        correctRes = self.correct_solution(**parsedInputs)
+        return buggyRes.val != correctRes.val

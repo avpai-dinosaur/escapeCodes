@@ -126,6 +126,7 @@ Defeat the boss by providing a test input which exposes its buggy implementation
                 if event.key == pygame.K_ESCAPE:
                     self.close()
                 if event.key == pygame.K_RETURN and not (self.submitted and not self.errored):
+                    self.set_error_text("")
                     self.submitted = True
                     self.submitTime = pygame.time.get_ticks()
                     try: 
