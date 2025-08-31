@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="16">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="16">
  <editorsettings>
   <export target="level0.tmj" format="json"/>
  </editorsettings>
@@ -68,7 +68,7 @@
   <object id="2" type="Computer" gid="17" x="2816" y="256" width="64" height="64">
    <properties>
     <property name="hasProblem" type="bool" value="true"/>
-    <property name="note">From: Melon Husk
+    <property name="note">From: Zlark Drsperberg
 To: All
 Subject: Bumping up efficiency.
 
@@ -78,7 +78,7 @@ If you're looking at this note I'm guessing you noticed the giant laser door blo
 Anyways, I've cooked up a little challenge to get us back on track. From now on, to get into the ship, you've got to solve a little coding problem called (412. Fizz Buzz).
 
 Best Regards,
-Melon
+Zlark
 
 P.S. Completing this challenge is &quot;explicitly voluntary&quot;. That is, I am explicitly telling you that if you fail to solve it, then you can voluntarily not come into work tomorrow. Or ever again for that matter.</property>
     <property name="pinText" value="1234"/>

@@ -139,7 +139,7 @@ Sigh...I wish I had a STARTPHRASE hashMap() ENDPHRASE in my brain to keep track 
    <properties>
     <property name="hasProblem" type="bool" value="true"/>
     <property name="hasPseudocode" type="bool" value="false"/>
-    <property name="note">From: Melon Husk
+    <property name="note">From: Zlark Drsperberg
 To: All
 Subject: Bumping up efficiency.
 
@@ -151,7 +151,7 @@ Ah, while the other children played games with balls and stick and tortured ants
 So yes, you are privileged to be working for me. And to keep that privilege you'll have to solve another problem now! (1. TwoSum) to be exact.
 
 Toodaloo,
-Melon</property>
+Zlark</property>
     <property name="pinText" value=" _ _ 8 9"/>
     <property name="problemName" value="TwoSum"/>
     <property name="problemUrl" value="https://leetcode.com/problems/two-sum/description/"/>
