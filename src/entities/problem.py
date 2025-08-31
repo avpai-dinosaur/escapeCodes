@@ -372,7 +372,7 @@ class LowestCommonAncestorOfBinarySearchTree(Problem):
         doesn't take into account case where p or q themselves are the LCA.
         
         Test Case:
-            root = [2, 1], p = 1, q = 2
+            root = [5, 2, 6, 1], p = 1, q = 2
         """
         rootVals = parsedInputs["root"]
         pVal = parsedInputs["p"]

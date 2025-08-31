@@ -237,7 +237,6 @@ Desperation levels: high."""
         )
         
 
-
 @LevelFactory.register_level(LevelMetadata("level2", 2, "level2.png", "level2.tmj"))
 class Level2(Level):
     def __init__(self):
@@ -261,7 +260,14 @@ class Level3(Level):
             text="Turn back if you can here me. Do not go that way!"
         )
 
+
 @LevelFactory.register_level(LevelMetadata("level4", 4, "level4.png", "level4.tmj"))
 class Level4(Level):
     def __init__(self):
         super().__init__("level4.png", "level4.tmj")
+
+
+@LevelFactory.register_level(LevelMetadata("level5", 5, "level5.png", "level5.tmj"))
+class Level4(Level):
+    def __init__(self):
+        super().__init__("level5.png", "level5.tmj")
